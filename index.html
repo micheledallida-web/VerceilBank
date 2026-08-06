@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verceil Bank</title>
+
+  <!-- Compiled Tailwind output — build it with:
+       npx tailwindcss -i css/input.css -o css/output.css --minify
+       This replaces the CDN script, which was the single biggest perf cost. -->
+  <link rel="stylesheet" href="./css/output.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Inter', sans-serif; min-height: 100vh; margin: 0; padding-top: 12px; padding-bottom: 90px; }
+    body:not(.dark) { background: #0B4CC2; color: #111827; }
+    body.dark { background: #060B14; background-attachment: fixed; color: #FFFFFF; }
+  </style>
+
+  <!-- Supabase SDK — only external script this app needs -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="antialiased relative">
+
+  <!-- ============ DASHBOARD (always present — the "shell") ============ -->
+  <div id="dashboard" class="w-full max-w-[430px] mx-auto px-[16px]">
+
+    <header class="pt-[14px] pb-[16px] flex items-center justify-between">
+      <div>
+        <div id="greetingLine1" class="text-[14px] font-normal text-white/80 dark:text-[#8E9CBA] leading-tight">Good Morning,</div>
+        <div id="greetingLine2" class="text-[32px] font-bold text-white tracking-tight leading-[36px] mt-0.5">Mercy</div>
+      </div>
+    </header>
+
+    <div class="flex flex-col gap-[18px]">
+
+      <div>
+        <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">CHECKING</div>
+        <div class="w-full bg-white dark:bg-[#0D1728] rounded-[20px] p-[16px] flex items-center justify-between shadow-lg">
+          <div class="text-[16px] font-semibold text-[#111827] dark:text-white">Verceil Checking</div>
+          <div id="checkingBalance" class="text-[18px] font-bold text-[#111827] dark:text-white">$10.00</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">SAVINGS</div>
+        <div class="w-full bg-white dark:bg-[#0D1728] rounded-[20px] p-[16px] flex items-center justify-between shadow-lg">
+          <div class="text-[16px] font-semibold text-[#111827] dark:text-white">High-Yield Savings</div>
+          <div id="savingsBalance" class="text-[18px] font-bold text-[#111827] dark:text-white">$0.00</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">INVESTMENTS</div>
+        <div class="w-full bg-white dark:bg-[#0D1728] rounded-[20px] p-[16px] flex items-center justify-between shadow-lg">
+          <div class="text-[16px] font-semibold text-[#111827] dark:text-white">Investment Portfolio</div>
+          <div id="investmentsBalance" class="text-[18px] font-bold text-[#111827] dark:text-white">$0.00</div>
+        </div>
+      </div>
+
+      <!-- Example: this replaces the giant Payments dropdown — every button here
+           just calls loadPage(), which fetches+injects only that one screen. -->
+      <div class="grid grid-cols-2 gap-[10px]">
+        <button data-page="transfer" class="page-open-btn h-[56px] rounded-[16px] bg-white dark:bg-[#0D1728] shadow-lg text-[14px] font-semibold text-[#111827] dark:text-white cursor-pointer">Transfer Between Accounts</button>
+        <button data-page="send-money" class="page-open-btn h-[56px] rounded-[16px] bg-white dark:bg-[#0D1728] shadow-lg text-[14px] font-semibold text-[#111827] dark:text-white cursor-pointer">Send Money</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============ PAGE ROOT ============ -->
+  <!-- Empty until a page is opened. loadPage() fetches /pages/<name>.html into
+       here and dynamically imports /js/pages/<name>.js to run it. Closing a
+       page clears this div entirely — nothing lingers in the DOM. -->
+  <div id="page-root" class="hidden fixed inset-0 z-40 bg-[#0B4CC2] dark:bg-[#060B14] overflow-y-auto"></div>
+
+  <!-- ============ SHARED MODAL (used by every page) ============ -->
+  <div id="actionModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-[#0D1728] text-[#111827] dark:text-white border border-gray-200 dark:border-white/10 rounded-2xl p-6 max-w-xs w-full shadow-2xl text-center space-y-4">
+      <h3 id="modalTitle" class="text-base font-bold">Notice</h3>
+      <p id="modalDesc" class="text-xs text-[#6B7280] dark:text-[#8E9CBA] leading-relaxed"></p>
+      <button id="modalCloseBtn" class="w-full py-2.5 rounded-xl bg-[#2563EB] hover:opacity-90 text-white font-semibold text-xs transition-all shadow-md cursor-pointer">Continue</button>
+    </div>
+  </div>
+
+  <!-- Only ONE script tag, loaded as a module. Everything else is fetched on demand. -->
+  <script type="module">
+    import { loadPage } from './js/main.js';
+    document.querySelectorAll('.page-open-btn').forEach(btn => {
+      btn.addEventListener('click', () => loadPage(btn.getAttribute('data-page')));
+    });
+  </script>
+</body>
+</html>
