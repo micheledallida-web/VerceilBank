@@ -6,8 +6,11 @@
 // This is what actually makes the app fast: the browser only ever downloads
 // and parses the one screen someone is looking at.
 
-export const SUPABASE_URL = 'https://kzykuuxoivrttfdjdypl.supabase.co';
-export const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt6eWt1dXhvaXZydHRmZGpkeXBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU1NDQ2NTcsImV4cCI6MjEwMTEyMDY1N30.qHHVx4J626WgTxirEsPVKC8xt-T0z44VyACVQRIPl00';
+// Populated by js/config.js (generated at build time from SUPABASE_URL /
+// SUPABASE_ANON_KEY env vars -- see scripts/generate-config.js). js/config.js
+// is loaded as a plain script in dashboard.html, before this module.
+export const SUPABASE_URL = window.SUPABASE_URL;
+export const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY;
 
 export let supabaseClient = null;
 try {

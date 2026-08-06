@@ -317,10 +317,13 @@
     <p>© 2026 Verceil Bank, N.A. Member FDIC. Equal Housing Lender.</p>
   </footer>
 
+  <!-- Generated at build time by scripts/generate-config.js; sets window.SUPABASE_URL / window.SUPABASE_ANON_KEY -->
+  <script src="js/config.js"></script>
   <script>
-    // Configured with your exact Supabase credentials
-    const SUPABASE_URL = 'https://kzykuuxoivrttfdjdypl.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt6eWt1dXhvaXZydHRmZGpkeXBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU1NDQ2NTcsImV4cCI6MjEwMTEyMDY1N30.qHHVx4J626WgTxirEsPVKC8xt-T0z44VyACVQRIPl00';
+    // Populated by js/config.js (generated at build time from SUPABASE_URL /
+    // SUPABASE_ANON_KEY env vars -- see scripts/generate-config.js).
+    const SUPABASE_URL = window.SUPABASE_URL;
+    const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY;
     
     let supabaseClient = null;
     try {

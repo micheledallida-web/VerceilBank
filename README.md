@@ -24,6 +24,45 @@ Add a watch script while developing:
 npx tailwindcss -i css/input.css -o css/output.css --watch
 ```
 
+## Supabase configuration (environment variables)
+
+The Supabase URL and anon key are **not** hardcoded in tracked source. They're
+injected at build time into a generated, gitignored `js/config.js` by
+`scripts/generate-config.js`, which runs automatically as a `prebuild`/`predev`
+step before `npm run build` / `npm run dev`.
+
+### On Vercel
+
+1. Go to your Vercel project → **Settings → Environment Variables**.
+2. Add:
+   - `SUPABASE_URL` — your Supabase project URL (e.g. `https://xxxx.supabase.co`)
+   - `SUPABASE_ANON_KEY` — your Supabase anon/public key
+3. Redeploy. Vercel runs `npm run build`, which regenerates `js/config.js` from
+   those variables on every deploy.
+
+### Locally
+
+Export the variables in your shell before running `dev`/`build`:
+
+```bash
+export SUPABASE_URL="https://xxxx.supabase.co"
+export SUPABASE_ANON_KEY="your-anon-key"
+npm run dev
+```
+
+Alternatively, for quick local testing without exporting env vars, copy the
+template and fill it in — `js/config.js` is gitignored so it will never be
+committed:
+
+```bash
+cp js/config.example.js js/config.js
+# then edit js/config.js with your own SUPABASE_URL / SUPABASE_ANON_KEY
+```
+
+Note that running `npm run build`/`npm run dev` afterwards will overwrite
+`js/config.js` with whatever `SUPABASE_URL`/`SUPABASE_ANON_KEY` are (or aren't)
+set in your environment at that time.
+
 ## Serving
 
 ES modules and `fetch()` need a real HTTP server (not `file://`):
@@ -43,6 +82,8 @@ css/
   output.css            # Generated — do not edit
 js/
   main.js               # Core: Supabase, helpers, theme, modal, loadPage()
+  config.js             # Generated — sets window.SUPABASE_URL/ANON_KEY, gitignored, do not edit
+  config.example.js     # Template documenting the shape of js/config.js
   shared/
     receipt.js          # Shared success receipt used by all payment flows
   pages/

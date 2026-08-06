@@ -4,7 +4,9 @@
   "private": true,
   "description": "Verceil Bank — vanilla JS banking dashboard",
   "scripts": {
+    "prebuild": "node scripts/generate-config.js",
     "build": "tailwindcss -i ./css/input.css -o ./css/output.css --minify",
+    "predev": "node scripts/generate-config.js",
     "dev": "tailwindcss -i ./css/input.css -o ./css/output.css --watch"
   },
   "devDependencies": {
