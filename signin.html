@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign in - Verceil Bank</title>
+  <link rel="stylesheet" href="index.css?v=17">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>
+    /* ==========================================================================
+       SIGN-IN PAGE SPECIFIC STYLING (VERCEIL BANK BRANDED)
+       ========================================================================== */
+    body.signin-page {
+      background: 
+        linear-gradient(to bottom, #1e293b 0%, #0f172a 40%, rgba(15, 23, 42, 0.4) 55%, transparent 55%),
+        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat fixed !important;
+      background-attachment: fixed !important;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    body.signin-page::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.35);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .signin-header, .signin-main, .signin-footer {
+      position: relative;
+      z-index: 2;
+    }
+
+    .signin-header {
+      padding: 1.5rem 0;
+      text-align: center;
+    }
+
+    .signin-header .logo {
+      display: inline-flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 0.35rem !important;
+      font-weight: 900 !important;
+      font-size: 1.35rem !important;
+      letter-spacing: -0.03em !important;
+      text-transform: uppercase !important;
+      text-decoration: none;
+      background: transparent !important;
+      padding: 0 !important;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .signin-header .logo-text {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 0.15rem !important;
+    }
+
+    .signin-header .logo-accent {
+      color: #ffffff !important;
+      font-weight: 900 !important;
+      opacity: 1 !important;
+      margin-right: 0.2rem;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
+    }
+
+    .signin-header .logo-main {
+      color: #3b82f6 !important;
+      font-weight: 900 !important;
+      opacity: 1 !important;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
+    }
+
+    .signin-header .logo-image {
+      height: 23px !important;
+      width: auto !important;
+      object-fit: contain !important;
+      display: inline-block !important;
+      vertical-align: middle !important;
+      flex-shrink: 0 !important;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
+    }
+
+    .signin-main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem 1rem 3rem 1rem;
+    }
+
+    .signin-card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 440px;
+      border-radius: 8px;
+      padding: 2.25rem 2rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 0.95rem;
+      color: #4b5563;
+      margin-bottom: 0.4rem;
+      font-weight: 400;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 0.75rem 0;
+      font-size: 1.05rem;
+      border: none;
+      border-bottom: 2px solid #0044ff;
+      outline: none;
+      background: transparent;
+      color: #111827;
+      border-radius: 0;
+    }
+
+    .input-group input:focus {
+      border-bottom-color: #0033cc;
+    }
+
+    .show-password-btn {
+      position: absolute;
+      right: 0;
+      bottom: 0.75rem;
+      background: none;
+      border: none;
+      color: #0044ff;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .signin-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.75rem;
+      font-size: 0.9rem;
+    }
+
+    .checkbox-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #4b5563;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .checkbox-label input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #0044ff;
+      cursor: pointer;
+    }
+
+    .btn-signin-full {
+      width: 100%;
+      background-color: #0044ff;
+      color: #ffffff;
+      padding: 0.85rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      margin-bottom: 1.25rem;
+    }
+
+    .btn-signin-full:hover {
+      background-color: #0033cc;
+    }
+
+    .divider-container {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 1.25rem 0;
+      color: #6b7280;
+      font-size: 0.9rem;
+    }
+
+    .divider-container::before,
+    .divider-container::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid #d1d5db;
+    }
+
+    .divider-container span {
+      padding: 0 1rem;
+    }
+
+    .btn-passwordless {
+      width: 100%;
+      background-color: #ffffff;
+      color: #0044ff;
+      border: 2px solid #0044ff;
+      padding: 0.75rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      margin-bottom: 1.75rem;
+    }
+
+    .btn-passwordless:hover {
+      background-color: rgba(0, 68, 255, 0.04);
+    }
+
+    .signin-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .signin-link-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #0044ff;
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .signin-link-item:hover {
+      text-decoration: underline;
+    }
+
+    .signin-link-item svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+    }
+
+    .signin-footer {
+      background-color: #ffffff;
+      padding: 2rem 1rem;
+      text-align: center;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .signin-footer-socials {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 1.25rem;
+      color: #4b5563;
+    }
+
+    .signin-footer-socials svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    .signin-footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem 1.5rem;
+      font-size: 0.8rem;
+      color: #4b5563;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .signin-footer-links a {
+      color: #4b5563;
+      text-decoration: underline;
+    }
+
+    .signin-footer-links a:hover {
+      color: #111827;
+    }
+
+    .error-msg {
+      background-color: #fef2f2;
+      border: 1px solid #f87171;
+      color: #ef4444;
+      padding: 0.75rem;
+      border-radius: 4px;
+      font-size: 0.88rem;
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    .success-msg {
+      background-color: #ecfdf5;
+      border: 1px solid #34d399;
+      color: #059669;
+      padding: 0.75rem;
+      border-radius: 4px;
+      font-size: 0.88rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      display: none;
+    }
+  </style>
+  <!-- Include Supabase JS SDK CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="signin-page">
+
+  <!-- SIGN IN HEADER LOGO -->
+  <header class="signin-header">
+    <a href="index.html" class="logo">
+      <span class="logo-text"><span class="logo-accent">VERCEIL</span><span class="logo-main">BANK</span></span>
+      <img src="logo.png" alt="Verceil Bank" class="logo-image">
+    </a>
+  </header>
+
+  <!-- SIGN IN MAIN CARD CONTAINER -->
+  <main class="signin-main">
+    <div class="signin-card">
+      
+      <div id="errorBanner" class="error-msg"></div>
+      <div id="successBanner" class="success-msg">Successful login! Launching secure session...</div>
+
+      <form id="signinForm">
+        
+        <div class="input-group">
+          <label for="username">Email Address</label>
+          <input type="email" id="username" autocomplete="email" required>
+        </div>
+
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" autocomplete="current-password" required>
+          <button type="button" class="show-password-btn" id="togglePassword">Show</button>
+        </div>
+
+        <div class="signin-options">
+          <label class="checkbox-label">
+            <input type="checkbox" id="rememberUser">
+            <span>Remember username</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="useToken">
+            <span>Use token</span>
+          </label>
+        </div>
+
+        <button type="submit" id="submitBtn" class="btn-signin-full">Sign in</button>
+
+        <div class="divider-container">
+          <span>Or</span>
+        </div>
+
+        <button type="button" class="btn-passwordless">Passwordless sign in</button>
+
+        <div class="signin-links">
+          <a href="#" class="signin-link-item">
+            <span>Forgot username/password?</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+          <a href="signup.html" class="signin-link-item">
+            <span>Not enrolled? Sign up now.</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </div>
+
+      </form>
+    </div>
+  </main>
+
+  <!-- SIGN IN FOOTER -->
+  <footer class="signin-footer">
+    <div class="signin-footer-socials">
+      <!-- Facebook -->
+      <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      <!-- Instagram -->
+      <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      <!-- X / Twitter -->
+      <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      <!-- YouTube -->
+      <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>
+      <!-- LinkedIn -->
+      <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+    </div>
+
+    <div class="signin-footer-links">
+      <a href="#">Contact us</a>
+      <a href="#">Privacy & security</a>
+      <a href="#">Terms of use</a>
+      <a href="#">Accessibility</a>
+      <a href="#">SAFE Act: Verceil Mortgage Loan Originators</a>
+      <a href="#">Fair Lending</a>
+      <a href="#">About Verceil</a>
+      <a href="#">Verceil Financial</a>
+    </div>
+  </footer>
+
+  <script>
+    // Configured with your exact Supabase credentials
+    const SUPABASE_URL = 'https://kzykuuxoivrttfdjdypl.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt6eWt1dXhvaXZydHRmZGpkeXBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU1NDQ2NTcsImV4cCI6MjEwMTEyMDY1N30.qHHVx4J626WgTxirEsPVKC8xt-T0z44VyACVQRIPl00';
+    
+    let supabaseClient = null;
+    try {
+      if (window.supabase) {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      }
+    } catch (err) {
+      console.error('Supabase initialization error:', err);
+    }
+
+    const signinForm = document.getElementById('signinForm');
+    const errorBanner = document.getElementById('errorBanner');
+    const successBanner = document.getElementById('successBanner');
+    const submitBtn = document.getElementById('submitBtn');
+
+    signinForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorBanner.style.display = 'none';
+      successBanner.style.display = 'none';
+
+      if (!supabaseClient) {
+        errorBanner.textContent = 'Network configuration error: Supabase failed to initialize.';
+        errorBanner.style.display = 'block';
+        return;
+      }
+
+      submitBtn.textContent = 'Authenticating...';
+      submitBtn.disabled = true;
+
+      const email = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+
+      try {
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
+          email: email,
+          password: password,
+        });
+
+        if (error) throw error;
+
+        successBanner.style.display = 'block';
+        submitBtn.style.backgroundColor = '#059669';
+        submitBtn.textContent = 'Success! Launching...';
+
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 800);
+
+      } catch (err) {
+        errorBanner.textContent = 'Invalid login credentials.';
+        errorBanner.style.display = 'block';
+        submitBtn.textContent = 'Sign in';
+        submitBtn.disabled = false;
+        submitBtn.style.backgroundColor = '#0044ff';
+      }
+    });
+
+    const passwordInput = document.getElementById('password');
+    const togglePasswordBtn = document.getElementById('togglePassword');
+
+    togglePasswordBtn.addEventListener('click', () => {
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        togglePasswordBtn.textContent = 'Hide';
+      } else {
+        passwordInput.type = 'password';
+        togglePasswordBtn.textContent = 'Show';
+      }
+    });
+  </script>
+</body>
+</html>
