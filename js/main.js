@@ -122,3 +122,321 @@ export async function loadPage(name, ...args) {
 // Expose for inline onclick handlers if any page markup still uses them
 window.loadPage = loadPage;
 window.showModal = showModal;
+
+// ==================== DASHBOARD SHELL ====================
+// Everything below wires up the always-present shell: header dropdown menus,
+// account cards, the bottom nav bar and its slide-up menu sheet. Screens that
+// haven't been ported yet (see README "Screens still to port") fall back to
+// the shared modal instead of silently doing nothing.
+
+const greetingLine1 = document.getElementById('greetingLine1');
+const greetingLine2 = document.getElementById('greetingLine2');
+
+// ---------- Header dropdown (More / Appearance / Alerts / Messages / Profile) ----------
+const headerMenus = {
+  more: {
+    title: 'Quick Actions',
+    items: [
+      { label: 'View Statements' },
+      { label: 'Transfer Funds' },
+      { label: 'Pay a Bill' },
+      { label: 'Card Services' },
+      { label: 'Security Center' },
+      { label: 'Notifications' },
+      { label: 'Settings' },
+      { label: 'Help & Support' },
+    ],
+  },
+  appearance: { title: 'Appearance', items: ['Light Mode', 'Dark Mode', 'System Default'] },
+  alerts: { title: 'Alerts', items: ['Transaction Alerts', 'Security Alerts', 'Payment Reminders', 'Account Notifications', 'Notification Settings'] },
+  messages: { title: 'Messages', items: ['Secure Inbox', 'Contact Support', 'Live Chat', 'Schedule an Appointment'] },
+  profile: { title: 'Profile', items: ['My Profile', 'Account Preferences', 'Security & Login', 'Linked Accounts', 'Sign Out'] },
+};
+
+const headerDropdownOverlay = document.getElementById('headerDropdownOverlay');
+const headerDropdown = document.getElementById('headerDropdown');
+const headerDropdownTitle = document.getElementById('headerDropdownTitle');
+const headerDropdownList = document.getElementById('headerDropdownList');
+
+async function handleSignOut() {
+  try {
+    if (supabaseClient) await supabaseClient.auth.signOut();
+  } catch (err) {
+    console.error('Sign out error:', err);
+  } finally {
+    window.location.reload();
+  }
+}
+
+function openHeaderDropdown(key, anchorEl) {
+  const menu = headerMenus[key];
+  if (!menu) return;
+  const isLight = !htmlElement.classList.contains('dark');
+
+  headerDropdown.style.background = isLight ? '#FFFFFF' : '#0D1728';
+  headerDropdown.style.border = isLight ? '1px solid transparent' : '1px solid rgba(255,255,255,0.06)';
+  headerDropdownTitle.style.color = isLight ? '#111827' : '#FFFFFF';
+  headerDropdownTitle.textContent = menu.title;
+
+  const rowBorder = isLight ? '#F3F4F6' : 'rgba(255,255,255,0.06)';
+  const textColor = isLight ? '#111827' : '#FFFFFF';
+  const chevronColor = isLight ? '#6B7280' : '#8E9CBA';
+
+  headerDropdownList.innerHTML = menu.items.map((item, idx) => {
+    const label = typeof item === 'string' ? item : item.label;
+    const isLast = idx === menu.items.length - 1;
+    return `
+      <button class="header-dropdown-item w-full flex items-center gap-[12px] px-[16px] transition-colors duration-200 cursor-pointer text-left"
+        style="height:52px; ${isLast ? '' : `border-bottom:1px solid ${rowBorder};`} color:${textColor};"
+        data-label="${label}">
+        <span class="flex-1 text-[15px] font-medium truncate">${label}</span>
+        <svg class="w-[16px] h-[16px] flex-shrink-0" style="color:${chevronColor};" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+    `;
+  }).join('');
+
+  const rect = anchorEl.getBoundingClientRect();
+  const dropdownWidth = 260;
+  let leftPos = Math.min(rect.left, window.innerWidth - dropdownWidth - 16);
+  leftPos = Math.max(leftPos, 16);
+  headerDropdown.style.top = (rect.bottom + 10) + 'px';
+  headerDropdown.style.left = leftPos + 'px';
+  headerDropdown.style.right = 'auto';
+
+  headerDropdownOverlay.classList.remove('hidden');
+  headerDropdown.classList.remove('hidden');
+
+  headerDropdownList.querySelectorAll('.header-dropdown-item').forEach(btn => {
+    btn.addEventListener('mouseenter', () => { btn.style.color = '#2563EB'; });
+    btn.addEventListener('mouseleave', () => { btn.style.color = textColor; });
+    btn.addEventListener('click', () => {
+      const clickedLabel = btn.getAttribute('data-label');
+      closeHeaderDropdown();
+      if (key === 'appearance') {
+        if (clickedLabel === 'Light Mode') applyTheme(false);
+        else if (clickedLabel === 'Dark Mode') applyTheme(true);
+        else applyTheme(window.matchMedia('(prefers-color-scheme: dark)').matches);
+      } else if (clickedLabel === 'Sign Out') {
+        handleSignOut();
+      } else {
+        setTimeout(() => showModal(clickedLabel, `Opening ${clickedLabel}...`), 200);
+      }
+    });
+  });
+}
+
+function closeHeaderDropdown() {
+  headerDropdownOverlay.classList.add('hidden');
+  headerDropdown.classList.add('hidden');
+}
+
+headerDropdownOverlay.addEventListener('click', closeHeaderDropdown);
+document.getElementById('moreMenuBtn').addEventListener('click', (e) => openHeaderDropdown('more', e.currentTarget));
+document.getElementById('appearanceBtn').addEventListener('click', (e) => openHeaderDropdown('appearance', e.currentTarget));
+document.getElementById('alertsBtn').addEventListener('click', (e) => openHeaderDropdown('alerts', e.currentTarget));
+document.getElementById('messagesBtn').addEventListener('click', (e) => openHeaderDropdown('messages', e.currentTarget));
+document.getElementById('profilePillBtn').addEventListener('click', (e) => openHeaderDropdown('profile', e.currentTarget));
+
+// ---------- Account cards ----------
+document.getElementById('cardChecking').addEventListener('click', () => loadPage('account-detail', 'checking'));
+document.getElementById('cardSavings').addEventListener('click', () => loadPage('account-detail', 'savings'));
+document.getElementById('cardInvestments').addEventListener('click', () => loadPage('account-detail', 'investments'));
+document.getElementById('cardCredit').addEventListener('click', () => loadPage('account-detail', 'credit'));
+document.getElementById('promoBanner').addEventListener('click', () => showModal('Interest Checking Offer', 'Opening digital onboarding for 4.00% APY high-yield checking account upgrade...'));
+document.getElementById('getStartedBtn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  showModal('Interest Checking Upgrade', 'Initiating fast-track digital activation for your new interest-bearing account...');
+});
+
+// ---------- Bottom nav dropdown menu sheet (Citi-style) ----------
+const navMenus = {
+  navAccounts: {
+    title: 'Accounts',
+    items: ['Account Summary', 'Checking', 'Savings', 'Credit Cards', 'Investment Accounts', 'Statements & Documents', 'Account Details', 'Routing & Account Numbers'],
+  },
+  navPayments: {
+    title: 'Payments',
+    items: ['Fund Account', 'Transfer Between Accounts', 'Send Money (Zelle®)', 'Pay Bills', 'Scheduled Payments', 'Payment History', 'External Transfers', 'Wire Transfers', 'Manage Payees'],
+  },
+  navInvest: {
+    title: 'Invest',
+    items: ['Portfolio Overview', 'Market Performance', 'Watchlist', 'Buy & Sell Investments', 'Retirement Accounts', 'Wealth Insights', 'Investment Statements', 'Financial Advisor'],
+  },
+  navSupport: {
+    title: 'Support',
+    items: ['Secure Messages', 'Live Chat', 'Contact Support', 'Card Services', 'Report Lost or Stolen Card', 'Dispute a Transaction', 'Travel Notification', 'Help Center'],
+  },
+  navProfile: {
+    title: 'Profile',
+    groups: [
+      { category: 'Personal Information', items: ['Full Legal Name', 'Date of Birth', 'Residential Address', 'Mailing Address', 'Phone Number', 'Email Address'] },
+      { category: 'Security Center', items: ['Face ID / Biometric Login', 'Password & Login', 'Two-Factor Authentication', 'Trusted Devices', 'Login Activity', 'Security Alerts', 'Freeze / Lock Debit Card'] },
+      { category: 'Account Preferences', items: ['Notification Preferences', 'Paperless Statements', 'Language Preferences', 'Communication Preferences', 'Manage Linked Accounts', 'Default Payment Account', 'Privacy & Data'] },
+      { category: 'Statements & Documents', items: ['Monthly Statements', 'Account Documents', 'Tax Documents (1099)', 'Confirmation Notices', 'Download PDF Statements', 'Request Official Bank Letter'] },
+    ],
+    standaloneItems: ['Sign Out'],
+  },
+};
+
+const navMenuOverlay = document.getElementById('navMenuOverlay');
+const navMenuSheet = document.getElementById('navMenuSheet');
+const navMenuTitle = document.getElementById('navMenuTitle');
+const navMenuList = document.getElementById('navMenuList');
+const navMenuCloseBtn = document.getElementById('navMenuCloseBtn');
+
+// Labels that map to a screen already ported to the split architecture.
+const navMenuRoutes = {
+  'Checking': () => loadPage('account-detail', 'checking'),
+  'Savings': () => loadPage('account-detail', 'savings'),
+  'Credit Cards': () => loadPage('account-detail', 'credit'),
+  'Transfer Between Accounts': () => loadPage('transfer'),
+  'Send Money (Zelle®)': () => loadPage('send-money'),
+};
+
+function openNavMenu(key) {
+  const menu = navMenus[key];
+  if (!menu) return;
+
+  navMenuTitle.textContent = menu.title;
+
+  if (menu.groups) {
+    navMenuList.innerHTML = menu.groups.map(group => `
+      <div class="px-[12px] pt-[16px] pb-[4px] text-[12px] font-bold uppercase tracking-[0.8px] text-[#6B7280] dark:text-[#8E9CBA]">${group.category}</div>
+      ${group.items.map(item => `
+        <button class="nav-menu-item w-full flex items-center justify-between px-[12px] py-[14px] rounded-[14px] hover:bg-gray-50 dark:hover:bg-white/5 transition-all cursor-pointer text-left">
+          <span class="text-[15px] font-medium text-[#111827] dark:text-[#FFFFFF]">${item}</span>
+          <svg class="w-[16px] h-[16px] text-gray-400 dark:text-[#52607D] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      `).join('')}
+    `).join('') + (menu.standaloneItems ? `
+      <div class="border-t border-gray-100 dark:border-white/[0.06] mt-[8px] pt-[8px]">
+        ${menu.standaloneItems.map(item => `
+          <button class="nav-menu-item w-full flex items-center justify-between px-[12px] py-[14px] rounded-[14px] hover:bg-red-50 dark:hover:bg-white/5 transition-all cursor-pointer text-left">
+            <span class="text-[15px] font-semibold text-[#DC2626]">${item}</span>
+          </button>
+        `).join('')}
+      </div>
+    ` : '');
+  } else {
+    navMenuList.innerHTML = menu.items.map(item => `
+      <button class="nav-menu-item w-full flex items-center justify-between px-[12px] py-[14px] rounded-[14px] hover:bg-gray-50 dark:hover:bg-white/5 transition-all cursor-pointer text-left">
+        <span class="text-[15px] font-medium text-[#111827] dark:text-[#FFFFFF]">${item}</span>
+        <svg class="w-[16px] h-[16px] text-gray-400 dark:text-[#52607D] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+    `).join('');
+  }
+
+  navMenuList.querySelectorAll('.nav-menu-item').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const label = btn.querySelector('span').textContent;
+      closeNavMenu();
+      if (label === 'Sign Out') {
+        handleSignOut();
+      } else if (navMenuRoutes[label]) {
+        setTimeout(() => navMenuRoutes[label](), 260);
+      } else {
+        setTimeout(() => showModal(label, `Opening ${label}...`), 260);
+      }
+    });
+  });
+
+  navMenuOverlay.classList.remove('hidden');
+  navMenuSheet.classList.remove('hidden');
+  requestAnimationFrame(() => {
+    navMenuSheet.classList.remove('translate-y-full');
+  });
+  document.body.style.overflow = 'hidden';
+}
+
+function closeNavMenu() {
+  navMenuSheet.classList.add('translate-y-full');
+  document.body.style.overflow = '';
+  setTimeout(() => {
+    navMenuOverlay.classList.add('hidden');
+    navMenuSheet.classList.add('hidden');
+  }, 300);
+}
+
+navMenuCloseBtn.addEventListener('click', closeNavMenu);
+navMenuOverlay.addEventListener('click', closeNavMenu);
+document.getElementById('navAccounts').addEventListener('click', () => openNavMenu('navAccounts'));
+document.getElementById('navPayments').addEventListener('click', () => openNavMenu('navPayments'));
+document.getElementById('navInvest').addEventListener('click', () => openNavMenu('navInvest'));
+document.getElementById('navSupport').addEventListener('click', () => openNavMenu('navSupport'));
+document.getElementById('navProfile').addEventListener('click', () => openNavMenu('navProfile'));
+
+// ---------- Greeting + live balances from Supabase ----------
+async function initSupabaseData() {
+  const hours = new Date().getHours();
+  let timeOfDay = 'Good Afternoon';
+  if (hours < 12) timeOfDay = 'Good Morning';
+  else if (hours >= 17) timeOfDay = 'Good Evening';
+
+  let userName = 'Mercy';
+
+  function applyAccountRow(acc) {
+    const val = formatCurrency(acc.balance);
+    if (acc.account_type === 'checking') {
+      const el = document.getElementById('checkingBalance');
+      if (el) el.textContent = val;
+    } else if (acc.account_type === 'savings') {
+      const el = document.getElementById('savingsBalance');
+      if (el) el.textContent = val;
+    } else if (acc.account_type === 'investments') {
+      const el = document.getElementById('investmentsBalance');
+      if (el) el.textContent = val;
+    } else if (acc.account_type === 'credit') {
+      if (acc.status === 'approved' || Number(acc.balance) > 0 || Number(acc.available_credit) > 0) {
+        const rightContainer = document.getElementById('creditCardRightContent');
+        if (rightContainer) {
+          const availVal = acc.available_credit !== undefined ? formatCurrency(acc.available_credit) : '$0.00';
+          rightContainer.innerHTML = `
+            <div class="text-[18px] font-bold text-[#111827] dark:text-[#FFFFFF] tracking-tight leading-none">${val}</div>
+            <div class="text-[12px] font-normal text-[#6B7280] dark:text-[#8E9CBA] mt-[6px]">Current Balance</div>
+            <div class="text-[10px] font-normal text-[#6B7280] dark:text-[#8E9CBA] mt-[2px]">Available Credit ${availVal}</div>
+          `;
+        }
+        const titleDiv = document.querySelector('#cardCredit .card-title');
+        if (titleDiv && acc.account_number) {
+          titleDiv.innerHTML = `Verceil Signature Card<div class="text-[13px] font-normal text-[#6B7280] dark:text-[#8E9CBA] mt-1"><span class="inline-block w-1.5 h-1.5 rounded-full bg-[#6B7280] dark:bg-[#8E9CBA] mr-0.5 align-middle"></span>${acc.account_number.slice(-4)}</div>`;
+        }
+      }
+    }
+  }
+
+  if (supabaseClient) {
+    try {
+      const user = await getCurrentUser();
+      if (user) {
+        if (user.user_metadata && user.user_metadata.first_name) {
+          userName = user.user_metadata.first_name;
+        } else if (user.email) {
+          userName = user.email.split('@')[0];
+        }
+
+        const { data: accountsData, error: accountsError } = await supabaseClient
+          .from('accounts')
+          .select('*')
+          .eq('user_id', user.id);
+
+        if (accountsData && !accountsError) {
+          accountsData.forEach(applyAccountRow);
+        }
+      }
+
+      supabaseClient
+        .channel('public:accounts')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'accounts' }, (payload) => {
+          if (payload.new) applyAccountRow(payload.new);
+        })
+        .subscribe();
+    } catch (err) {
+      console.error('Supabase data fetch error:', err);
+    }
+  }
+
+  greetingLine1.textContent = `${timeOfDay},`;
+  greetingLine2.textContent = userName;
+}
+
+initSupabaseData();
