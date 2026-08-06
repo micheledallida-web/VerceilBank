@@ -18,6 +18,11 @@ if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
     '[generate-config] SUPABASE_URL and/or SUPABASE_ANON_KEY are not set. ' +
     'js/config.js will be generated with empty values — Supabase calls will fail until they are configured.'
   );
+} else if (!/^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/i.test(SUPABASE_URL)) {
+  console.warn(
+    `[generate-config] SUPABASE_URL ("${SUPABASE_URL}") doesn't look like a Supabase project URL ` +
+    '(expected https://<project-ref>.supabase.co). Double-check your environment variable.'
+  );
 }
 
 const outPath = path.join(__dirname, '..', 'js', 'config.js');
