@@ -1,0 +1,93 @@
+<div class="w-full max-w-[430px] mx-auto px-[16px] pt-[14px] pb-[40px]">
+  <div class="flex items-center gap-3 mb-[16px]">
+    <button data-action="close" class="w-[40px] h-[40px] rounded-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] flex items-center justify-center text-[#111827] dark:text-white shadow-lg cursor-pointer flex-shrink-0" aria-label="Back">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <div class="text-[20px] font-bold text-white truncate">Your Advisor</div>
+  </div>
+
+  <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[22px] p-[18px] shadow-lg mb-[16px]">
+    <div class="flex items-center gap-[14px]">
+      <div class="w-[56px] h-[56px] rounded-full bg-[#2563EB] flex items-center justify-center text-white font-bold text-[20px] flex-shrink-0">MA</div>
+      <div class="min-w-0">
+        <div class="text-[16px] font-bold text-[#111827] dark:text-white">Michael Alvarez, CFP®</div>
+        <div class="text-[13px] text-[#6B7280] dark:text-[#8E9CBA]">Senior Wealth Advisor</div>
+        <div class="text-[12px] text-[#6B7280] dark:text-[#8E9CBA]">14 years experience</div>
+      </div>
+    </div>
+    <div class="mt-[14px] pt-[14px] border-t border-gray-100 dark:border-white/[0.06] flex flex-col gap-[6px] text-[13px] text-[#111827] dark:text-white">
+      <div>📍 Verceil Private Wealth — New York, NY</div>
+      <div>📞 (212) 555-0173</div>
+      <div>✉️ michael.alvarez@verceilbank.com</div>
+    </div>
+  </div>
+
+  <div class="flex gap-[10px] mb-[20px]">
+    <a id="advisorCallBtn" href="tel:+12125550173" class="flex-1 h-[46px] rounded-[14px] bg-[#2563EB] text-white text-[14px] font-semibold flex items-center justify-center cursor-pointer hover:opacity-90 transition-all">Call Advisor</a>
+    <button id="advisorViewDocsBtn" class="flex-1 h-[46px] rounded-[14px] bg-white dark:bg-[#0D1728] border border-gray-200 dark:border-white/10 text-[#111827] dark:text-white text-[14px] font-semibold cursor-pointer hover:opacity-90 transition-all">View Documents</button>
+  </div>
+
+  <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">ADVISORY SERVICES</div>
+  <div class="flex flex-wrap gap-[8px] mb-[20px]">
+    <span class="px-[12px] h-[30px] flex items-center rounded-full bg-white dark:bg-[#0D1728] border border-gray-200 dark:border-white/10 text-[12px] font-medium text-[#111827] dark:text-white">Portfolio Review</span>
+    <span class="px-[12px] h-[30px] flex items-center rounded-full bg-white dark:bg-[#0D1728] border border-gray-200 dark:border-white/10 text-[12px] font-medium text-[#111827] dark:text-white">Retirement Planning</span>
+    <span class="px-[12px] h-[30px] flex items-center rounded-full bg-white dark:bg-[#0D1728] border border-gray-200 dark:border-white/10 text-[12px] font-medium text-[#111827] dark:text-white">Estate Planning</span>
+    <span class="px-[12px] h-[30px] flex items-center rounded-full bg-white dark:bg-[#0D1728] border border-gray-200 dark:border-white/10 text-[12px] font-medium text-[#111827] dark:text-white">Tax Strategies</span>
+    <span class="px-[12px] h-[30px] flex items-center rounded-full bg-white dark:bg-[#0D1728] border border-gray-200 dark:border-white/10 text-[12px] font-medium text-[#111827] dark:text-white">Education Savings</span>
+    <span class="px-[12px] h-[30px] flex items-center rounded-full bg-white dark:bg-[#0D1728] border border-gray-200 dark:border-white/10 text-[12px] font-medium text-[#111827] dark:text-white">Wealth Transfer</span>
+    <span class="px-[12px] h-[30px] flex items-center rounded-full bg-white dark:bg-[#0D1728] border border-gray-200 dark:border-white/10 text-[12px] font-medium text-[#111827] dark:text-white">Investment Strategy</span>
+  </div>
+
+  <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">SCHEDULE APPOINTMENT</div>
+  <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[22px] p-[18px] shadow-lg mb-[20px]">
+    <div class="flex flex-col gap-[12px]">
+      <div>
+        <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Meeting Type</label>
+        <select id="apptMeetingType" class="w-full h-[44px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white outline-none focus:border-[#2563EB]">
+          <option value="video">Video Consultation</option>
+          <option value="phone">Phone Consultation</option>
+          <option value="in_person">In-Person Meeting</option>
+        </select>
+      </div>
+      <div>
+        <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Discussion Topic</label>
+        <select id="apptTopic" class="w-full h-[44px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white outline-none focus:border-[#2563EB]">
+          <option>Portfolio Review</option>
+          <option>Retirement Planning</option>
+          <option>Estate Planning</option>
+          <option>Tax Strategies</option>
+          <option>Education Savings</option>
+          <option>Wealth Transfer</option>
+          <option>Investment Strategy</option>
+        </select>
+      </div>
+      <div class="flex gap-[10px]">
+        <div class="flex-1">
+          <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Date</label>
+          <input id="apptDate" type="date" class="w-full h-[44px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white outline-none focus:border-[#2563EB]">
+        </div>
+        <div class="flex-1">
+          <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Time</label>
+          <input id="apptTime" type="time" class="w-full h-[44px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white outline-none focus:border-[#2563EB]">
+        </div>
+      </div>
+      <div>
+        <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Notes (optional)</label>
+        <textarea id="apptNotes" rows="3" placeholder="Anything you'd like your advisor to know beforehand" class="w-full px-[14px] py-[10px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white placeholder-gray-400 dark:placeholder-[#52607D] outline-none focus:border-[#2563EB]"></textarea>
+      </div>
+      <div id="apptError" class="hidden text-[12px] font-medium text-[#EF4444]"></div>
+      <button id="apptScheduleBtn" class="w-full h-[46px] rounded-[14px] bg-[#2563EB] text-white text-[14px] font-semibold cursor-pointer hover:opacity-90 transition-all">Schedule Appointment</button>
+    </div>
+  </div>
+
+  <div id="apptUpcomingList" class="flex flex-col gap-[10px] mb-[20px]"></div>
+
+  <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">SECURE MESSAGES</div>
+  <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[22px] p-[16px] shadow-lg">
+    <div id="advisorMessagesList" class="flex flex-col gap-[10px] mb-[12px] max-h-[240px] overflow-y-auto"></div>
+    <div class="flex gap-[8px]">
+      <input id="advisorMessageInput" type="text" placeholder="Send a secure message..." class="flex-1 h-[42px] px-[12px] rounded-[10px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[13px] text-[#111827] dark:text-white placeholder-gray-400 dark:placeholder-[#52607D] outline-none focus:border-[#2563EB]">
+      <button id="advisorSendMessageBtn" class="h-[42px] px-[16px] rounded-[10px] bg-[#2563EB] text-white text-[13px] font-semibold cursor-pointer hover:opacity-90 transition-all">Send</button>
+    </div>
+  </div>
+</div>

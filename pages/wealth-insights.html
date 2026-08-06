@@ -1,0 +1,141 @@
+<div class="w-full max-w-[430px] mx-auto px-[16px] pt-[14px] pb-[40px]">
+  <div class="flex items-center gap-3 mb-[4px]">
+    <button data-action="close" class="w-[40px] h-[40px] rounded-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] flex items-center justify-center text-[#111827] dark:text-white shadow-lg cursor-pointer flex-shrink-0" aria-label="Back">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <div class="text-[20px] font-bold text-white truncate">Wealth Insights</div>
+  </div>
+  <div class="text-[13px] font-normal text-white/80 dark:text-[#8E9CBA] mb-[16px] ml-[52px]">Personalized insights for your financial portfolio</div>
+
+  <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[22px] p-[18px] shadow-lg mb-[16px]" style="border-top:3px solid #2563EB;">
+    <div class="text-[12px] font-normal text-[#6B7280] dark:text-[#8E9CBA]">Total Net Worth</div>
+    <div id="wiNetWorth" class="text-[28px] font-bold text-[#111827] dark:text-white tracking-tight mb-[10px]">$0.00</div>
+    <div class="grid grid-cols-2 gap-[10px] text-[13px]">
+      <div><div class="text-[11px] text-[#6B7280] dark:text-[#8E9CBA]">Investment Value</div><div id="wiInvestValue" class="font-semibold text-[#111827] dark:text-white">$0.00</div></div>
+      <div><div class="text-[11px] text-[#6B7280] dark:text-[#8E9CBA]">Cash Holdings</div><div id="wiCashHoldings" class="font-semibold text-[#111827] dark:text-white">$0.00</div></div>
+      <div><div class="text-[11px] text-[#6B7280] dark:text-[#8E9CBA]">Today's Portfolio Change</div><div id="wiMonthlyChange" class="font-semibold">$0.00</div></div>
+      <div><div class="text-[11px] text-[#6B7280] dark:text-[#8E9CBA]">Financial Health Score</div><div id="wiHealthScore" class="font-semibold text-[#111827] dark:text-white">—</div></div>
+    </div>
+  </div>
+
+  <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">NET WORTH</div>
+  <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[20px] p-[16px] shadow-lg mb-[16px]">
+    <div class="grid grid-cols-2 gap-[10px] text-[13px] mb-[12px]">
+      <div><div class="text-[11px] text-[#6B7280] dark:text-[#8E9CBA]">Total Assets</div><div id="wiTotalAssets" class="font-semibold text-[#111827] dark:text-white">$0.00</div></div>
+      <div><div class="text-[11px] text-[#6B7280] dark:text-[#8E9CBA]">Total Liabilities</div><div class="font-semibold text-[#111827] dark:text-white">$0.00</div></div>
+      <div><div class="text-[11px] text-[#6B7280] dark:text-[#8E9CBA]">30-Day Change</div><div class="font-semibold text-[#6B7280] dark:text-[#8E9CBA]">Not enough history yet</div></div>
+      <div><div class="text-[11px] text-[#6B7280] dark:text-[#8E9CBA]">12-Month Change</div><div class="font-semibold text-[#6B7280] dark:text-[#8E9CBA]">Not enough history yet</div></div>
+    </div>
+    <div class="relative h-[54px] w-full">
+      <svg id="wiChartSvg" class="w-full h-full" viewBox="0 0 380 54" fill="none" preserveAspectRatio="none">
+        <path id="wiChartLine" d="M0 45 L380 45" stroke="#2563EB" stroke-width="2.2" stroke-linecap="round"></path>
+        <path id="wiChartFill" d="M0 45 L380 45 L380 54 L0 54 Z" fill="url(#wiGlow)" opacity="0.5"></path>
+        <defs><linearGradient id="wiGlow" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#2563EB" stop-opacity="0.35"></stop><stop offset="100%" stop-color="#2563EB" stop-opacity="0"></stop></linearGradient></defs>
+      </svg>
+    </div>
+    <div class="flex items-center justify-between text-[11px] font-medium text-[#6B7280] dark:text-[#8E9CBA] pt-[8px]" id="wiRangeTabs">
+      <span data-range="1M" class="wi-range-btn cursor-pointer px-2 py-0.5">1M</span>
+      <span data-range="3M" class="wi-range-btn cursor-pointer px-2 py-0.5">3M</span>
+      <span data-range="6M" class="wi-range-btn cursor-pointer px-2 py-0.5">6M</span>
+      <span data-range="1Y" class="wi-range-btn cursor-pointer px-2 py-0.5">1Y</span>
+      <span data-range="ALL" class="wi-range-btn cursor-pointer px-2 py-0.5">ALL</span>
+    </div>
+  </div>
+
+  <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">PORTFOLIO ANALYSIS</div>
+  <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[20px] p-[16px] shadow-lg mb-[16px]">
+    <div id="wiAllocationRows" class="flex flex-col gap-[10px] mb-[14px]"></div>
+    <div class="flex items-center justify-between pt-[10px] border-t border-gray-100 dark:border-white/[0.06]">
+      <span class="text-[13px] text-[#6B7280] dark:text-[#8E9CBA]">Diversification Score</span>
+      <span id="wiDiversificationScore" class="text-[15px] font-bold text-[#111827] dark:text-white">—</span>
+    </div>
+  </div>
+
+  <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">RISK PROFILE</div>
+  <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[20px] p-[16px] shadow-lg mb-[16px]">
+    <div class="flex items-center justify-between mb-[6px]">
+      <span class="text-[13px] text-[#6B7280] dark:text-[#8E9CBA]">Risk Score</span>
+      <span id="wiRiskLabel" class="text-[14px] font-bold text-[#111827] dark:text-white">—</span>
+    </div>
+    <div class="w-full h-[8px] rounded-full bg-gray-100 dark:bg-white/10 overflow-hidden mb-[4px]">
+      <div id="wiRiskMeter" class="h-full rounded-full bg-[#2563EB]" style="width:0%;"></div>
+    </div>
+    <div id="wiRiskExplainer" class="text-[12px] text-[#6B7280] dark:text-[#8E9CBA] mb-[12px]"></div>
+    <div class="grid grid-cols-2 gap-[10px] text-[13px]">
+      <div><div class="text-[11px] text-[#6B7280] dark:text-[#8E9CBA]">Concentration Risk</div><div id="wiConcentration" class="font-semibold text-[#111827] dark:text-white">—</div></div>
+      <div><div class="text-[11px] text-[#6B7280] dark:text-[#8E9CBA]">Portfolio Volatility</div><div class="font-semibold text-[#6B7280] dark:text-[#8E9CBA]">Not available yet</div></div>
+    </div>
+  </div>
+
+  <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">PERFORMANCE INSIGHTS</div>
+  <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[20px] p-[16px] shadow-lg mb-[16px]">
+    <div class="grid grid-cols-2 gap-[10px] text-[13px] mb-[10px]">
+      <div><div class="text-[11px] text-[#6B7280] dark:text-[#8E9CBA]">Total Return</div><div id="wiTotalReturn" class="font-semibold">$0.00</div></div>
+      <div><div class="text-[11px] text-[#6B7280] dark:text-[#8E9CBA]">Income Generated (YTD)</div><div id="wiIncomeGenerated" class="font-semibold text-[#111827] dark:text-white">$0.00</div></div>
+      <div><div class="text-[11px] text-[#6B7280] dark:text-[#8E9CBA]">1M / 3M / 1Y Return</div><div class="font-semibold text-[#6B7280] dark:text-[#8E9CBA]">Not enough history yet</div></div>
+      <div><div class="text-[11px] text-[#6B7280] dark:text-[#8E9CBA]">Interest Earned</div><div class="font-semibold text-[#6B7280] dark:text-[#8E9CBA]">Not tracked yet</div></div>
+    </div>
+    <div class="text-[11px] text-[#6B7280] dark:text-[#8E9CBA] pt-[8px] border-t border-gray-100 dark:border-white/[0.06]">Benchmark comparison (S&P 500 / Nasdaq / Dow) requires a live market data feed, which isn't connected yet.</div>
+  </div>
+
+  <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">RECOMMENDED ACTIONS</div>
+  <div id="wiRecommendations" class="flex flex-col gap-[10px] mb-[16px]"></div>
+
+  <div class="flex items-center justify-between mb-[8px]">
+    <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase">FINANCIAL GOALS</div>
+    <button id="wiAddGoalBtn" class="text-[13px] font-semibold text-white dark:text-[#3B82F6] cursor-pointer">+ Add Goal</button>
+  </div>
+  <div id="wiGoalAddForm" class="hidden bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[20px] p-[16px] shadow-lg mb-[10px]">
+    <div class="flex flex-col gap-[10px]">
+      <select id="wiGoalType" class="w-full h-[42px] px-[12px] rounded-[10px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[13px] text-[#111827] dark:text-white outline-none">
+        <option>Retirement</option><option>Home Purchase</option><option>Education Fund</option>
+        <option>Emergency Fund</option><option>Wealth Preservation</option><option>Investment Income Goal</option>
+      </select>
+      <input id="wiGoalTarget" type="number" min="1" step="1" placeholder="Target amount" class="w-full h-[42px] px-[12px] rounded-[10px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[13px] text-[#111827] dark:text-white placeholder-gray-400 dark:placeholder-[#52607D] outline-none">
+      <input id="wiGoalCurrent" type="number" min="0" step="1" placeholder="Current progress (optional)" class="w-full h-[42px] px-[12px] rounded-[10px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[13px] text-[#111827] dark:text-white placeholder-gray-400 dark:placeholder-[#52607D] outline-none">
+      <input id="wiGoalDate" type="date" class="w-full h-[42px] px-[12px] rounded-[10px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[13px] text-[#111827] dark:text-white outline-none">
+      <div id="wiGoalError" class="hidden text-[12px] font-medium text-[#EF4444]"></div>
+      <button id="wiSaveGoalBtn" class="w-full h-[42px] rounded-[12px] bg-[#2563EB] text-white text-[13px] font-semibold cursor-pointer">Save Goal</button>
+    </div>
+  </div>
+  <div id="wiGoalsList" class="flex flex-col gap-[10px] mb-[16px]"></div>
+
+  <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">TAX EFFICIENCY</div>
+  <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[20px] p-[16px] shadow-lg mb-[16px]">
+    <div class="grid grid-cols-2 gap-[10px] text-[13px] mb-[10px]">
+      <div><div class="text-[11px] text-[#6B7280] dark:text-[#8E9CBA]">Dividend Income (est.)</div><div id="wiTaxDividends" class="font-semibold text-[#111827] dark:text-white">$0.00</div></div>
+      <div><div class="text-[11px] text-[#6B7280] dark:text-[#8E9CBA]">Unrealized Gains</div><div id="wiUnrealizedGains" class="font-semibold">$0.00</div></div>
+    </div>
+    <div id="wiTaxLossOpps" class="text-[13px] text-[#6B7280] dark:text-[#8E9CBA]"></div>
+    <div class="text-[11px] text-[#6B7280] dark:text-[#8E9CBA] pt-[8px] mt-[8px] border-t border-gray-100 dark:border-white/[0.06]">Estimated tax savings require your tax bracket, which isn't collected yet.</div>
+  </div>
+
+  <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">MARKET EXPOSURE</div>
+  <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[20px] p-[16px] shadow-lg mb-[16px]">
+    <div class="text-center text-[13px] text-[#6B7280] dark:text-[#8E9CBA] py-2">Sector and geographic exposure aren't tracked per holding yet — this will populate once holdings include sector/region data.</div>
+  </div>
+
+  <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">INSIGHTS & OPPORTUNITIES</div>
+  <div id="wiAlertsList" class="flex flex-col gap-[10px] mb-[20px]"></div>
+
+  <div class="flex gap-[10px] mb-[10px]">
+    <button id="wiRebalanceBtn" class="flex-1 h-[46px] rounded-[14px] bg-[#2563EB] text-white text-[14px] font-semibold cursor-pointer hover:opacity-90 transition-all">Rebalance Portfolio</button>
+    <button id="wiScheduleAdvisorBtn" class="flex-1 h-[46px] rounded-[14px] bg-[#2563EB] text-white text-[14px] font-semibold cursor-pointer hover:opacity-90 transition-all">Schedule Advisor Review</button>
+  </div>
+  <div class="flex gap-[8px]">
+    <button id="wiDownloadReportBtn" class="flex-1 h-[42px] rounded-[12px] bg-white dark:bg-[#0D1728] border border-gray-200 dark:border-white/10 text-[#111827] dark:text-white text-[12px] font-semibold cursor-pointer">Download Report</button>
+    <button id="wiViewPortfolioBtn" class="flex-1 h-[42px] rounded-[12px] bg-white dark:bg-[#0D1728] border border-gray-200 dark:border-white/10 text-[#111827] dark:text-white text-[12px] font-semibold cursor-pointer">View Portfolio</button>
+  </div>
+</div>
+
+<div id="wiReportPrintView" class="hidden fixed inset-0 z-[70] bg-white overflow-y-auto">
+  <div class="max-w-[600px] mx-auto p-[32px] text-[#0F172A]">
+    <div class="flex items-center justify-between mb-[24px] print:hidden">
+      <button id="wiReportCloseBtn" class="h-[40px] px-[16px] rounded-[12px] bg-gray-100 text-[13px] font-semibold cursor-pointer">Close</button>
+      <button id="wiReportPrintBtn" class="h-[40px] px-[16px] rounded-[12px] bg-[#2563EB] text-white text-[13px] font-semibold cursor-pointer">Print / Save as PDF</button>
+    </div>
+    <div class="text-[24px] font-bold mb-[4px]">Verceil Bank — Wealth Report</div>
+    <div id="wiReportMeta" class="text-[13px] text-[#6B7280] mb-[24px]"></div>
+    <div class="border-t border-[#E5E7EB] pt-[16px]" id="wiReportBody"></div>
+  </div>
+</div>

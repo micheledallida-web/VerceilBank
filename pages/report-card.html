@@ -1,0 +1,44 @@
+<div class="w-full max-w-[430px] mx-auto px-[16px] pt-[14px] pb-[40px]">
+  <div class="flex items-center gap-3 mb-[16px]">
+    <button data-action="close" class="w-[40px] h-[40px] rounded-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] flex items-center justify-center text-[#111827] dark:text-white shadow-lg cursor-pointer flex-shrink-0" aria-label="Back">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <div class="text-[20px] font-bold text-white truncate">Report Lost or Stolen Card</div>
+  </div>
+
+  <div class="bg-[#EF4444]/15 border border-[#EF4444]/30 rounded-[16px] p-[14px] mb-[16px]">
+    <div class="text-[13px] font-semibold text-white">⚠️ Your card can be immediately blocked to prevent unauthorized transactions.</div>
+  </div>
+
+  <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[22px] p-[18px] shadow-lg">
+    <div class="flex flex-col gap-[12px]">
+      <div>
+        <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Card</label>
+        <select id="reportCardType" class="w-full h-[44px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white outline-none">
+          <option value="debit">Debit Card</option>
+          <option value="credit">Credit Card</option>
+        </select>
+      </div>
+      <div>
+        <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Reason</label>
+        <select id="reportReason" class="w-full h-[44px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white outline-none">
+          <option>Lost</option>
+          <option>Stolen</option>
+          <option>Damaged</option>
+          <option>Unauthorized Use</option>
+        </select>
+      </div>
+      <div>
+        <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Replacement</label>
+        <select id="reportReplacement" class="w-full h-[44px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white outline-none">
+          <option>Standard Delivery</option>
+          <option>Expedited Delivery</option>
+          <option>Temporary Digital Card</option>
+        </select>
+      </div>
+      <div id="reportCardError" class="hidden text-[12px] font-medium text-[#EF4444]"></div>
+      <button id="lockNowBtn" class="w-full h-[46px] rounded-[14px] bg-[#DC2626] text-white text-[14px] font-semibold cursor-pointer">Lock Card Immediately</button>
+      <button id="blockPermanentBtn" class="w-full h-[46px] rounded-[14px] bg-white dark:bg-white/5 border border-[#DC2626] text-[#DC2626] text-[14px] font-semibold cursor-pointer">Permanently Block &amp; Request Replacement</button>
+    </div>
+  </div>
+</div>

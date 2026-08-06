@@ -1,0 +1,66 @@
+<div id="watchlistMainStep" class="w-full max-w-[430px] mx-auto px-[16px] pt-[14px] pb-[40px]">
+  <div class="flex items-center gap-3 mb-[16px]">
+    <button data-action="close" class="w-[40px] h-[40px] rounded-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] flex items-center justify-center text-[#111827] dark:text-white shadow-lg cursor-pointer flex-shrink-0" aria-label="Back">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <div class="text-[20px] font-bold text-white truncate">My Watchlist</div>
+  </div>
+
+  <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[20px] p-[14px] shadow-lg mb-[16px]">
+    <div class="flex flex-col gap-[10px]">
+      <div class="flex gap-[8px]">
+        <input id="wlSymbol" type="text" placeholder="Symbol (e.g. AAPL)" class="flex-1 h-[42px] px-[12px] rounded-[10px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[13px] text-[#111827] dark:text-white placeholder-gray-400 dark:placeholder-[#52607D] outline-none focus:border-[#2563EB]">
+        <select id="wlCategory" class="h-[42px] px-[10px] rounded-[10px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[13px] text-[#111827] dark:text-white outline-none focus:border-[#2563EB]">
+          <option value="stocks">Stocks</option>
+          <option value="etfs">ETFs</option>
+          <option value="mutual_funds">Mutual Funds</option>
+          <option value="crypto">Crypto</option>
+        </select>
+      </div>
+      <input id="wlName" type="text" placeholder="Company / Fund name" class="w-full h-[42px] px-[12px] rounded-[10px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[13px] text-[#111827] dark:text-white placeholder-gray-400 dark:placeholder-[#52607D] outline-none focus:border-[#2563EB]">
+      <input id="wlPrice" type="number" min="0" step="0.01" placeholder="Reference price (optional)" class="w-full h-[42px] px-[12px] rounded-[10px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[13px] text-[#111827] dark:text-white placeholder-gray-400 dark:placeholder-[#52607D] outline-none focus:border-[#2563EB]">
+      <div id="wlAddError" class="hidden text-[12px] font-medium text-[#EF4444]"></div>
+      <button id="wlAddBtn" class="w-full h-[42px] rounded-[12px] bg-[#2563EB] text-white text-[13px] font-semibold cursor-pointer hover:opacity-90 transition-all">Add to Watchlist</button>
+    </div>
+  </div>
+
+  <div class="flex items-center gap-[8px] mb-[14px]" id="wlCategoryTabs">
+    <button data-cat="all" class="wl-cat-tab px-[14px] h-[34px] rounded-full text-[12px] font-semibold cursor-pointer">All</button>
+    <button data-cat="stocks" class="wl-cat-tab px-[14px] h-[34px] rounded-full text-[12px] font-semibold cursor-pointer">Stocks</button>
+    <button data-cat="etfs" class="wl-cat-tab px-[14px] h-[34px] rounded-full text-[12px] font-semibold cursor-pointer">ETFs</button>
+    <button data-cat="mutual_funds" class="wl-cat-tab px-[14px] h-[34px] rounded-full text-[12px] font-semibold cursor-pointer">Funds</button>
+    <button data-cat="crypto" class="wl-cat-tab px-[14px] h-[34px] rounded-full text-[12px] font-semibold cursor-pointer">Crypto</button>
+  </div>
+
+  <div id="watchlistItems" class="flex flex-col gap-[10px]"></div>
+</div>
+
+<div id="investmentDetailsStep" class="hidden w-full max-w-[430px] mx-auto px-[16px] pt-[14px] pb-[40px]">
+  <div class="flex items-center gap-3 mb-[16px]">
+    <button data-action="back-to-watchlist" class="w-[40px] h-[40px] rounded-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] flex items-center justify-center text-[#111827] dark:text-white shadow-lg cursor-pointer flex-shrink-0" aria-label="Back">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <div id="invDetailsTitle" class="text-[20px] font-bold text-white truncate">Investment Details</div>
+  </div>
+
+  <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[22px] p-[18px] shadow-lg mb-[16px]">
+    <div id="invDetailsSymbol" class="text-[24px] font-bold text-[#111827] dark:text-white"></div>
+    <div id="invDetailsName" class="text-[13px] text-[#6B7280] dark:text-[#8E9CBA] mb-[10px]"></div>
+    <div id="invDetailsPrice" class="text-[28px] font-bold text-[#111827] dark:text-white"></div>
+    <div id="invDetailsChange" class="text-[13px] font-semibold mt-[2px]"></div>
+  </div>
+
+  <div id="invDetailsHoldingRow" class="hidden bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[20px] p-[16px] shadow-lg mb-[16px] flex items-center justify-between">
+    <span class="text-[13px] text-[#6B7280] dark:text-[#8E9CBA]">You Own</span>
+    <span id="invDetailsHoldingValue" class="text-[14px] font-bold text-[#111827] dark:text-white"></span>
+  </div>
+
+  <div class="flex gap-[10px] mb-[10px]">
+    <button id="invDetailsBuyBtn" class="flex-1 h-[46px] rounded-[14px] bg-[#2563EB] text-white text-[14px] font-semibold cursor-pointer hover:opacity-90 transition-all">Buy</button>
+    <button id="invDetailsSellBtn" class="flex-1 h-[46px] rounded-[14px] bg-white dark:bg-[#0D1728] border border-gray-200 dark:border-white/10 text-[#111827] dark:text-white text-[14px] font-semibold cursor-pointer hover:opacity-90 transition-all">Sell</button>
+  </div>
+  <div class="flex gap-[10px]">
+    <button id="invDetailsWatchBtn" class="flex-1 h-[44px] rounded-[14px] bg-white dark:bg-[#0D1728] border border-gray-200 dark:border-white/10 text-[#111827] dark:text-white text-[13px] font-semibold cursor-pointer hover:opacity-90 transition-all">Add to Watchlist</button>
+    <button id="invDetailsAlertBtn" class="flex-1 h-[44px] rounded-[14px] bg-white dark:bg-[#0D1728] border border-gray-200 dark:border-white/10 text-[#111827] dark:text-white text-[13px] font-semibold cursor-pointer hover:opacity-90 transition-all">Set Price Alert</button>
+  </div>
+</div>

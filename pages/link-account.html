@@ -1,0 +1,72 @@
+<div class="w-full max-w-[430px] mx-auto px-[16px] pt-[14px] pb-[40px]">
+
+  <div class="flex items-center gap-3 mb-[10px]">
+    <button data-action="close" class="w-[40px] h-[40px] rounded-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] flex items-center justify-center text-[#111827] dark:text-white shadow-lg cursor-pointer flex-shrink-0" aria-label="Back">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <div class="text-[20px] font-bold text-white truncate">Link External Account</div>
+  </div>
+  <div class="text-[13px] font-normal text-white/80 dark:text-[#8E9CBA] mb-[20px] ml-[52px]">Connect a bank account instantly, or enter details manually</div>
+
+  <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[22px] p-[18px] shadow-lg mb-[16px]">
+    <div class="flex items-center gap-[12px] mb-[10px]">
+      <div class="w-[44px] h-[44px] rounded-[14px] flex items-center justify-center text-white flex-shrink-0" style="background:#000000;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="text-[15px] font-bold text-[#111827] dark:text-white">Instant Link</div>
+        <div class="text-[12px] font-normal text-[#6B7280] dark:text-[#8E9CBA]">Securely connect using your bank login — powered by Plaid</div>
+      </div>
+    </div>
+    <button id="plaidLinkBtn" class="w-full h-[46px] rounded-[14px] bg-[#111827] dark:bg-white text-white dark:text-[#111827] text-[14px] font-semibold flex items-center justify-center gap-[8px] cursor-pointer hover:opacity-90 transition-all">
+      <span>Link Instantly with Plaid</span>
+    </button>
+  </div>
+
+  <div class="flex items-center gap-[10px] my-[18px]">
+    <div class="flex-1 h-px bg-white/15 dark:bg-white/10"></div>
+    <span class="text-[11px] font-bold uppercase tracking-[0.8px] text-white/60 dark:text-[#8E9CBA]">Or enter manually</span>
+    <div class="flex-1 h-px bg-white/15 dark:bg-white/10"></div>
+  </div>
+
+  <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[22px] p-[18px] shadow-lg">
+    <div class="flex flex-col gap-[14px]">
+
+      <div>
+        <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Bank Name</label>
+        <input id="linkBankName" type="text" placeholder="e.g. Chase, Bank of America" class="w-full h-[46px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white placeholder-gray-400 dark:placeholder-[#52607D] outline-none focus:border-[#2563EB]">
+      </div>
+
+      <div>
+        <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Routing Number</label>
+        <input id="linkRoutingNumber" type="text" inputmode="numeric" maxlength="9" placeholder="9-digit routing number" class="w-full h-[46px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white placeholder-gray-400 dark:placeholder-[#52607D] outline-none focus:border-[#2563EB]">
+      </div>
+
+      <div>
+        <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Account Number</label>
+        <input id="linkAccountNumber" type="text" inputmode="numeric" placeholder="Account number" class="w-full h-[46px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white placeholder-gray-400 dark:placeholder-[#52607D] outline-none focus:border-[#2563EB]">
+      </div>
+
+      <div>
+        <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Account Type</label>
+        <select id="linkAccountType" class="w-full h-[46px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white outline-none focus:border-[#2563EB]">
+          <option value="checking">Checking</option>
+          <option value="savings">Savings</option>
+        </select>
+      </div>
+
+      <div id="linkAccountError" class="hidden text-[12px] font-medium text-[#EF4444]"></div>
+
+      <button id="linkAccountSaveBtn" class="w-full h-[46px] rounded-[14px] bg-[#2563EB] text-white text-[14px] font-semibold flex items-center justify-center gap-[8px] cursor-pointer hover:opacity-90 transition-all mt-[4px]">
+        <span id="linkAccountSaveBtnLabel">Save Account</span>
+      </button>
+
+    </div>
+  </div>
+
+  <div class="flex items-center gap-[8px] mt-[24px] px-[4px]">
+    <svg class="w-[16px] h-[16px] text-[#10B981] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3l7 3v6c0 4.5-3 7.8-7 9-4-1.2-7-4.5-7-9V6l7-3z"></path></svg>
+    <span class="text-[12px] font-normal text-white/70 dark:text-[#8E9CBA]">Your account details are encrypted and stored securely.</span>
+  </div>
+
+</div>

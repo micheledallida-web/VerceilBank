@@ -1,0 +1,35 @@
+<div class="w-full max-w-[430px] mx-auto px-[16px] pt-[14px] pb-[40px]">
+  <div id="paymentHistoryListStep">
+    <div class="flex items-center gap-3 mb-[16px]">
+      <button data-action="close" class="w-[40px] h-[40px] rounded-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] flex items-center justify-center text-[#111827] dark:text-white shadow-lg cursor-pointer flex-shrink-0" aria-label="Back">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <div class="text-[20px] font-bold text-white truncate">Payment History</div>
+    </div>
+
+    <div id="historyFilters" class="flex gap-[8px] mb-[16px] overflow-x-auto pb-[2px]">
+      <button class="history-filter-btn flex-shrink-0 h-[34px] px-[14px] rounded-full text-[12px] font-semibold cursor-pointer bg-white text-[#111827]" data-filter="all">All</button>
+      <button class="history-filter-btn flex-shrink-0 h-[34px] px-[14px] rounded-full text-[12px] font-semibold cursor-pointer bg-white/15 text-white" data-filter="zelle">Zelle</button>
+      <button class="history-filter-btn flex-shrink-0 h-[34px] px-[14px] rounded-full text-[12px] font-semibold cursor-pointer bg-white/15 text-white" data-filter="bills">Bills</button>
+      <button class="history-filter-btn flex-shrink-0 h-[34px] px-[14px] rounded-full text-[12px] font-semibold cursor-pointer bg-white/15 text-white" data-filter="transfers">Transfers</button>
+      <button class="history-filter-btn flex-shrink-0 h-[34px] px-[14px] rounded-full text-[12px] font-semibold cursor-pointer bg-white/15 text-white" data-filter="wires">Wires</button>
+      <button class="history-filter-btn flex-shrink-0 h-[34px] px-[14px] rounded-full text-[12px] font-semibold cursor-pointer bg-white/15 text-white" data-filter="deposits">Deposits</button>
+    </div>
+
+    <div id="historyList" class="flex flex-col gap-[10px]"></div>
+  </div>
+
+  <div id="paymentHistoryDetailStep" class="hidden">
+    <div class="flex items-center gap-3 mb-[20px]">
+      <button data-action="back-to-history" class="w-[40px] h-[40px] rounded-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] flex items-center justify-center text-[#111827] dark:text-white shadow-lg cursor-pointer flex-shrink-0" aria-label="Back">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <div class="text-[20px] font-bold text-white truncate">Transaction Details</div>
+    </div>
+    <div id="txDetailsCard" class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[22px] p-[18px] shadow-lg divide-y divide-gray-100 dark:divide-white/[0.06]"></div>
+    <div class="flex gap-[10px] mt-[16px]">
+      <button id="txDetailsDownloadBtn" class="flex-1 h-[44px] rounded-[14px] bg-white dark:bg-[#0D1728] border border-gray-200 dark:border-white/10 text-[13px] font-semibold text-[#111827] dark:text-white cursor-pointer hover:opacity-90 transition-all">Download PDF</button>
+      <button id="txDetailsShareBtn" class="flex-1 h-[44px] rounded-[14px] bg-white dark:bg-[#0D1728] border border-gray-200 dark:border-white/10 text-[13px] font-semibold text-[#111827] dark:text-white cursor-pointer hover:opacity-90 transition-all">Share</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+<div class="w-full max-w-[430px] mx-auto px-[16px] pt-[14px] pb-[40px]">
+  <div class="flex items-center gap-3 mb-[16px]">
+    <button data-action="close" class="w-[40px] h-[40px] rounded-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] flex items-center justify-center text-[#111827] dark:text-white shadow-lg cursor-pointer flex-shrink-0" aria-label="Back">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <div class="text-[20px] font-bold text-white truncate">Manage Payees</div>
+  </div>
+
+  <div class="flex justify-end mb-[10px]">
+    <button id="addPayeeToggleBtn" class="text-[13px] font-semibold text-white dark:text-[#3B82F6] cursor-pointer">+ Add Payee</button>
+  </div>
+
+  <div id="payeesList" class="flex flex-col gap-[10px] mb-[20px]"></div>
+
+  <div id="addPayeeForm" class="hidden bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[22px] p-[18px] shadow-lg">
+    <div class="flex flex-col gap-[14px]">
+      <div>
+        <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Full Name</label>
+        <input id="payeeName" type="text" placeholder="Full name" class="w-full h-[46px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white placeholder-gray-400 dark:placeholder-[#52607D] outline-none focus:border-[#2563EB]">
+      </div>
+      <div>
+        <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Nickname (optional)</label>
+        <input id="payeeNickname" type="text" placeholder="Nickname" class="w-full h-[46px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white placeholder-gray-400 dark:placeholder-[#52607D] outline-none focus:border-[#2563EB]">
+      </div>
+      <div>
+        <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Bank Name</label>
+        <input id="payeeBankName" type="text" placeholder="Bank name" class="w-full h-[46px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white placeholder-gray-400 dark:placeholder-[#52607D] outline-none focus:border-[#2563EB]">
+      </div>
+      <div>
+        <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Routing Number</label>
+        <input id="payeeRouting" type="text" inputmode="numeric" maxlength="9" placeholder="9-digit routing number" class="w-full h-[46px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white placeholder-gray-400 dark:placeholder-[#52607D] outline-none focus:border-[#2563EB]">
+      </div>
+      <div>
+        <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Account Number</label>
+        <input id="payeeAccountNumber" type="text" placeholder="Account number" class="w-full h-[46px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white placeholder-gray-400 dark:placeholder-[#52607D] outline-none focus:border-[#2563EB]">
+      </div>
+      <div>
+        <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Email (optional)</label>
+        <input id="payeeEmail" type="email" placeholder="email@example.com" class="w-full h-[46px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white placeholder-gray-400 dark:placeholder-[#52607D] outline-none focus:border-[#2563EB]">
+      </div>
+      <div>
+        <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Phone (optional)</label>
+        <input id="payeePhone" type="tel" placeholder="(555) 555-5555" class="w-full h-[46px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white placeholder-gray-400 dark:placeholder-[#52607D] outline-none focus:border-[#2563EB]">
+      </div>
+      <div id="payeeFormError" class="hidden text-[12px] font-medium text-[#EF4444]"></div>
+      <button id="savePayeeBtn" class="w-full h-[46px] rounded-[14px] bg-[#2563EB] text-white text-[14px] font-semibold cursor-pointer hover:opacity-90 transition-all">Save Payee</button>
+    </div>
+  </div>
+</div>

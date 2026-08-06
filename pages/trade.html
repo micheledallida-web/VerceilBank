@@ -1,0 +1,82 @@
+<div class="w-full max-w-[430px] mx-auto px-[16px] pt-[14px] pb-[40px]">
+
+  <div id="tradeFormStep">
+    <div class="flex items-center gap-3 mb-[16px]">
+      <button data-action="close" class="w-[40px] h-[40px] rounded-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] flex items-center justify-center text-[#111827] dark:text-white shadow-lg cursor-pointer flex-shrink-0" aria-label="Back">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <div class="text-[20px] font-bold text-white truncate">Trade Investments</div>
+    </div>
+
+    <div class="flex items-center gap-[8px] mb-[16px]">
+      <button id="tradeTabBuy" data-side="buy" class="trade-tab flex-1 h-[42px] rounded-[12px] text-[14px] font-bold cursor-pointer">Buy</button>
+      <button id="tradeTabSell" data-side="sell" class="trade-tab flex-1 h-[42px] rounded-[12px] text-[14px] font-bold cursor-pointer">Sell</button>
+    </div>
+
+    <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[22px] p-[18px] shadow-lg">
+      <div class="flex flex-col gap-[14px]">
+        <div>
+          <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Symbol</label>
+          <input id="tradeSymbol" type="text" placeholder="e.g. AAPL" class="w-full h-[46px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white placeholder-gray-400 dark:placeholder-[#52607D] outline-none focus:border-[#2563EB]">
+        </div>
+        <div id="tradeHoldingInfo" class="hidden text-[12px] font-medium text-[#6B7280] dark:text-[#8E9CBA] -mt-[6px]"></div>
+        <div>
+          <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Company / Fund Name</label>
+          <input id="tradeName" type="text" placeholder="e.g. Apple Inc." class="w-full h-[46px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white placeholder-gray-400 dark:placeholder-[#52607D] outline-none focus:border-[#2563EB]">
+        </div>
+        <div>
+          <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Shares</label>
+          <input id="tradeShares" type="number" min="0.0001" step="0.0001" placeholder="0" class="w-full h-[46px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white placeholder-gray-400 dark:placeholder-[#52607D] outline-none focus:border-[#2563EB]">
+        </div>
+        <div>
+          <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Price Per Share</label>
+          <input id="tradePrice" type="number" min="0.01" step="0.01" placeholder="$0.00" class="w-full h-[46px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white placeholder-gray-400 dark:placeholder-[#52607D] outline-none focus:border-[#2563EB]">
+        </div>
+        <div>
+          <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Order Type</label>
+          <select id="tradeOrderType" class="w-full h-[46px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white outline-none focus:border-[#2563EB]">
+            <option value="market">Market</option>
+            <option value="limit">Limit</option>
+            <option value="stop">Stop</option>
+            <option value="stop_limit">Stop Limit</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Duration</label>
+          <select id="tradeDuration" class="w-full h-[46px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white outline-none focus:border-[#2563EB]">
+            <option value="day">Day</option>
+            <option value="gtc">Good Until Canceled</option>
+          </select>
+        </div>
+        <div class="flex items-center justify-between pt-[6px] border-t border-gray-100 dark:border-white/[0.06]">
+          <span class="text-[13px] text-[#6B7280] dark:text-[#8E9CBA]">Estimated Total</span>
+          <span id="tradeEstimatedTotal" class="text-[16px] font-bold text-[#111827] dark:text-white">$0.00</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-[13px] text-[#6B7280] dark:text-[#8E9CBA]">Available Buying Power</span>
+          <span id="tradeBuyingPower" class="text-[13px] font-semibold text-[#111827] dark:text-white">$0.00</span>
+        </div>
+        <div id="tradeFormError" class="hidden text-[12px] font-medium text-[#EF4444]"></div>
+        <button id="tradeReviewBtn" class="w-full h-[46px] rounded-[14px] bg-[#2563EB] text-white text-[14px] font-semibold cursor-pointer hover:opacity-90 transition-all mt-[4px]">Review Order</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-[8px] mt-[16px] px-[4px]">
+      <svg class="w-[14px] h-[14px] text-white/60 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><path stroke-linecap="round" d="M12 8v4M12 16h.01"></path></svg>
+      <span class="text-[11px] font-normal text-white/60">Manual pricing — live market data isn't connected yet, so enter your own execution price.</span>
+    </div>
+  </div>
+
+  <div id="tradeReviewStep" class="hidden">
+    <div class="flex items-center gap-3 mb-[20px]">
+      <button data-action="back-to-form" class="w-[40px] h-[40px] rounded-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] flex items-center justify-center text-[#111827] dark:text-white shadow-lg cursor-pointer flex-shrink-0" aria-label="Back">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <div class="text-[20px] font-bold text-white truncate">Trade Review</div>
+    </div>
+    <div id="tradeReviewRows" class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[22px] p-[18px] shadow-lg divide-y divide-gray-100 dark:divide-white/[0.06]"></div>
+    <div id="tradeReviewError" class="hidden text-[12px] font-medium text-[#EF4444] mt-[12px]"></div>
+    <button id="tradeSubmitBtn" class="w-full h-[46px] rounded-[14px] bg-[#2563EB] text-white text-[14px] font-semibold cursor-pointer hover:opacity-90 transition-all mt-[16px]">Submit Order</button>
+  </div>
+
+</div>

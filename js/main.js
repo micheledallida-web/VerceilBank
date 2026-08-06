@@ -221,6 +221,8 @@ function openHeaderDropdown(key, anchorEl) {
         else applyTheme(window.matchMedia('(prefers-color-scheme: dark)').matches);
       } else if (clickedLabel === 'Sign Out') {
         handleSignOut();
+      } else if (headerMenuRoutes[clickedLabel]) {
+        setTimeout(() => headerMenuRoutes[clickedLabel](), 200);
       } else {
         setTimeout(() => showModal(clickedLabel, `Opening ${clickedLabel}...`), 200);
       }
@@ -289,12 +291,94 @@ const navMenuCloseBtn = document.getElementById('navMenuCloseBtn');
 
 // Labels that map to a screen already ported to the split architecture.
 const navMenuRoutes = {
+  // Accounts
+  'Account Summary': () => loadPage('account-summary'),
   'Checking': () => loadPage('account-detail', 'checking'),
   'Savings': () => loadPage('account-detail', 'savings'),
   'Credit Cards': () => loadPage('account-detail', 'credit'),
+  'Investment Accounts': () => loadPage('account-detail', 'investments'),
+  'Statements & Documents': () => loadPage('docs-hub'),
+  'Account Details': () => loadPage('account-details'),
+  'Routing & Account Numbers': () => loadPage('routing-numbers'),
+
+  // Payments
+  'Fund Account': () => loadPage('fund-account'),
   'Transfer Between Accounts': () => loadPage('transfer'),
   'Send Money (Zelle®)': () => loadPage('send-money'),
-  'Fund Account': () => loadPage('fund-account'),
+  'Pay Bills': () => loadPage('pay-bills'),
+  'Scheduled Payments': () => loadPage('scheduled-payments'),
+  'Payment History': () => loadPage('payment-history'),
+  'External Transfers': () => loadPage('external-transfers'),
+  'Wire Transfers': () => loadPage('wire-transfers'),
+  'Manage Payees': () => loadPage('manage-payees'),
+
+  // Invest
+  'Portfolio Overview': () => loadPage('portfolio'),
+  'Watchlist': () => loadPage('watchlist'),
+  'Buy & Sell Investments': () => loadPage('trade'),
+  'Wealth Insights': () => loadPage('wealth-insights'),
+  'Investment Statements': () => loadPage('statements'),
+  'Financial Advisor': () => loadPage('advisor'),
+
+  // Support
+  'Secure Messages': () => loadPage('secure-messages'),
+  'Live Chat': () => loadPage('live-chat'),
+  'Contact Support': () => loadPage('contact-support'),
+  'Card Services': () => loadPage('card-services'),
+  'Report Lost or Stolen Card': () => loadPage('report-card'),
+  'Dispute a Transaction': () => loadPage('dispute'),
+  'Travel Notification': () => loadPage('travel'),
+  'Help Center': () => loadPage('help-center'),
+
+  // Profile — Personal Information
+  'Full Legal Name': () => loadPage('personal-info'),
+  'Date of Birth': () => loadPage('personal-info'),
+  'Residential Address': () => loadPage('personal-info'),
+  'Mailing Address': () => loadPage('personal-info'),
+  'Phone Number': () => loadPage('personal-info'),
+  'Email Address': () => loadPage('personal-info'),
+
+  // Profile — Security Center
+  'Face ID / Biometric Login': () => loadPage('security-center'),
+  'Password & Login': () => loadPage('security-center'),
+  'Two-Factor Authentication': () => loadPage('security-center'),
+  'Trusted Devices': () => loadPage('security-center'),
+  'Login Activity': () => loadPage('security-center'),
+  'Security Alerts': () => loadPage('security-center'),
+  'Freeze / Lock Debit Card': () => loadPage('security-center'),
+
+  // Profile — Account Preferences
+  'Notification Preferences': () => loadPage('account-prefs'),
+  'Paperless Statements': () => loadPage('account-prefs'),
+  'Language Preferences': () => loadPage('account-prefs'),
+  'Communication Preferences': () => loadPage('account-prefs'),
+  'Manage Linked Accounts': () => loadPage('linked-accounts'),
+  'Default Payment Account': () => loadPage('account-prefs'),
+  'Privacy & Data': () => loadPage('privacy'),
+
+  // Profile — Statements & Documents
+  'Monthly Statements': () => loadPage('docs-hub'),
+  'Account Documents': () => loadPage('docs-hub'),
+  'Tax Documents (1099)': () => loadPage('tax-docs'),
+  'Confirmation Notices': () => loadPage('docs-hub'),
+  'Download PDF Statements': () => loadPage('docs-hub'),
+  'Request Official Bank Letter': () => loadPage('docs-hub'),
+};
+
+// Labels in the header "quick actions" dropdown that map to a ported screen.
+const headerMenuRoutes = {
+  'View Statements': () => loadPage('docs-hub'),
+  'Transfer Funds': () => loadPage('transfer'),
+  'Pay a Bill': () => loadPage('pay-bills'),
+  'Card Services': () => loadPage('card-services'),
+  'Security Center': () => loadPage('security-center'),
+  'Secure Inbox': () => loadPage('secure-messages'),
+  'Contact Support': () => loadPage('contact-support'),
+  'Live Chat': () => loadPage('live-chat'),
+  'My Profile': () => loadPage('personal-info'),
+  'Account Preferences': () => loadPage('account-prefs'),
+  'Security & Login': () => loadPage('security-center'),
+  'Linked Accounts': () => loadPage('linked-accounts'),
 };
 
 function openNavMenu(key) {
