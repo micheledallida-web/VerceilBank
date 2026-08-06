@@ -3,344 +3,527 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Verceil Bank</title>
-
-  <!-- Compiled Tailwind output — build it with:
-       npx tailwindcss -i css/input.css -o css/output.css --minify
-       This replaces the CDN script, which was the single biggest perf cost. -->
-  <link rel="stylesheet" href="./css/output.css">
-
+  <title>Verceil Bank | Secure Digital Banking</title>
+  <link rel="stylesheet" href="index.css?v=17">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
   <style>
-    body { font-family: 'Inter', sans-serif; min-height: 100vh; margin: 0; padding-top: 12px; padding-bottom: 90px; }
-    body:not(.dark) { background: #0B4CC2; color: #111827; }
-    body.dark { background: #060B14; background-attachment: fixed; color: #FFFFFF; }
+    /* ==========================================================================
+       HERO & CITI-STYLE ACCORDION / STACKED FOOTER STYLING
+       ========================================================================== */
+    .hero {
+      padding-top: 2rem !important;
+      padding-bottom: 4rem !important;
+    }
+
+    .hero-title {
+      margin-bottom: 1.5rem !important;
+      line-height: 1.15 !important;
+    }
+
+    .hero-description {
+      margin-top: 0 !important;
+      margin-bottom: 2rem !important;
+    }
+
+    /* Perfectly centered alignment for the Get Started button */
+    .hero-ctas {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .btn.btn-pill {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      text-align: center !important;
+      text-decoration: none !important;
+      line-height: 1 !important;
+      padding: 0.85rem 2rem !important;
+      box-sizing: border-box !important;
+    }
+
+    .main-footer {
+      background-color: #1a1a1a !important;
+      color: #ffffff !important;
+      padding: 3rem 1.5rem 2rem !important;
+      font-family: inherit;
+    }
+
+    .footer-content-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Accordion / Link Sections */
+    .footer-section-item {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .footer-section-header {
+      width: 100%;
+      background: none;
+      border: none;
+      color: #ffffff;
+      font-size: 1.15rem;
+      font-weight: 700;
+      padding: 1.25rem 0;
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .footer-section-header svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      transition: transform 0.3s ease;
+    }
+
+    .footer-section-header.active svg {
+      transform: rotate(180deg);
+    }
+
+    .footer-section-links {
+      display: none;
+      padding-bottom: 1.25rem;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .footer-section-links a {
+      color: #b3b3b3;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-section-links a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    /* Badges & Icons Area */
+    .footer-badges-area {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      padding: 2rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .housing-icon-container svg {
+      width: 36px;
+      height: 36px;
+      fill: #ffffff;
+    }
+
+    .app-store-badges {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .app-badge-img {
+      height: 42px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .footer-social-icons {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .footer-social-icons svg {
+      width: 24px;
+      height: 24px;
+      fill: #ffffff;
+      transition: opacity 0.2s;
+    }
+
+    .footer-social-icons svg:hover {
+      opacity: 0.75;
+    }
+
+    /* Copyright & Legal Links */
+    .footer-legal-section {
+      padding: 2rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 0.9rem;
+      color: #b3b3b3;
+    }
+
+    .footer-copyright {
+      color: #ffffff;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .footer-legal-links-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .footer-legal-links-list a {
+      color: #b3b3b3;
+      text-decoration: none;
+    }
+
+    .footer-legal-links-list a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    /* Disclosures */
+    .footer-disclosures {
+      padding-top: 2rem;
+      font-size: 0.8rem;
+      color: #8c8c8c;
+      line-height: 1.5;
+    }
+
+    .footer-disclosures h5 {
+      color: #ffffff;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
   </style>
-
-  <!-- Supabase SDK — only external script this app needs -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body class="antialiased relative">
+<body>
 
-  <!-- ============ DASHBOARD (always present — the "shell") ============ -->
-  <div id="dashboard" class="w-full max-w-[430px] mx-auto px-[16px]">
+  <!-- MOBILE MENU BACKDROP OVERLAY -->
+  <div class="menu-backdrop" id="menuBackdrop"></div>
 
-    <header class="pt-[14px] pb-[16px] flex items-center justify-between">
-      <div>
-        <div id="greetingLine1" class="text-[14px] font-normal text-white/80 dark:text-[#8E9CBA] leading-tight">Good Morning,</div>
-        <div id="greetingLine2" class="text-[32px] font-bold text-white tracking-tight leading-[36px] mt-0.5">Mercy</div>
+  <!-- MAIN NAVIGATION -->
+  <header class="main-header">
+    <div class="container nav-container">
+      
+      <!-- Hamburger Menu (Left) -->
+      <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <!-- Logo with geometric mark brought closer -->
+      <a href="#" class="logo" style="gap: 0.05rem !important;">
+        <span class="logo-text"><span class="logo-accent" style="color: #000000; font-weight: 900; margin-right: 0.05rem;">VERCEIL</span><span class="logo-main" style="color: #0044ff; font-weight: 900;">BANK</span></span>
+        <img src="logo.png" alt="Verceil Bank" class="logo-image" style="margin-left: 0.02rem !important;">
+      </a>
+      
+      <!-- Slide-Out Scrollable Side Drawer Menu -->
+      <nav class="nav-links" id="navLinks">
+        <div class="drawer-header">
+          <a href="#" class="logo drawer-logo" style="gap: 0.05rem !important;">
+            <span class="logo-text"><span class="logo-accent" style="color: #000000; font-weight: 900; margin-right: 0.05rem;">VERCEIL</span><span class="logo-main" style="color: #0044ff; font-weight: 900;">BANK</span></span>
+            <img src="logo.png" alt="Verceil Bank" class="logo-image" style="margin-left: 0.02rem !important;">
+          </a>
+          <button class="close-drawer" id="closeDrawerBtn" aria-label="Close menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+
+        <div class="drawer-search">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" placeholder="Search">
+        </div>
+
+        <div class="drawer-items">
+          <a href="#services" class="nav-link">Checking <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></a>
+          <a href="#services" class="nav-link">Savings & CDs <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></a>
+          <a href="#services" class="nav-link">Credit cards <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></a>
+          <a href="#services" class="nav-link">Home loans <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></a>
+          <a href="#services" class="nav-link">Auto <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></a>
+          <a href="#services" class="nav-link">Investing by Verceil <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></a>
+          <a href="#services" class="nav-link">Education & goals <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></a>
+          <a href="#services" class="nav-link">Travel <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></a>
+          
+          <div class="drawer-category">Connect with us</div>
+          <a href="#contact" class="nav-link">Schedule a meeting <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></a>
+          <a href="#contact" class="nav-link">Customer service <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></a>
+
+          <div class="drawer-category">Other products</div>
+          <a href="#services" class="nav-link">Business <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></a>
+          <a href="#services" class="nav-link">Commercial <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></a>
+
+          <div class="drawer-bottom-action">
+            <a href="#" class="nav-link nav-link-espanol">Español</a>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Sign In Action -->
+      <div class="nav-actions">
+        <a href="signin.html" class="btn btn-primary sign-in-btn" id="openLoginBtn">Sign in</a>
       </div>
+    </div>
+  </header>
 
-      <div class="flex items-center gap-[10px]">
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+      <div class="hero-overlay"></div>
+      <div class="container hero-content-wrapper">
+        <div class="hero-content">
+          <h1 class="hero-title">
+            Banking made<br>
+            <span class="rotating-container" style="display: inline-block; position: relative; overflow: hidden; vertical-align: bottom;">
+              <span class="rotating-word" id="rotatingWord" style="display: inline-block; transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease, filter 0.45s ease;">simple.</span>
+            </span>
+          </h1>
+          <p class="hero-description">
+            Manage your money, transfer funds, and grow your savings — all in one powerful app designed for your financial freedom.
+          </p>
+          <div class="hero-ctas">
+            <a href="signup.html" class="btn btn-pill">Get Started</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <!-- More (•••) Button -->
-        <button id="moreMenuBtn" class="w-[40px] h-[40px] rounded-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] flex items-center justify-center text-[#111827] dark:text-white hover:opacity-90 transition-all cursor-pointer shadow-lg" aria-label="More">
-          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-            <circle cx="5" cy="12" r="2"></circle>
-            <circle cx="12" cy="12" r="2"></circle>
-            <circle cx="19" cy="12" r="2"></circle>
-          </svg>
+    <!-- QUICK LINKS GRID -->
+    <section class="quick-links-section" id="services">
+      <div class="container">
+        <h2 class="quick-links-title">Choose what's right for you</h2>
+        <div class="quick-links-grid">
+          <a href="#" class="quick-link-item">
+            <svg class="quick-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+            <span class="quick-link-text">Business</span>
+          </a>
+          <a href="#" class="quick-link-item">
+            <svg class="quick-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line><rect x="4" y="13" width="3" height="2" rx="0.5"></rect></svg>
+            <span class="quick-link-text">Credit cards</span>
+          </a>
+          <a href="#" class="quick-link-item">
+            <svg class="quick-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="1"></rect><line x1="16" y1="12" x2="20" y2="12"></line><rect x="4" y="9" width="4" height="3" rx="0.5"></rect></svg>
+            <span class="quick-link-text">Checking</span>
+          </a>
+          <a href="#" class="quick-link-item">
+            <svg class="quick-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-.5-.5-2.5 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.2-1.1.7l-1.3 2.6c-.2.4-.1.9.3 1.1L9 14l-4 4-2.5-1.5c-.4-.2-.9-.2-1.3.1l-1 1c-.3.3-.3.8 0 1.1l4 4c.3.3.8.3 1.1 0l1-1c.3-.4.3-.9.1-1.3L5 19l4-4 3.4 6.3c.2.4.7.5 1.1.3l2.6-1.3c.5-.2.8-.6.7-1.1z"/></svg>
+            <span class="quick-link-text">Travel</span>
+          </a>
+          <a href="#" class="quick-link-item">
+            <svg class="quick-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h3v2h4v-4c1-.5 1.7-1 2-2h2v-4h-2c0-1-.5-1.5-1-2h0V5z"/><path d="M2 9v1c0 1.1.9 2 2 2h1"/><circle cx="15" cy="11" r="1"/></svg>
+            <span class="quick-link-text">Savings</span>
+          </a>
+          <a href="#" class="quick-link-item">
+            <svg class="quick-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            <span class="quick-link-text">Home loans</span>
+          </a>
+          <a href="#" class="quick-link-item">
+            <svg class="quick-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><path d="M3 15h4l3-3 3 3 8-8"></path><polyline points="16 7 21 7 21 12"></polyline></svg>
+            <span class="quick-link-text">Investing</span>
+          </a>
+          <a href="#" class="quick-link-item">
+            <svg class="quick-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><path d="M9 22v-4h6v4"></path><path d="M8 6h.01"></path><path d="M16 6h.01"></path><path d="M12 6h.01"></path><path d="M12 10h.01"></path><path d="M12 14h.01"></path><path d="M16 10h.01"></path><path d="M16 14h.01"></path><path d="M8 10h.01"></path><path d="M8 14h.01"></path></svg>
+            <span class="quick-link-text">Commercial</span>
+          </a>
+          <a href="#" class="quick-link-item">
+            <svg class="quick-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path><path d="M19 8h-2M19 11h-2"></path></svg>
+            <span class="quick-link-text">Schedule a meeting</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCT PROMO SECTION (COMPACT HELOC CARD) -->
+    <section class="promo-section" id="home-equity">
+      <div class="container promo-container">
+        <div class="promo-card">
+          <div class="promo-header-banner">
+            <div class="promo-header-text">
+              <h2>Home Equity</h2>
+              <h3>Line of Credit</h3>
+            </div>
+            <svg class="promo-header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          </div>
+          <div class="promo-body-content">
+            <h3 class="promo-headline">Unlock the value built into your home.</h3>
+            <p class="promo-paragraph">
+              Turn your home equity into flexible purchasing power for renovations, consolidation, or major expenses with a Verceil Bank HELOC.
+            </p>
+            <p class="promo-paragraph">
+              Enjoy competitive variable rates and convenient access to funds right when you need them. Apply today to reach your financial goals.
+            </p>
+            <a href="#" class="btn btn-primary promo-cta-btn">See details</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INVESTING BONUS PROMO SECTION ($2,000 BONUS) -->
+    <section class="promo-section" id="investing-bonus">
+      <div class="container promo-container">
+        <div class="promo-card investing-promo-card">
+          <div class="investing-top-banner">
+            <span class="investing-top-label">Earn up to</span>
+            <h2 class="investing-amount">$2,000</h2>
+            <span class="investing-bottom-label">cash bonus</span>
+          </div>
+          <div class="investing-banner-stripe"></div>
+          <div class="promo-body-content">
+            <h3 class="promo-headline">Commission-free online trades – plus a bonus</h3>
+            <p class="promo-paragraph">
+              This is an invitation to get up to $2,000 when you open and fund a Verceil Self-Directed Investing account—an investing experience that puts you in control.
+            </p>
+            <a href="#" class="btn btn-success-custom">Continue</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOG / COFFEE PHOTO SECTION -->
+    <section class="promo-section" id="blog">
+      <div class="container promo-container">
+        <div class="promo-card blog-promo-card">
+          <div class="blog-image-wrapper">
+            <img src="coffee.jpeg" alt="Working remotely with coffee" class="blog-featured-image">
+          </div>
+          <div class="promo-body-content blog-body-content">
+            <span class="blog-tag">Financial Insights</span>
+            <h2 class="blog-title">Smart money habits for modern remote professionals</h2>
+            <p class="promo-paragraph">
+              Managing your finances while working fluidly requires the right tools. Discover how seamless digital banking empowers your lifestyle and long-term goals.
+            </p>
+            <a href="#" class="btn btn-success-custom promo-cta-btn">Read full article</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- CITI-STYLE ACCORDION FOOTER -->
+  <footer class="main-footer">
+    <div class="footer-content-wrapper">
+      
+      <!-- Accordion Section 1 -->
+      <div class="footer-section-item">
+        <button class="footer-section-header">
+          <span>Why Verceil</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </button>
-
-        <!-- Unified Action Pill: Appearance / Alerts / Messages / Profile -->
-        <div class="flex items-center gap-[14px] h-[56px] px-[12px] rounded-[28px] bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] shadow-lg">
-
-          <button id="appearanceBtn" class="w-[22px] h-[22px] flex items-center justify-center cursor-pointer text-[#6B7280] dark:text-[#8E9CBA] transition-colors duration-200" aria-label="Appearance">
-            <svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-              <circle cx="12" cy="12" r="4"></circle>
-              <path stroke-linecap="round" d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
-            </svg>
-          </button>
-
-          <button id="alertsBtn" class="relative w-[22px] h-[22px] flex items-center justify-center cursor-pointer text-[#6B7280] dark:text-[#8E9CBA] transition-colors duration-200" aria-label="Alerts">
-            <svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
-            </svg>
-            <span id="alertsBadge" class="absolute -top-1.5 -right-1.5 w-[18px] h-[18px] rounded-full bg-[#2563EB] text-white text-[11px] font-bold flex items-center justify-center border border-white dark:border-[#0D1728]">3</span>
-          </button>
-
-          <button id="messagesBtn" class="w-[22px] h-[22px] flex items-center justify-center cursor-pointer text-[#6B7280] dark:text-[#8E9CBA] transition-colors duration-200" aria-label="Messages">
-            <svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-            </svg>
-          </button>
-
-          <button id="profilePillBtn" class="w-[22px] h-[22px] flex items-center justify-center cursor-pointer text-[#6B7280] dark:text-[#8E9CBA] transition-colors duration-200" aria-label="Profile">
-            <svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-            </svg>
-          </button>
-
-        </div>
-
-      </div>
-    </header>
-
-    <!-- Shared anchored dropdown used by the More button and the Appearance/Alerts/Messages/Profile pill icons -->
-    <div id="headerDropdownOverlay" class="fixed inset-0 z-[60] hidden"></div>
-    <div id="headerDropdown" class="fixed z-[61] hidden w-[260px] rounded-[20px] overflow-hidden" style="box-shadow:0 12px 32px rgba(0,0,0,0.28);">
-      <div id="headerDropdownTitle" class="px-[16px] pt-[14px] pb-[10px] text-[13px] font-bold uppercase tracking-[0.8px]"></div>
-      <div id="headerDropdownList"></div>
-    </div>
-
-    <div class="flex flex-col gap-[18px]">
-
-      <!-- ================= CHECKING SECTION ================= -->
-      <div>
-        <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">CHECKING</div>
-        <div id="cardChecking" class="w-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[20px] p-[16px] flex items-center justify-between shadow-lg hover:opacity-95 transition-all cursor-pointer">
-          <div class="flex items-center min-w-0 pr-2">
-            <div class="w-[44px] h-[44px] rounded-[14px] bg-[#1D61F2] flex items-center justify-center text-white shadow-md flex-shrink-0">
-              <svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
-                <rect x="3" y="6" width="18" height="12" rx="3"></rect>
-                <path d="M3 10h18"></path>
-              </svg>
-            </div>
-            <div class="ml-[12px] flex flex-col justify-center min-w-0">
-              <div class="text-[16px] font-semibold text-[#111827] dark:text-[#FFFFFF] whitespace-nowrap leading-tight">Verceil Checking</div>
-              <div class="text-[13px] font-normal text-[#6B7280] dark:text-[#8E9CBA] mt-1">
-                <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#6B7280] dark:bg-[#8E9CBA] mr-0.5 align-middle"></span>4892
-              </div>
-            </div>
-          </div>
-          <div class="flex items-center justify-end flex-shrink-0">
-            <div class="text-right flex flex-col justify-center">
-              <div id="checkingBalance" class="text-[18px] font-bold text-[#111827] dark:text-[#FFFFFF] tracking-tight leading-none">$10.00</div>
-              <div class="text-[12px] font-normal text-[#6B7280] dark:text-[#8E9CBA] mt-1">Available Balance</div>
-            </div>
-            <svg class="w-[16px] h-[16px] text-[#6B7280] dark:text-[#52607D] flex-shrink-0 ml-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
-          </div>
+        <div class="footer-section-links">
+          <a href="#">Our Story</a>
+          <a href="#">Security & Trust</a>
+          <a href="#">Verceil Community</a>
         </div>
       </div>
 
-      <!-- ================= PROMOTIONAL CARD ================= -->
-      <div id="promoBanner" class="w-full bg-gradient-to-r from-[#1E40AF] via-[#2563EB] to-[#4F46E5] dark:from-[#0C1B3A] dark:via-[#10234A] dark:to-[#152B5A] border border-white/20 dark:border-white/[0.08] rounded-[22px] p-[18px] text-white shadow-xl relative overflow-hidden cursor-pointer hover:opacity-95 transition-all flex flex-col justify-between min-h-[148px]">
-        <div class="absolute right-3 top-2 bottom-2 w-[160px] pointer-events-none opacity-80 flex items-center justify-end">
-          <svg class="w-full h-full text-blue-200/30 dark:text-indigo-300/20" viewBox="0 0 200 160" fill="none">
-            <path d="M140 20L142 25L147 27L142 29L140 34L138 29L133 27L138 25Z" fill="#FFFFFF" opacity="0.6"/>
-            <path d="M185 50L186 53L189 54L186 55L185 58L184 55L181 54L184 53Z" fill="#FACC15" opacity="0.9"/>
-            <path d="M125 110L126 112L128 113L126 114L125 116L124 114L122 113L124 112Z" fill="#FFFFFF" opacity="0.5"/>
-            <path d="M130 55 L165 35 L200 55 Z" fill="currentColor"/>
-            <rect x="132" y="56" width="66" height="4" fill="currentColor"/>
-            <rect x="136" y="63" width="6" height="35" rx="1" fill="currentColor"/>
-            <rect x="149" y="63" width="6" height="35" rx="1" fill="currentColor"/>
-            <rect x="162" y="63" width="6" height="35" rx="1" fill="currentColor"/>
-            <rect x="175" y="63" width="6" height="35" rx="1" fill="currentColor"/>
-            <rect x="188" y="63" width="6" height="35" rx="1" fill="currentColor"/>
-            <rect x="130" y="98" width="70" height="5" rx="1" fill="currentColor"/>
-            <circle cx="178" cy="92" r="9" fill="#EAB308" stroke="#CA8A04" stroke-width="1.5"/>
-            <path d="M178 87.5 L179.3 89.8 L181.8 90.3 L180 92.1 L180.4 94.6 L178 93.4 L175.6 94.6 L176 92.1 L174.2 90.3 L176.7 89.8 Z" fill="#FFFFFF"/>
-          </svg>
-        </div>
-        <div class="relative z-10 flex items-start justify-between">
-          <div>
-            <div class="text-[10px] font-bold uppercase tracking-wider text-blue-100 dark:text-[#8E9CBA] mb-1">RECOMMENDED FOR YOU</div>
-            <div class="text-[17px] font-bold text-white whitespace-nowrap leading-tight">Verceil Interest Checking</div>
-            <div class="text-[14px] font-normal text-white/90 mt-1">Earn up to <span class="text-[#FACC15] font-bold">4.00% APY</span></div>
-          </div>
-        </div>
-        <div class="relative z-10 flex items-center justify-between mt-4">
-          <div class="text-[13px] font-normal text-white/80 dark:text-[#8E9CBA]">No monthly fees</div>
-          <button id="getStartedBtn" class="h-[36px] px-[16px] rounded-full bg-white text-[#1D61F2] font-semibold text-[13px] shadow-md flex items-center justify-center gap-1 hover:bg-blue-50 transition-all active:scale-95">
-            <span>Get Started</span>
-            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- ================= SAVINGS SECTION ================= -->
-      <div>
-        <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">SAVINGS</div>
-        <div id="cardSavings" class="w-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[20px] p-[16px] flex items-center justify-between shadow-lg hover:opacity-95 transition-all cursor-pointer">
-          <div class="flex items-center min-w-0 pr-2">
-            <div class="w-[44px] h-[44px] rounded-[14px] bg-[#10B981] flex items-center justify-center text-white shadow-md flex-shrink-0">
-              <svg class="w-[22px] h-[22px]" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M19.5 9.5c-0.7 0-1.3 0.3-1.8 0.7-1.2-1.3-2.9-2.2-4.7-2.2H11C8.2 8 6 10.2 6 13c0 0.8 0.2 1.5 0.5 2.2L5 17h3v1c0 0.6 0.4 1 1 1h2c0.6 0 1-0.4 1-1v-1h4v1c0 0.6 0.4 1 1 1h2c0.6 0 1-0.4 1-1v-1.2c1.8-1 3-2.9 3-5.1 0-1.8-1.5-3.3-3.5-3.3zM16 11c0.6 0 1 0.4 1 1s-0.4 1-1 1-1-0.4-1-1 0.4-1 1-1z"/>
-              </svg>
-            </div>
-            <div class="ml-[12px] flex flex-col justify-center min-w-0">
-              <div class="text-[16px] font-semibold text-[#111827] dark:text-[#FFFFFF] whitespace-nowrap leading-tight">High-Yield Savings</div>
-              <div class="text-[13px] font-normal text-[#6B7280] dark:text-[#8E9CBA] mt-1">
-                <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#6B7280] dark:bg-[#8E9CBA] mr-0.5 align-middle"></span>9104
-              </div>
-            </div>
-          </div>
-          <div class="flex items-center justify-end flex-shrink-0">
-            <div class="text-right flex flex-col justify-center">
-              <div id="savingsBalance" class="text-[18px] font-bold text-[#111827] dark:text-[#FFFFFF] tracking-tight leading-none">$0.00</div>
-              <div class="text-[12px] font-normal text-[#6B7280] dark:text-[#8E9CBA] mt-1">Available Balance</div>
-            </div>
-            <svg class="w-[16px] h-[16px] text-[#6B7280] dark:text-[#52607D] flex-shrink-0 ml-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
-          </div>
-        </div>
-      </div>
-
-      <!-- ================= INVESTMENTS SECTION ================= -->
-      <div>
-        <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">INVESTMENTS</div>
-        <div id="cardInvestments" class="w-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[22px] p-[18px] shadow-lg flex flex-col justify-between cursor-pointer hover:opacity-95 transition-all gap-3">
-          <div class="flex items-start justify-between">
-            <div class="flex items-center min-w-0 pr-2">
-              <div class="w-[44px] h-[44px] rounded-[14px] bg-[#8B5CF6] flex items-center justify-center text-white shadow-md flex-shrink-0">
-                <svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-                </svg>
-              </div>
-              <div class="ml-[12px] flex flex-col justify-center min-w-0">
-                <div class="text-[16px] font-semibold text-[#111827] dark:text-[#FFFFFF] whitespace-nowrap leading-tight">Investment Portfolio</div>
-                <div class="text-[13px] font-normal text-[#6B7280] dark:text-[#8E9CBA] mt-1">
-                  <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#6B7280] dark:bg-[#8E9CBA] mr-0.5 align-middle"></span>7721
-                </div>
-              </div>
-            </div>
-            <div class="flex items-center justify-end flex-shrink-0">
-              <div class="text-right flex flex-col justify-center">
-                <div id="investmentsBalance" class="text-[18px] font-bold text-[#111827] dark:text-[#FFFFFF] tracking-tight leading-none">$0.00</div>
-                <div class="text-[12px] font-normal text-[#6B7280] dark:text-[#8E9CBA] mt-1">Total Value</div>
-              </div>
-              <svg class="w-[16px] h-[16px] text-[#6B7280] dark:text-[#52607D] flex-shrink-0 ml-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </div>
-          </div>
-          <div class="text-right text-[12px] font-semibold text-[#16A34A] dark:text-[#22C55E] pr-6 -mt-1">
-            ▲ $0.00 (0.00%) <span class="text-[#6B7280] dark:text-[#8E9CBA] font-normal">Today</span>
-          </div>
-          <div class="relative h-[48px] w-full mt-1">
-            <svg class="w-full h-full" viewBox="0 0 380 48" fill="none" preserveAspectRatio="none">
-              <path d="M0 35 C 30 38, 60 28, 90 32 C 120 36, 150 20, 180 26 C 210 32, 240 22, 270 18 C 300 14, 340 10, 380 5" stroke="#A855F7" stroke-width="2.2" stroke-linecap="round"/>
-              <path d="M0 35 C 30 38, 60 28, 90 32 C 120 36, 150 20, 180 26 C 210 32, 240 22, 270 18 C 300 14, 340 10, 380 5 L 380 48 L 0 48 Z" fill="url(#purpleGlow)" opacity="0.6"/>
-              <defs>
-                <linearGradient id="purpleGlow" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stop-color="#8B5CF6" stop-opacity="0.35"/>
-                  <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0.0"/>
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-          <div class="flex items-center justify-between text-[12px] font-medium text-[#6B7280] dark:text-[#8E9CBA] pt-1">
-            <span class="hover:text-gray-900 dark:hover:text-white cursor-pointer px-2 py-0.5">1D</span>
-            <span class="hover:text-gray-900 dark:hover:text-white cursor-pointer px-2 py-0.5">1W</span>
-            <span class="hover:text-gray-900 dark:hover:text-white cursor-pointer px-2 py-0.5">1M</span>
-            <span class="hover:text-gray-900 dark:hover:text-white cursor-pointer px-2 py-0.5">3M</span>
-            <span class="bg-[#EFF6FF] text-[#2563EB] dark:bg-[#1D61F2] dark:text-white px-3 py-1 rounded-full font-bold text-[11px] shadow-sm">1Y</span>
-            <span class="hover:text-gray-900 dark:hover:text-white cursor-pointer px-2 py-0.5">ALL</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- ================= CREDIT CARDS SECTION ================= -->
-      <div>
-        <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">CREDIT CARDS</div>
-        <div id="cardCredit" class="credit-card-item cursor-pointer">
-          <div class="card-left">
-            <div class="card-icon">
-              <svg class="w-[26px] h-[26px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" style="color:#ffffff;">
-                <rect x="2" y="5" width="20" height="14" rx="3"></rect>
-                <path d="M2 10h20"></path>
-                <path d="M6 15h4"></path>
-              </svg>
-            </div>
-            <div class="card-title">Verceil Signature Card</div>
-          </div>
-          <div id="creditCardRightContent" class="card-right">
-            <div class="apply-row">
-              <span class="apply-text">Apply</span>
-              <svg class="apply-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </div>
-            <div class="approval-note">Subject to credit approval</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Payments quick actions — every button here just calls loadPage(), which
-           fetches+injects only that one screen. -->
-      <div class="grid grid-cols-2 gap-[10px]">
-        <button data-page="transfer" class="page-open-btn h-[56px] rounded-[16px] bg-white dark:bg-[#0D1728] shadow-lg text-[14px] font-semibold text-[#111827] dark:text-white cursor-pointer">Transfer Between Accounts</button>
-        <button data-page="send-money" class="page-open-btn h-[56px] rounded-[16px] bg-white dark:bg-[#0D1728] shadow-lg text-[14px] font-semibold text-[#111827] dark:text-white cursor-pointer">Send Money</button>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- FIXED BOTTOM NAVIGATION BAR -->
-  <nav class="fixed bottom-0 left-0 right-0 z-50 h-[68px] bg-white dark:bg-[#060B14] border-t border-gray-200 dark:border-white/[0.08] px-[16px] flex items-center justify-between shadow-2xl">
-    <div class="w-full max-w-[430px] mx-auto flex items-center justify-around">
-
-      <button id="navAccounts" class="flex flex-col items-center gap-1 text-[#0B4CC2] dark:text-[#3B82F6] focus:outline-none group cursor-pointer">
-        <svg class="w-[20px] h-[20px] group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M3 3h7v7H3V3zm11 0h7v7h-7V3zm0 11h7v7h-7v-7zM3 14h7v7H3v-7z"/>
-        </svg>
-        <span class="text-[10px] font-medium">Accounts</span>
-      </button>
-
-      <button id="navPayments" class="flex flex-col items-center gap-1 text-[#6B7280] dark:text-[#8E9CBA] hover:text-gray-900 dark:hover:text-white focus:outline-none group transition-colors cursor-pointer">
-        <svg class="w-[20px] h-[20px] group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
-        </svg>
-        <span class="text-[10px] font-medium">Payments</span>
-      </button>
-
-      <button id="navInvest" class="flex flex-col items-center gap-1 text-[#6B7280] dark:text-[#8E9CBA] hover:text-gray-900 dark:hover:text-white focus:outline-none group transition-colors cursor-pointer">
-        <svg class="w-[20px] h-[20px] group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-        </svg>
-        <span class="text-[10px] font-medium">Invest</span>
-      </button>
-
-      <button id="navSupport" class="flex flex-col items-center gap-1 text-[#6B7280] dark:text-[#8E9CBA] hover:text-gray-900 dark:hover:text-white focus:outline-none group transition-colors cursor-pointer">
-        <svg class="w-[20px] h-[20px] group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636l3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
-        </svg>
-        <span class="text-[10px] font-medium">Support</span>
-      </button>
-
-      <button id="navProfile" class="flex flex-col items-center gap-1 text-[#6B7280] dark:text-[#8E9CBA] hover:text-gray-900 dark:hover:text-white focus:outline-none group transition-colors cursor-pointer">
-        <svg class="w-[20px] h-[20px] group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-        </svg>
-        <span class="text-[10px] font-medium">Profile</span>
-      </button>
-
-    </div>
-  </nav>
-
-  <!-- BOTTOM NAVIGATION DROPDOWN MENU (CITI-STYLE) -->
-  <div id="navMenuOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden"></div>
-  <div id="navMenuSheet" class="fixed left-0 right-0 bottom-0 z-50 hidden translate-y-full transition-transform duration-300 ease-out">
-    <div class="w-full max-w-[430px] mx-auto bg-white dark:bg-[#0D1728] rounded-t-[24px] shadow-2xl max-h-[75vh] flex flex-col">
-      <div class="flex items-center justify-between px-[20px] pt-[18px] pb-[12px] border-b border-gray-100 dark:border-white/[0.06]">
-        <div id="navMenuTitle" class="text-[18px] font-bold text-[#111827] dark:text-[#FFFFFF]">Accounts</div>
-        <button id="navMenuCloseBtn" class="w-[32px] h-[32px] rounded-full bg-gray-100 dark:bg-white/10 flex items-center justify-center text-[#6B7280] dark:text-[#8E9CBA] hover:opacity-80 transition-all cursor-pointer" aria-label="Close">
-          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"></path></svg>
+      <!-- Accordion Section 2 -->
+      <div class="footer-section-item">
+        <button class="footer-section-header">
+          <span>Wealth Management</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </button>
+        <div class="footer-section-links">
+          <a href="#">Investing Accounts</a>
+          <a href="#">Retirement Planning</a>
+          <a href="#">Advisory Services</a>
+        </div>
       </div>
-      <div id="navMenuList" class="overflow-y-auto px-[8px] py-[8px] pb-[24px]"></div>
+
+      <!-- Accordion Section 3 -->
+      <div class="footer-section-item">
+        <button class="footer-section-header">
+          <span>Business Banking</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="footer-section-links">
+          <a href="#">Business Checking</a>
+          <a href="#">Commercial Loans</a>
+          <a href="#">Merchant Services</a>
+        </div>
+      </div>
+
+      <!-- Accordion Section 4 -->
+      <div class="footer-section-item">
+        <button class="footer-section-header">
+          <span>Rates</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="footer-section-links">
+          <a href="#">Savings Rates</a>
+          <a href="#">Mortgage & HELOC Rates</a>
+          <a href="#">Credit Card APRs</a>
+        </div>
+      </div>
+
+      <!-- Accordion Section 5 -->
+      <div class="footer-section-item">
+        <button class="footer-section-header">
+          <span>Help & Support</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="footer-section-links">
+          <a href="#">Customer Service</a>
+          <a href="#">Schedule a Meeting</a>
+          <a href="#">FAQs</a>
+        </div>
+      </div>
+
+      <!-- Badges, Equal Housing & Socials Area -->
+      <div class="footer-badges-area">
+        <div class="housing-icon-container">
+          <!-- Equal Housing Opportunity Icon -->
+          <svg viewBox="0 0 24 24"><path d="M12 3L2 12h3v8h14v-8h3L12 3zm0 2.84L18 11.2v6.8H6v-6.8l6-5.36z"/><rect x="9" y="13" width="6" height="5"/></svg>
+        </div>
+        <div class="app-store-badges">
+          <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play" class="app-badge-img"></a>
+          <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" alt="Download on the App Store" class="app-badge-img"></a>
+        </div>
+        <div class="footer-social-icons">
+          <!-- Facebook -->
+          <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          <!-- X / Twitter -->
+          <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          <!-- YouTube -->
+          <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.8zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>
+        </div>
+      </div>
+
+      <!-- Copyright & Legal Links -->
+      <div class="footer-legal-section">
+        <div class="footer-copyright">© 2026 Verceil Bank, N.A.</div>
+        <div class="footer-legal-links-list">
+          <a href="#">Terms & Conditions</a>
+          <a href="#">Privacy</a>
+          <a href="#">Notice at Collection</a>
+          <a href="#">Do Not Sell or Share My Personal Information</a>
+          <a href="#">Accessibility</a>
+        </div>
+      </div>
+
+      <!-- Important Legal Disclosures -->
+      <div class="footer-disclosures">
+        <h5>Important Legal Disclosures & Information</h5>
+        <p>Verceil.com provides information about and access to accounts and financial services provided by Verceil Bank, N.A. and its affiliates in the United States and its territories. `This is not, and should not be construed as, an offer, invitation, or solicitation to buy or sell any of the banking or financial products mentioned herein to individuals outside of the United States.</p>
+      </div>
+
     </div>
-  </div>
+  </footer>
 
-  <!-- ============ PAGE ROOT ============ -->
-  <!-- Empty until a page is opened. loadPage() fetches /pages/<name>.html into
-       here and dynamically imports /js/pages/<name>.js to run it. Closing a
-       page clears this div entirely — nothing lingers in the DOM. -->
-  <div id="page-root" class="hidden fixed inset-0 z-40 bg-[#0B4CC2] dark:bg-[#060B14] overflow-y-auto"></div>
-
-  <!-- ============ SHARED MODAL (used by every page) ============ -->
-  <div id="actionModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-[#0D1728] text-[#111827] dark:text-white border border-gray-200 dark:border-white/10 rounded-2xl p-6 max-w-xs w-full shadow-2xl text-center space-y-4">
-      <h3 id="modalTitle" class="text-base font-bold">Notice</h3>
-      <p id="modalDesc" class="text-xs text-[#6B7280] dark:text-[#8E9CBA] leading-relaxed"></p>
-      <button id="modalCloseBtn" class="w-full py-2.5 rounded-xl bg-[#2563EB] hover:opacity-90 text-white font-semibold text-xs transition-all shadow-md cursor-pointer">Continue</button>
-    </div>
-  </div>
-
-  <!-- Only ONE script tag, loaded as a module. Everything else is fetched on demand. -->
-  <script type="module">
-    import { loadPage } from './js/main.js';
-    document.querySelectorAll('.page-open-btn').forEach(btn => {
-      btn.addEventListener('click', () => loadPage(btn.getAttribute('data-page')));
+  <script>
+    // Accordion functionality for Citi-style footer
+    const accordions = document.querySelectorAll('.footer-section-header');
+    accordions.forEach(acc => {
+      acc.addEventListener('click', () => {
+        acc.classList.toggle('active');
+        const linksPanel = acc.nextElementSibling;
+        if (linksPanel.style.display === 'flex') {
+          linksPanel.style.display = 'none';
+        } else {
+          linksPanel.style.display = 'flex';
+        }
+      });
     });
   </script>
+  <script src="app.js"></script>
 </body>
 </html>
