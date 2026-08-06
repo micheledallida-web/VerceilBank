@@ -4,6 +4,28 @@
 
 /* Anything you previously had in a <style> block in the old single file goes here,
    e.g. the chat typing-dot animation: */
+*, *::before, *::after {
+  transition: background-color 250ms ease-in-out, border-color 250ms ease-in-out, color 250ms ease-in-out, box-shadow 250ms ease-in-out;
+}
+body {
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  padding-top: 12px;
+  padding-bottom: 90px;
+}
+/* Light Mode: Blue background (#0B4CC2) */
+body:not(.dark) {
+  background: #0B4CC2;
+  color: #111827;
+}
+/* Dark Mode: Deep banking dark navy aesthetic matching screenshot */
+body.dark {
+  background: #060B14;
+  background-attachment: fixed;
+  color: #FFFFFF;
+}
+
 .chat-dot {
   width: 5px; height: 5px; border-radius: 50%;
   background: rgba(255,255,255,0.7);
