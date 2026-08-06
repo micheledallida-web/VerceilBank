@@ -1,0 +1,28 @@
+<div class="w-full max-w-[430px] mx-auto px-[16px] pt-[14px] pb-[40px]">
+  <div class="flex items-center gap-3 mb-[16px]">
+    <button data-action="close" class="w-[40px] h-[40px] rounded-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] flex items-center justify-center text-[#111827] dark:text-white shadow-lg cursor-pointer flex-shrink-0" aria-label="Back">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <div class="text-[20px] font-bold text-white truncate">Help Center</div>
+  </div>
+
+  <input id="helpSearch" type="text" placeholder="How can we help?" class="w-full h-[46px] px-[14px] rounded-[14px] bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] text-[14px] text-[#111827] dark:text-white placeholder-gray-400 dark:placeholder-[#52607D] outline-none mb-[14px] shadow-lg">
+
+  <div class="flex items-center gap-[8px] mb-[16px] overflow-x-auto" id="helpCategoryChips">
+    <button data-cat="all" class="help-cat-chip px-[12px] h-[30px] rounded-full text-[11px] font-semibold cursor-pointer whitespace-nowrap">All</button>
+    <button data-cat="Accounts" class="help-cat-chip px-[12px] h-[30px] rounded-full text-[11px] font-semibold cursor-pointer whitespace-nowrap">Accounts</button>
+    <button data-cat="Cards" class="help-cat-chip px-[12px] h-[30px] rounded-full text-[11px] font-semibold cursor-pointer whitespace-nowrap">Cards</button>
+    <button data-cat="Payments" class="help-cat-chip px-[12px] h-[30px] rounded-full text-[11px] font-semibold cursor-pointer whitespace-nowrap">Payments</button>
+    <button data-cat="Security" class="help-cat-chip px-[12px] h-[30px] rounded-full text-[11px] font-semibold cursor-pointer whitespace-nowrap">Security</button>
+  </div>
+
+  <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">POPULAR TOPICS</div>
+  <div id="helpTopicsList" class="flex flex-col gap-[8px] mb-[20px]"></div>
+
+  <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">STILL NEED HELP?</div>
+  <div class="flex gap-[8px]">
+    <button id="helpChatBtn" class="flex-1 h-[44px] rounded-[14px] bg-[#2563EB] text-white text-[12px] font-semibold cursor-pointer">Chat with Support</button>
+    <a id="helpCallBtn" href="tel:+18005550123" class="flex-1 h-[44px] rounded-[14px] bg-white dark:bg-[#0D1728] border border-gray-200 dark:border-white/10 text-[#111827] dark:text-white text-[12px] font-semibold flex items-center justify-center cursor-pointer">Call Support</a>
+    <button id="helpApptBtn" class="flex-1 h-[44px] rounded-[14px] bg-white dark:bg-[#0D1728] border border-gray-200 dark:border-white/10 text-[#111827] dark:text-white text-[12px] font-semibold cursor-pointer">Schedule</button>
+  </div>
+</div>

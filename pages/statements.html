@@ -1,0 +1,84 @@
+<div class="w-full max-w-[430px] mx-auto px-[16px] pt-[14px] pb-[40px]">
+  <div class="flex items-center gap-3 mb-[16px]">
+    <button data-action="close" class="w-[40px] h-[40px] rounded-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] flex items-center justify-center text-[#111827] dark:text-white shadow-lg cursor-pointer flex-shrink-0" aria-label="Back">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <div class="text-[20px] font-bold text-white truncate">Investment Statements</div>
+  </div>
+
+  <div class="flex items-center gap-[8px] mb-[14px]" id="stmtPeriodTabs">
+    <button data-period="monthly" class="stmt-tab flex-1 h-[38px] rounded-[12px] text-[12px] font-semibold cursor-pointer">Monthly</button>
+    <button data-period="quarterly" class="stmt-tab flex-1 h-[38px] rounded-[12px] text-[12px] font-semibold cursor-pointer">Quarterly</button>
+    <button data-period="annual" class="stmt-tab flex-1 h-[38px] rounded-[12px] text-[12px] font-semibold cursor-pointer">Annual</button>
+    <button data-period="tax" class="stmt-tab flex-1 h-[38px] rounded-[12px] text-[12px] font-semibold cursor-pointer">Tax Docs</button>
+  </div>
+
+  <div class="flex items-center gap-[8px] mb-[14px] overflow-x-auto" id="stmtDocTypeChips">
+    <button data-doc="all" class="stmt-doc-chip px-[12px] h-[30px] rounded-full text-[11px] font-semibold cursor-pointer whitespace-nowrap">All Documents</button>
+    <button data-doc="portfolio_statement" class="stmt-doc-chip px-[12px] h-[30px] rounded-full text-[11px] font-semibold cursor-pointer whitespace-nowrap">Portfolio Statements</button>
+    <button data-doc="trade_confirmation" class="stmt-doc-chip px-[12px] h-[30px] rounded-full text-[11px] font-semibold cursor-pointer whitespace-nowrap">Trade Confirmations</button>
+    <button data-doc="dividend_statement" class="stmt-doc-chip px-[12px] h-[30px] rounded-full text-[11px] font-semibold cursor-pointer whitespace-nowrap">Dividend Statements</button>
+    <button data-doc="capital_gains" class="stmt-doc-chip px-[12px] h-[30px] rounded-full text-[11px] font-semibold cursor-pointer whitespace-nowrap">Capital Gains</button>
+    <button data-doc="cost_basis" class="stmt-doc-chip px-[12px] h-[30px] rounded-full text-[11px] font-semibold cursor-pointer whitespace-nowrap">Cost Basis</button>
+    <button data-doc="tax_form" class="stmt-doc-chip px-[12px] h-[30px] rounded-full text-[11px] font-semibold cursor-pointer whitespace-nowrap">Tax Forms</button>
+  </div>
+
+  <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[16px] p-[14px] shadow-lg mb-[14px]">
+    <div class="text-[11px] font-bold tracking-[1.2px] text-[#6B7280] dark:text-[#8E9CBA] uppercase mb-[10px]">SEARCH & FILTER</div>
+    <div class="flex gap-[8px]">
+      <div class="flex-1">
+        <label class="text-[11px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[4px] block">From</label>
+        <input id="stmtDateFrom" type="date" class="w-full h-[40px] px-[10px] rounded-[10px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[13px] text-[#111827] dark:text-white outline-none focus:border-[#2563EB]">
+      </div>
+      <div class="flex-1">
+        <label class="text-[11px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[4px] block">To</label>
+        <input id="stmtDateTo" type="date" class="w-full h-[40px] px-[10px] rounded-[10px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[13px] text-[#111827] dark:text-white outline-none focus:border-[#2563EB]">
+      </div>
+    </div>
+    <button id="stmtDateClearBtn" class="mt-[8px] text-[12px] font-semibold text-[#2563EB] cursor-pointer">Clear date filter</button>
+  </div>
+
+  <button id="generateStatementBtn" class="w-full h-[44px] rounded-[14px] bg-[#2563EB] text-white text-[13px] font-semibold cursor-pointer hover:opacity-90 transition-all mb-[16px]">+ Generate Statement for Current Period</button>
+
+  <div id="statementsList" class="flex flex-col gap-[10px]"></div>
+</div>
+
+<div id="stmtActionsOverlay" class="hidden fixed inset-0 z-[60] bg-black/50"></div>
+<div id="stmtActionsSheet" class="hidden fixed left-0 right-0 bottom-0 z-[61]">
+  <div class="w-full max-w-[430px] mx-auto bg-white dark:bg-[#0D1728] rounded-t-[24px] shadow-2xl p-[16px] pb-[28px]">
+    <div id="stmtActionsTitle" class="text-[15px] font-bold text-[#111827] dark:text-white px-[6px] pb-[10px] mb-[6px] border-b border-gray-100 dark:border-white/[0.06]"></div>
+    <button id="stmtActionDownload" class="w-full flex items-center gap-[12px] px-[10px] py-[12px] rounded-[12px] hover:bg-gray-50 dark:hover:bg-white/5 cursor-pointer text-left">
+      <svg class="w-[18px] h-[18px] text-[#2563EB]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"></path></svg>
+      <span class="text-[14px] font-medium text-[#111827] dark:text-white">Download PDF</span>
+    </button>
+    <button id="stmtActionEmail" class="w-full flex items-center gap-[12px] px-[10px] py-[12px] rounded-[12px] hover:bg-gray-50 dark:hover:bg-white/5 cursor-pointer text-left">
+      <svg class="w-[18px] h-[18px] text-[#2563EB]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l9 6 9-6M4 6h16a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1z"></path></svg>
+      <span class="text-[14px] font-medium text-[#111827] dark:text-white">Email Statement</span>
+    </button>
+    <button id="stmtActionPrint" class="w-full flex items-center gap-[12px] px-[10px] py-[12px] rounded-[12px] hover:bg-gray-50 dark:hover:bg-white/5 cursor-pointer text-left">
+      <svg class="w-[18px] h-[18px] text-[#2563EB]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9V4h12v5M6 18h12v4H6v-4zM6 14h12a2 2 0 002-2v-3a2 2 0 00-2-2H6a2 2 0 00-2 2v3a2 2 0 002 2z"></path></svg>
+      <span class="text-[14px] font-medium text-[#111827] dark:text-white">Print</span>
+    </button>
+    <button id="stmtActionShare" class="w-full flex items-center gap-[12px] px-[10px] py-[12px] rounded-[12px] hover:bg-gray-50 dark:hover:bg-white/5 cursor-pointer text-left">
+      <svg class="w-[18px] h-[18px] text-[#2563EB]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path stroke-linecap="round" d="M8.6 13.5l6.8 3.9M15.4 6.6L8.6 10.5"></path></svg>
+      <span class="text-[14px] font-medium text-[#111827] dark:text-white">Share Securely</span>
+    </button>
+    <button id="stmtActionOfficial" class="w-full flex items-center gap-[12px] px-[10px] py-[12px] rounded-[12px] hover:bg-gray-50 dark:hover:bg-white/5 cursor-pointer text-left">
+      <svg class="w-[18px] h-[18px] text-[#2563EB]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+      <span class="text-[14px] font-medium text-[#111827] dark:text-white">Request Official Copy</span>
+    </button>
+    <button id="stmtActionsCancel" class="w-full mt-[8px] h-[44px] rounded-[12px] bg-gray-100 dark:bg-white/10 text-[13px] font-semibold text-[#111827] dark:text-white cursor-pointer">Cancel</button>
+  </div>
+</div>
+
+<div id="statementPrintView" class="hidden fixed inset-0 z-[70] bg-white overflow-y-auto">
+  <div class="max-w-[600px] mx-auto p-[32px] text-[#0F172A]">
+    <div class="flex items-center justify-between mb-[24px] print:hidden">
+      <button id="statementPrintCloseBtn" class="h-[40px] px-[16px] rounded-[12px] bg-gray-100 text-[13px] font-semibold cursor-pointer">Close</button>
+      <button id="statementPrintNowBtn" class="h-[40px] px-[16px] rounded-[12px] bg-[#2563EB] text-white text-[13px] font-semibold cursor-pointer">Print / Save as PDF</button>
+    </div>
+    <div class="text-[24px] font-bold mb-[4px]">Verceil Bank — Investment Statement</div>
+    <div id="statementPrintMeta" class="text-[13px] text-[#6B7280] mb-[24px]"></div>
+    <div class="border-t border-[#E5E7EB] pt-[16px]" id="statementPrintBody"></div>
+  </div>
+</div>

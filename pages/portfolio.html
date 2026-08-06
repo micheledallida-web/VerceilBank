@@ -1,0 +1,112 @@
+<div id="portfolioOverviewStep" class="w-full max-w-[430px] mx-auto px-[16px] pt-[14px] pb-[40px]">
+
+  <div class="flex items-center gap-3 mb-[16px]">
+    <button data-action="close" class="w-[40px] h-[40px] rounded-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] flex items-center justify-center text-[#111827] dark:text-white shadow-lg cursor-pointer flex-shrink-0" aria-label="Back">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <div class="text-[20px] font-bold text-white truncate">Portfolio Overview</div>
+  </div>
+
+  <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[22px] p-[18px] shadow-lg mb-[16px]">
+    <div class="text-[12px] font-normal text-[#6B7280] dark:text-[#8E9CBA]">Total Portfolio Value</div>
+    <div id="portTotalValue" class="text-[30px] font-bold text-[#111827] dark:text-white tracking-tight mt-[2px]">$0.00</div>
+    <div class="flex items-center gap-[16px] mt-[10px]">
+      <div>
+        <div class="text-[11px] text-[#6B7280] dark:text-[#8E9CBA]">Today's Gain/Loss</div>
+        <div id="portTodayChange" class="text-[14px] font-semibold mt-[2px]">$0.00 (0.00%)</div>
+      </div>
+      <div>
+        <div class="text-[11px] text-[#6B7280] dark:text-[#8E9CBA]">Total Return</div>
+        <div id="portTotalReturn" class="text-[14px] font-semibold mt-[2px]">$0.00 (0.00%)</div>
+      </div>
+    </div>
+
+    <div class="relative h-[64px] w-full mt-[16px]">
+      <svg id="portChartSvg" class="w-full h-full" viewBox="0 0 380 64" fill="none" preserveAspectRatio="none">
+        <path id="portChartLine" d="M0 55 L380 55" stroke="#A855F7" stroke-width="2.2" stroke-linecap="round"></path>
+        <path id="portChartFill" d="M0 55 L380 55 L380 64 L0 64 Z" fill="url(#portGlow)" opacity="0.6"></path>
+        <defs>
+          <linearGradient id="portGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#8B5CF6" stop-opacity="0.35"></stop>
+            <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0.0"></stop>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <div class="flex items-center justify-between text-[12px] font-medium text-[#6B7280] dark:text-[#8E9CBA] pt-[8px]" id="portChartRange">
+      <span data-range="1D" class="port-range-btn cursor-pointer px-2 py-0.5">1D</span>
+      <span data-range="1W" class="port-range-btn cursor-pointer px-2 py-0.5">1W</span>
+      <span data-range="1M" class="port-range-btn cursor-pointer px-2 py-0.5">1M</span>
+      <span data-range="3M" class="port-range-btn cursor-pointer px-2 py-0.5">3M</span>
+      <span data-range="1Y" class="port-range-btn cursor-pointer px-2 py-0.5">1Y</span>
+      <span data-range="ALL" class="port-range-btn cursor-pointer px-2 py-0.5">ALL</span>
+    </div>
+  </div>
+
+  <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">ALLOCATION SUMMARY</div>
+  <div id="portCategoryCards" class="flex flex-col gap-[10px] mb-[16px]"></div>
+
+  <div class="flex gap-[10px] mb-[20px]">
+    <button id="investMoreBtn" class="flex-1 h-[46px] rounded-[14px] bg-[#2563EB] text-white text-[14px] font-semibold cursor-pointer hover:opacity-90 transition-all">Invest More</button>
+    <button id="rebalanceBtn" class="flex-1 h-[46px] rounded-[14px] bg-white dark:bg-[#0D1728] border border-gray-200 dark:border-white/10 text-[#111827] dark:text-white text-[14px] font-semibold cursor-pointer hover:opacity-90 transition-all">Rebalance Portfolio</button>
+  </div>
+
+  <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">TOP HOLDINGS</div>
+  <div id="portTopHoldings" class="flex flex-col gap-[10px] mb-[20px]"></div>
+
+  <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">ASSET ALLOCATION</div>
+  <div id="portAllocationBars" class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[20px] p-[16px] shadow-lg mb-[20px] flex flex-col gap-[10px]"></div>
+
+  <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">RECENT INVESTMENT ACTIVITY</div>
+  <div id="portRecentActivity" class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[20px] px-[16px] shadow-lg py-4 mb-[20px]">
+    <div class="text-center text-[14px] text-[#6B7280] dark:text-[#8E9CBA] py-2">No recent activity</div>
+  </div>
+
+  <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">DIVIDEND INCOME</div>
+  <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[20px] p-[16px] shadow-lg flex items-center justify-between">
+    <span class="text-[13px] font-normal text-[#6B7280] dark:text-[#8E9CBA]">Year-to-date</span>
+    <span id="portDividendIncome" class="text-[16px] font-bold text-[#111827] dark:text-white">$0.00</span>
+  </div>
+
+</div>
+
+<div id="addHoldingStep" class="hidden w-full max-w-[430px] mx-auto px-[16px] pt-[14px] pb-[40px]">
+  <div class="flex items-center gap-3 mb-[16px]">
+    <button data-action="back-to-overview" class="w-[40px] h-[40px] rounded-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] flex items-center justify-center text-[#111827] dark:text-white shadow-lg cursor-pointer flex-shrink-0" aria-label="Back">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <div class="text-[20px] font-bold text-white truncate">Invest More</div>
+  </div>
+  <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[22px] p-[18px] shadow-lg">
+    <div class="flex flex-col gap-[14px]">
+      <div>
+        <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Symbol</label>
+        <input id="holdingSymbol" type="text" placeholder="e.g. AAPL" class="w-full h-[46px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white placeholder-gray-400 dark:placeholder-[#52607D] outline-none focus:border-[#2563EB]">
+      </div>
+      <div>
+        <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Company / Fund Name</label>
+        <input id="holdingName" type="text" placeholder="e.g. Apple Inc." class="w-full h-[46px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white placeholder-gray-400 dark:placeholder-[#52607D] outline-none focus:border-[#2563EB]">
+      </div>
+      <div>
+        <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Category</label>
+        <select id="holdingCategory" class="w-full h-[46px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white outline-none focus:border-[#2563EB]">
+          <option value="stocks">Stocks</option>
+          <option value="etfs">ETFs</option>
+          <option value="mutual_funds">Mutual Funds</option>
+          <option value="crypto">Crypto</option>
+          <option value="cash">Cash</option>
+        </select>
+      </div>
+      <div>
+        <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Shares</label>
+        <input id="holdingShares" type="number" min="0.0001" step="0.0001" placeholder="0" class="w-full h-[46px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white placeholder-gray-400 dark:placeholder-[#52607D] outline-none focus:border-[#2563EB]">
+      </div>
+      <div>
+        <label class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Price Per Share</label>
+        <input id="holdingPrice" type="number" min="0.01" step="0.01" placeholder="$0.00" class="w-full h-[46px] px-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[14px] text-[#111827] dark:text-white placeholder-gray-400 dark:placeholder-[#52607D] outline-none focus:border-[#2563EB]">
+      </div>
+      <div id="addHoldingError" class="hidden text-[12px] font-medium text-[#EF4444]"></div>
+      <button id="saveHoldingBtn" class="w-full h-[46px] rounded-[14px] bg-[#2563EB] text-white text-[14px] font-semibold cursor-pointer hover:opacity-90 transition-all mt-[4px]">Add Holding</button>
+    </div>
+  </div>
+</div>

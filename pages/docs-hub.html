@@ -1,0 +1,33 @@
+<div class="w-full max-w-[430px] mx-auto px-[16px] pt-[14px] pb-[40px]">
+  <div class="flex items-center gap-3 mb-[16px]">
+    <button data-action="close" class="w-[40px] h-[40px] rounded-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] flex items-center justify-center text-[#111827] dark:text-white shadow-lg cursor-pointer flex-shrink-0" aria-label="Back"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+    <div class="text-[20px] font-bold text-white truncate">Statements & Documents</div>
+  </div>
+
+  <div id="adhTabs" class="flex items-center gap-[8px] mb-[14px] overflow-x-auto">
+    <button data-tab="checking" class="adh-tab px-[14px] h-[36px] rounded-full text-[12px] font-semibold cursor-pointer whitespace-nowrap">Checking</button>
+    <button data-tab="savings" class="adh-tab px-[14px] h-[36px] rounded-full text-[12px] font-semibold cursor-pointer whitespace-nowrap">Savings</button>
+    <button data-tab="credit" class="adh-tab px-[14px] h-[36px] rounded-full text-[12px] font-semibold cursor-pointer whitespace-nowrap">Credit Cards</button>
+    <button data-tab="investments" class="adh-tab px-[14px] h-[36px] rounded-full text-[12px] font-semibold cursor-pointer whitespace-nowrap">Investments</button>
+    <button data-tab="tax" class="adh-tab px-[14px] h-[36px] rounded-full text-[12px] font-semibold cursor-pointer whitespace-nowrap">Tax Docs</button>
+  </div>
+
+  <div id="adhDocTypeChips" class="flex items-center gap-[8px] mb-[14px] overflow-x-auto">
+    <button data-doc="all" class="adh-doc-chip px-[12px] h-[30px] rounded-full text-[11px] font-semibold cursor-pointer whitespace-nowrap">All Documents</button>
+    <button data-doc="monthly_statement" class="adh-doc-chip px-[12px] h-[30px] rounded-full text-[11px] font-semibold cursor-pointer whitespace-nowrap">Monthly Statements</button>
+    <button data-doc="account_document" class="adh-doc-chip px-[12px] h-[30px] rounded-full text-[11px] font-semibold cursor-pointer whitespace-nowrap">Account Documents</button>
+    <button data-doc="confirmation_notice" class="adh-doc-chip px-[12px] h-[30px] rounded-full text-[11px] font-semibold cursor-pointer whitespace-nowrap">Confirmation Notices</button>
+  </div>
+
+  <div id="adhRedirectNote" class="hidden bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[16px] p-[16px] shadow-lg text-center mb-[14px]">
+    <div id="adhRedirectText" class="text-[13px] text-[#6B7280] dark:text-[#8E9CBA] mb-[10px]"></div>
+    <button id="adhRedirectBtn" class="h-[40px] px-[20px] rounded-[12px] bg-[#2563EB] text-white text-[13px] font-semibold cursor-pointer">Open</button>
+  </div>
+
+  <div class="grid grid-cols-2 gap-[10px] mb-[14px]">
+    <button id="adhGenerateBtn" class="h-[44px] rounded-[14px] bg-[#2563EB] text-white text-[13px] font-semibold cursor-pointer">Generate Current Period</button>
+    <button id="adhOfficialLetterBtn" class="h-[44px] rounded-[14px] bg-white dark:bg-[#0D1728] border border-gray-200 dark:border-white/10 text-[#111827] dark:text-white text-[13px] font-semibold cursor-pointer">Request Official Letter</button>
+  </div>
+
+  <div id="adhDocsList" class="flex flex-col gap-[10px]"></div>
+</div>

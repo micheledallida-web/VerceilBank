@@ -1,0 +1,38 @@
+<div class="w-full max-w-[430px] mx-auto px-[16px] pt-[14px] pb-[40px]">
+  <div class="flex items-center gap-3 mb-[16px]">
+    <button data-action="close" class="w-[40px] h-[40px] rounded-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] flex items-center justify-center text-[#111827] dark:text-white shadow-lg cursor-pointer flex-shrink-0" aria-label="Back">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <div class="text-[20px] font-bold text-white truncate">Card Services</div>
+  </div>
+
+  <div class="flex items-center gap-[8px] mb-[16px]" id="cardSelectTabs">
+    <button data-card="debit" class="card-select-tab flex-1 h-[38px] rounded-[12px] text-[12px] font-semibold cursor-pointer">Debit Card</button>
+    <button data-card="credit" class="card-select-tab flex-1 h-[38px] rounded-[12px] text-[12px] font-semibold cursor-pointer">Credit Card</button>
+    <button data-card="virtual" class="card-select-tab flex-1 h-[38px] rounded-[12px] text-[12px] font-semibold cursor-pointer">Virtual Card</button>
+  </div>
+
+  <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[20px] p-[16px] shadow-lg mb-[16px] flex items-center justify-between">
+    <div>
+      <div class="text-[14px] font-bold text-[#111827] dark:text-white">Lock Card</div>
+      <div class="text-[12px] text-[#6B7280] dark:text-[#8E9CBA]">Temporarily block all transactions</div>
+    </div>
+    <button id="cardLockToggle" class="w-[50px] h-[28px] rounded-full bg-gray-200 dark:bg-white/10 relative cursor-pointer transition-colors"><span id="cardLockThumb" class="absolute top-[3px] left-[3px] w-[22px] h-[22px] rounded-full bg-white shadow transition-transform"></span></button>
+  </div>
+
+  <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">CARD MANAGEMENT</div>
+  <div class="flex flex-col gap-[10px] mb-[16px]">
+    <button class="card-mgmt-btn w-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[16px] p-[14px] shadow-lg flex items-center justify-between text-left" data-action="Replace Card"><span class="text-[13px] font-semibold text-[#111827] dark:text-white">Replace Card</span><svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+    <button class="card-mgmt-btn w-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[16px] p-[14px] shadow-lg flex items-center justify-between text-left" data-action="Activate New Card"><span class="text-[13px] font-semibold text-[#111827] dark:text-white">Activate New Card</span><svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+    <button class="card-mgmt-btn w-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[16px] p-[14px] shadow-lg flex items-center justify-between text-left" data-action="Change PIN"><span class="text-[13px] font-semibold text-[#111827] dark:text-white">Change PIN</span><svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+    <button class="card-mgmt-btn w-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[16px] p-[14px] shadow-lg flex items-center justify-between text-left" data-action="Digital Wallet Management"><span class="text-[13px] font-semibold text-[#111827] dark:text-white">Digital Wallet Management</span><svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+  </div>
+
+  <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">SPENDING CONTROLS</div>
+  <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[20px] p-[16px] shadow-lg" id="spendingControlsCard">
+    <div class="flex items-center justify-between py-[8px]"><span class="text-[13px] text-[#111827] dark:text-white">ATM Withdrawals</span><button class="control-toggle w-[44px] h-[24px] rounded-full bg-[#2563EB] relative cursor-pointer" data-control="atm"><span class="control-thumb absolute top-[3px] w-[18px] h-[18px] rounded-full bg-white transition-all" style="left:23px;"></span></button></div>
+    <div class="flex items-center justify-between py-[8px] border-t border-gray-100 dark:border-white/[0.06]"><span class="text-[13px] text-[#111827] dark:text-white">Online Purchases</span><button class="control-toggle w-[44px] h-[24px] rounded-full bg-[#2563EB] relative cursor-pointer" data-control="online"><span class="control-thumb absolute top-[3px] w-[18px] h-[18px] rounded-full bg-white transition-all" style="left:23px;"></span></button></div>
+    <div class="flex items-center justify-between py-[8px] border-t border-gray-100 dark:border-white/[0.06]"><span class="text-[13px] text-[#111827] dark:text-white">International Transactions</span><button class="control-toggle w-[44px] h-[24px] rounded-full bg-gray-200 dark:bg-white/10 relative cursor-pointer" data-control="international"><span class="control-thumb absolute top-[3px] w-[18px] h-[18px] rounded-full bg-white transition-all" style="left:3px;"></span></button></div>
+    <div class="flex items-center justify-between py-[8px] border-t border-gray-100 dark:border-white/[0.06]"><span class="text-[13px] text-[#111827] dark:text-white">Contactless Payments</span><button class="control-toggle w-[44px] h-[24px] rounded-full bg-[#2563EB] relative cursor-pointer" data-control="contactless"><span class="control-thumb absolute top-[3px] w-[18px] h-[18px] rounded-full bg-white transition-all" style="left:23px;"></span></button></div>
+  </div>
+</div>
