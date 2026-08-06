@@ -48,9 +48,11 @@ js/
   pages/
     transfer.js         # One module per screen
     send-money.js
+    account-detail.js
 pages/
   transfer.html         # One markup fragment per screen
   send-money.html
+  account-detail.html
 ```
 
 ## The pattern — how to port the remaining screens
@@ -116,10 +118,10 @@ Support: secure-messages, live-chat, contact-support, card-services,
 report-card, dispute, travel, help-center
 Profile: personal-info, security-center, account-prefs, linked-accounts,
 tax-docs, privacy
-Accounts: account-summary, account-details, routing-numbers, docs-hub
+Accounts: account-summary, routing-numbers, docs-hub
 
-Each follows the identical two-file pattern above. `transfer` and `send-money`
-are complete working references — copy their structure.
+Each follows the identical two-file pattern above. `transfer`, `send-money`
+and `account-detail` are complete working references — copy their structure.
 
 ## Optional next step
 

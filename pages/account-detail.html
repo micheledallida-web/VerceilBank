@@ -1,0 +1,52 @@
+<div class="w-full max-w-[430px] mx-auto px-[16px] pt-[14px] pb-[40px]">
+
+  <!-- Detail Header -->
+  <div class="flex items-center gap-3 mb-[24px]">
+    <button data-action="close" class="w-[40px] h-[40px] rounded-full bg-white/15 dark:bg-[#0D182E] border border-white/10 flex items-center justify-center text-white hover:opacity-90 transition-all cursor-pointer shadow-sm flex-shrink-0" aria-label="Back">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <div id="detailAccountName" class="text-[20px] font-bold text-white truncate">Account</div>
+  </div>
+
+  <!-- Account Summary Card -->
+  <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[22px] p-[20px] shadow-lg mb-[20px]">
+    <div class="flex items-center gap-[14px] mb-[18px]">
+      <div id="detailAccountIcon" class="w-[52px] h-[52px] rounded-[16px] flex items-center justify-center text-white shadow-md flex-shrink-0"></div>
+      <div class="min-w-0">
+        <div id="detailAccountTitle" class="text-[16px] font-semibold text-[#111827] dark:text-[#FFFFFF] whitespace-nowrap leading-tight"></div>
+        <div id="detailAccountNumber" class="text-[13px] font-normal text-[#6B7280] dark:text-[#8E9CBA] mt-1"></div>
+      </div>
+    </div>
+    <div id="detailAccountBalanceLabel" class="text-[12px] font-normal text-[#6B7280] dark:text-[#8E9CBA]">Available Balance</div>
+    <div id="detailAccountBalance" class="text-[32px] font-bold text-[#111827] dark:text-[#FFFFFF] tracking-tight leading-none mt-1">$0.00</div>
+  </div>
+
+  <!-- Routing & Account Numbers + Fund Account (hidden for unapplied accounts like the credit card) -->
+  <div id="detailRoutingSection" class="mb-[20px]">
+    <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[20px] p-[16px] shadow-lg">
+      <div class="flex items-center justify-between py-[6px]">
+        <span class="text-[13px] font-normal text-[#6B7280] dark:text-[#8E9CBA]">Routing Number</span>
+        <span id="detailFullRoutingNumber" class="text-[14px] font-semibold text-[#111827] dark:text-[#FFFFFF] tracking-wide"></span>
+      </div>
+      <div class="flex items-center justify-between py-[6px] border-t border-gray-100 dark:border-white/[0.06]">
+        <span class="text-[13px] font-normal text-[#6B7280] dark:text-[#8E9CBA]">Account Number</span>
+        <span id="detailFullAccountNumber" class="text-[14px] font-semibold text-[#111827] dark:text-[#FFFFFF] tracking-wide"></span>
+      </div>
+      <div class="mt-[8px] text-[11px] font-normal text-[#6B7280] dark:text-[#8E9CBA] leading-snug">Temporary numbers — a permanent routing and account number will be issued once your identity is verified.</div>
+    </div>
+
+    <button id="detailFundAccountBtn" class="w-full mt-[14px] h-[48px] rounded-[16px] bg-[#2563EB] text-white text-[14px] font-semibold flex items-center justify-center gap-[8px] cursor-pointer hover:opacity-90 transition-all shadow-lg">
+      <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
+      <span>Fund Account</span>
+    </button>
+  </div>
+
+  <!-- Transactions List (hidden for accounts that haven't been applied for/opened yet, e.g. the credit card) -->
+  <div id="detailTransactionsSection">
+    <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">TRANSACTIONS</div>
+    <div id="detailTransactionsList" class="w-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[20px] px-[16px] shadow-lg py-4">
+      <div class="text-center text-[14px] text-[#6B7280] dark:text-[#8E9CBA] py-2">No recent activity</div>
+    </div>
+  </div>
+
+</div>

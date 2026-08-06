@@ -16,3 +16,111 @@
   0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
   30% { transform: translateY(-4px); opacity: 1; }
 }
+
+/* Verceil Signature Card - responds to the dark/light theme toggle, matching the Checking card's color scheme */
+.credit-card-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 90px;
+  padding: 16px 18px;
+  border-radius: 20px;
+  background: #ffffff;
+  border: 1px solid transparent;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.08);
+  box-sizing: border-box;
+  transition: background-color 250ms ease-in-out, border-color 250ms ease-in-out, box-shadow 250ms ease-in-out;
+}
+
+.dark .credit-card-item {
+  background: #0D1728;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3), 0 4px 6px -4px rgba(0,0,0,0.3);
+}
+
+.credit-card-item .card-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+  min-width: 0;
+}
+
+.credit-card-item .card-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #ff5a5a 0%, #ff4747 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.credit-card-item .card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.dark .credit-card-item .card-title {
+  color: #ffffff;
+}
+
+.credit-card-item .card-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  text-align: right;
+  position: relative;
+}
+
+.credit-card-item .apply-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.credit-card-item .apply-text {
+  font-size: 17px;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1;
+}
+
+.dark .credit-card-item .apply-text {
+  color: #ffffff;
+}
+
+.credit-card-item .apply-arrow {
+  width: 16px;
+  height: 16px;
+  color: #6B7280;
+}
+
+.dark .credit-card-item .apply-arrow {
+  color: #52607D;
+}
+
+.credit-card-item .approval-note {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 6px;
+  font-size: 10px;
+  font-weight: 500;
+  color: #6B7280;
+  line-height: 1.4;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.dark .credit-card-item .approval-note {
+  color: #8E9CBA;
+}
