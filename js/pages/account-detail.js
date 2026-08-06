@@ -42,7 +42,7 @@ let listeners = [];
 function on(el, evt, fn) { el.addEventListener(evt, fn); listeners.push(() => el.removeEventListener(evt, fn)); }
 
 export function init(root, ctx, type) {
-  const { supabaseClient, getCurrentUser, getOrCreateTempNumber, showModal, close } = ctx;
+  const { supabaseClient, getCurrentUser, getOrCreateTempNumber, loadPage, close } = ctx;
 
   const cfg = accountConfigs[type] || accountConfigs.checking;
 
@@ -60,7 +60,7 @@ export function init(root, ctx, type) {
 
   on(root.querySelector('[data-action="close"]'), 'click', close);
   on(root.querySelector('#detailFundAccountBtn'), 'click', () => {
-    showModal('Fund Account', 'Fund Account is coming soon.');
+    loadPage('fund-account');
   });
 
   detailAccountName.textContent = cfg.title;

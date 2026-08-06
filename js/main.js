@@ -294,6 +294,7 @@ const navMenuRoutes = {
   'Credit Cards': () => loadPage('account-detail', 'credit'),
   'Transfer Between Accounts': () => loadPage('transfer'),
   'Send Money (Zelle®)': () => loadPage('send-money'),
+  'Fund Account': () => loadPage('fund-account'),
 };
 
 function openNavMenu(key) {

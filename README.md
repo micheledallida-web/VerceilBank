@@ -153,7 +153,7 @@ Or from markup: `<button data-page="your-page-name" class="page-open-btn">`
 ## Screens still to port
 
 Payments: pay-bills, scheduled-payments, payment-history, external-transfers,
-wire-transfers, manage-payees, fund-account
+wire-transfers, manage-payees
 Invest: portfolio, trade, watchlist, statements, advisor, wealth-insights
 Support: secure-messages, live-chat, contact-support, card-services,
 report-card, dispute, travel, help-center
