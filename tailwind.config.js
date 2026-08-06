@@ -4,6 +4,7 @@ module.exports = {
   // Scan every fragment and script so no class you actually use gets purged
   content: [
     './index.html',
+    './dashboard.html',
     './pages/**/*.html',
     './js/**/*.js'
   ],
