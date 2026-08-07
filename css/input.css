@@ -239,6 +239,12 @@ body:not(.dark) .action-tile svg {
   grid-column: 3;
   grid-row: 1;
   align-self: center;
+  /* The chevron's polyline spans only 6 of its 24 viewBox units, so the
+     drawn arrow sits 6px inside each edge of its 16px box. Pull the box
+     in by that much so the visible arrow — not its empty box — is what
+     lands 8px from the amount and flush with the card's padding edge. */
+  margin-left: -6px;
+  margin-right: -6px;
 }
 
 /* The Signature Card has no balance, so its grid holds three children
