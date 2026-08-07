@@ -9,7 +9,7 @@ export function init(root, ctx) {
   const helpTopicsList = root.querySelector('#helpTopicsList');
 
   const helpTopics = [
-    { title: 'Reset Password', cat: 'Security', action: () => showModal('Reset Password', 'Go to Profile → Security Center → Password & Login to reset your password.') },
+    { title: 'Reset Password', cat: 'Security', action: () => showModal('Reset Password', 'Contact Support to reset your password.') },
     { title: 'Lock Card', cat: 'Cards', action: () => loadPage('card-services') },
     { title: 'Wire Transfer Help', cat: 'Payments', action: () => showModal('Wire Transfer Help', 'Wire transfers are found under Payments → Wire Transfers. Domestic wires typically settle same-day; international wires take 1–3 business days.') },
     { title: 'Zelle Questions', cat: 'Payments', action: () => showModal('Zelle® Questions', 'Send Money (Zelle®) is found under Payments → Send Money. Payments are typically instant to enrolled recipients.') },

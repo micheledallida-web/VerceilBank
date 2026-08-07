@@ -11,6 +11,14 @@ const accountConfigs = {
     iconSvg: '<svg class="w-[26px] h-[26px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><rect x="3" y="6" width="18" height="12" rx="3"></rect><path d="M3 10h18"></path></svg>',
     number: '•4892',
   },
+  interest_checking: {
+    title: 'Vercel Interest Checking',
+    balanceLabel: 'Available Balance · Up to 4.00% APY',
+    balanceSourceId: 'interestCheckingBalance',
+    iconBg: '#1D61F2',
+    iconSvg: '<svg class="w-[26px] h-[26px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><rect x="3" y="6" width="18" height="12" rx="3"></rect><path d="M3 10h18"></path></svg>',
+    number: '•2461',
+  },
   savings: {
     title: 'High-Yield Savings',
     balanceLabel: 'Available Balance',

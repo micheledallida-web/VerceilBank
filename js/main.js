@@ -142,9 +142,7 @@ const headerMenus = {
     items: [
       { label: 'View Statements' },
       { label: 'Transfer Funds' },
-      { label: 'Pay a Bill' },
       { label: 'Card Services' },
-      { label: 'Security Center' },
       { label: 'Notifications' },
       { label: 'Settings' },
       { label: 'Help & Support' },
@@ -153,7 +151,7 @@ const headerMenus = {
   appearance: { title: 'Appearance', items: ['Light Mode', 'Dark Mode', 'System Default'] },
   alerts: { title: 'Alerts', items: ['Transaction Alerts', 'Security Alerts', 'Payment Reminders', 'Account Notifications', 'Notification Settings'] },
   messages: { title: 'Messages', items: ['Secure Inbox', 'Contact Support', 'Live Chat', 'Schedule an Appointment'] },
-  profile: { title: 'Profile', items: ['My Profile', 'Account Preferences', 'Security & Login', 'Linked Accounts', 'Sign Out'] },
+  profile: { title: 'Profile', items: ['My Profile', 'Linked Accounts', 'Notification Preferences', 'Privacy & Data Settings', 'Sign Out'] },
 };
 
 const headerDropdownOverlay = document.getElementById('headerDropdownOverlay');
@@ -161,14 +159,56 @@ const headerDropdown = document.getElementById('headerDropdown');
 const headerDropdownTitle = document.getElementById('headerDropdownTitle');
 const headerDropdownList = document.getElementById('headerDropdownList');
 
+function clearCachedUserData() {
+  try {
+    Object.keys(localStorage)
+      .filter((key) => key.startsWith('verceil_'))
+      .forEach((key) => localStorage.removeItem(key));
+  } catch (err) {}
+  try { sessionStorage.clear(); } catch (err) {}
+}
+
+function goToSignIn() {
+  window.location.href = 'index.html?signin=1';
+}
+
 async function handleSignOut() {
   try {
     if (supabaseClient) await supabaseClient.auth.signOut();
   } catch (err) {
     console.error('Sign out error:', err);
   } finally {
-    window.location.reload();
+    clearCachedUserData();
+    goToSignIn();
   }
+}
+
+// Route protection: the dashboard shell requires an active Supabase session.
+// If none exists (first load, expired session, or a sign-out that just
+// happened in another tab) send the user straight back to the landing page
+// with the Sign In modal ready to open.
+async function enforceAuthGuard() {
+  if (!supabaseClient) return;
+  try {
+    const user = await getCurrentUser();
+    if (!user) goToSignIn();
+  } catch (err) {
+    console.error('Auth guard error:', err);
+  }
+}
+enforceAuthGuard();
+
+// Cross-tab / cross-device sync: supabase-js mirrors auth state changes made
+// in any tab (or device, via the shared session) into every other tab's
+// client through onAuthStateChange. When a sign-out happens anywhere, every
+// open dashboard tab reacts immediately instead of trusting stale state.
+if (supabaseClient) {
+  supabaseClient.auth.onAuthStateChange((event) => {
+    if (event === 'SIGNED_OUT') {
+      clearCachedUserData();
+      goToSignIn();
+    }
+  });
 }
 
 function openHeaderDropdown(key, anchorEl) {
@@ -247,21 +287,22 @@ document.getElementById('cardChecking').addEventListener('click', () => loadPage
 document.getElementById('cardSavings').addEventListener('click', () => loadPage('account-detail', 'savings'));
 document.getElementById('cardInvestments').addEventListener('click', () => loadPage('account-detail', 'investments'));
 document.getElementById('cardCredit').addEventListener('click', () => loadPage('account-detail', 'credit'));
-document.getElementById('promoBanner').addEventListener('click', () => showModal('Interest Checking Offer', 'Opening digital onboarding for 4.00% APY high-yield checking account upgrade...'));
+document.getElementById('cardInterestChecking').addEventListener('click', () => loadPage('account-detail', 'interest_checking'));
+document.getElementById('promoBanner').addEventListener('click', () => loadPage('interest-checking'));
 document.getElementById('getStartedBtn').addEventListener('click', (e) => {
   e.stopPropagation();
-  showModal('Interest Checking Upgrade', 'Initiating fast-track digital activation for your new interest-bearing account...');
+  loadPage('interest-checking');
 });
 
 // ---------- Bottom nav dropdown menu sheet (Citi-style) ----------
 const navMenus = {
   navAccounts: {
     title: 'Accounts',
-    items: ['Account Summary', 'Checking', 'Savings', 'Credit Cards', 'Investment Accounts', 'Statements & Documents', 'Account Details', 'Routing & Account Numbers'],
+    items: ['Account Summary', 'Checking', 'Savings', 'Interest Checking', 'Credit Cards', 'Investment Accounts', 'Statements & Documents', 'Account Details', 'Routing & Account Numbers'],
   },
   navPayments: {
     title: 'Payments',
-    items: ['Fund Account', 'Transfer Between Accounts', 'Send Money (Zelle®)', 'Pay Bills', 'Scheduled Payments', 'Payment History', 'External Transfers', 'Wire Transfers', 'Manage Payees'],
+    items: ['Transfer Between Accounts', 'Fund Account', 'Send Money (Zelle®)', 'Scheduled Payments', 'External Transfers', 'Wire Transfers'],
   },
   navInvest: {
     title: 'Invest',
@@ -275,9 +316,7 @@ const navMenus = {
     title: 'Profile',
     groups: [
       { category: 'Personal Information', items: ['Full Legal Name', 'Date of Birth', 'Residential Address', 'Mailing Address', 'Phone Number', 'Email Address'] },
-      { category: 'Security Center', items: ['Face ID / Biometric Login', 'Password & Login', 'Two-Factor Authentication', 'Trusted Devices', 'Login Activity', 'Security Alerts', 'Freeze / Lock Debit Card'] },
-      { category: 'Account Preferences', items: ['Notification Preferences', 'Paperless Statements', 'Language Preferences', 'Communication Preferences', 'Manage Linked Accounts', 'Default Payment Account', 'Privacy & Data'] },
-      { category: 'Statements & Documents', items: ['Monthly Statements', 'Account Documents', 'Tax Documents (1099)', 'Confirmation Notices', 'Download PDF Statements', 'Request Official Bank Letter'] },
+      { category: 'Additional', items: ['Linked Accounts', 'Tax Documents', 'Notification Preferences', 'Privacy & Data Settings'] },
     ],
     standaloneItems: ['Sign Out'],
   },
@@ -295,6 +334,7 @@ const navMenuRoutes = {
   'Account Summary': () => loadPage('account-summary'),
   'Checking': () => loadPage('account-detail', 'checking'),
   'Savings': () => loadPage('account-detail', 'savings'),
+  'Interest Checking': () => loadPage('account-detail', 'interest_checking'),
   'Credit Cards': () => loadPage('account-detail', 'credit'),
   'Investment Accounts': () => loadPage('account-detail', 'investments'),
   'Statements & Documents': () => loadPage('docs-hub'),
@@ -302,15 +342,12 @@ const navMenuRoutes = {
   'Routing & Account Numbers': () => loadPage('routing-numbers'),
 
   // Payments
-  'Fund Account': () => loadPage('fund-account'),
   'Transfer Between Accounts': () => loadPage('transfer'),
+  'Fund Account': () => loadPage('fund-account'),
   'Send Money (Zelle®)': () => loadPage('send-money'),
-  'Pay Bills': () => loadPage('pay-bills'),
   'Scheduled Payments': () => loadPage('scheduled-payments'),
-  'Payment History': () => loadPage('payment-history'),
   'External Transfers': () => loadPage('external-transfers'),
   'Wire Transfers': () => loadPage('wire-transfers'),
-  'Manage Payees': () => loadPage('manage-payees'),
 
   // Invest
   'Portfolio Overview': () => loadPage('portfolio'),
@@ -338,47 +375,25 @@ const navMenuRoutes = {
   'Phone Number': () => loadPage('personal-info'),
   'Email Address': () => loadPage('personal-info'),
 
-  // Profile — Security Center
-  'Face ID / Biometric Login': () => loadPage('security-center'),
-  'Password & Login': () => loadPage('security-center'),
-  'Two-Factor Authentication': () => loadPage('security-center'),
-  'Trusted Devices': () => loadPage('security-center'),
-  'Login Activity': () => loadPage('security-center'),
-  'Security Alerts': () => loadPage('security-center'),
-  'Freeze / Lock Debit Card': () => loadPage('security-center'),
-
-  // Profile — Account Preferences
-  'Notification Preferences': () => loadPage('account-prefs'),
-  'Paperless Statements': () => loadPage('account-prefs'),
-  'Language Preferences': () => loadPage('account-prefs'),
-  'Communication Preferences': () => loadPage('account-prefs'),
-  'Manage Linked Accounts': () => loadPage('linked-accounts'),
-  'Default Payment Account': () => loadPage('account-prefs'),
-  'Privacy & Data': () => loadPage('privacy'),
-
-  // Profile — Statements & Documents
-  'Monthly Statements': () => loadPage('docs-hub'),
-  'Account Documents': () => loadPage('docs-hub'),
-  'Tax Documents (1099)': () => loadPage('tax-docs'),
-  'Confirmation Notices': () => loadPage('docs-hub'),
-  'Download PDF Statements': () => loadPage('docs-hub'),
-  'Request Official Bank Letter': () => loadPage('docs-hub'),
+  // Profile — Additional
+  'Linked Accounts': () => loadPage('linked-accounts'),
+  'Tax Documents': () => loadPage('tax-docs'),
+  'Notification Preferences': () => loadPage('notification-prefs'),
+  'Privacy & Data Settings': () => loadPage('privacy'),
 };
 
 // Labels in the header "quick actions" dropdown that map to a ported screen.
 const headerMenuRoutes = {
   'View Statements': () => loadPage('docs-hub'),
   'Transfer Funds': () => loadPage('transfer'),
-  'Pay a Bill': () => loadPage('pay-bills'),
   'Card Services': () => loadPage('card-services'),
-  'Security Center': () => loadPage('security-center'),
   'Secure Inbox': () => loadPage('secure-messages'),
   'Contact Support': () => loadPage('contact-support'),
   'Live Chat': () => loadPage('live-chat'),
   'My Profile': () => loadPage('personal-info'),
-  'Account Preferences': () => loadPage('account-prefs'),
-  'Security & Login': () => loadPage('security-center'),
   'Linked Accounts': () => loadPage('linked-accounts'),
+  'Notification Preferences': () => loadPage('notification-prefs'),
+  'Privacy & Data Settings': () => loadPage('privacy'),
 };
 
 function openNavMenu(key) {
@@ -473,6 +488,13 @@ async function initSupabaseData() {
     } else if (acc.account_type === 'investments') {
       const el = document.getElementById('investmentsBalance');
       if (el) el.textContent = val;
+    } else if (acc.account_type === 'interest_checking') {
+      const el = document.getElementById('interestCheckingBalance');
+      if (el) el.textContent = val;
+      const section = document.getElementById('sectionInterestChecking');
+      const promo = document.getElementById('promoBanner');
+      if (section) section.classList.remove('hidden');
+      if (promo) promo.classList.add('hidden');
     } else if (acc.account_type === 'credit') {
       if (acc.status === 'approved' || Number(acc.balance) > 0 || Number(acc.available_credit) > 0) {
         const rightContainer = document.getElementById('creditCardRightContent');
@@ -491,6 +513,16 @@ async function initSupabaseData() {
       }
     }
   }
+
+  // Demo-mode fallback: if the Interest Checking account was opened while
+  // Supabase was unavailable (or before a session exists), still reveal it
+  // from the locally cached flag so the dashboard reflects prior activity.
+  try {
+    if (localStorage.getItem('verceil_interest_checking_opened') === '1') {
+      const cachedBalance = Number(localStorage.getItem('verceil_interest_checking_balance') || 0);
+      applyAccountRow({ account_type: 'interest_checking', balance: cachedBalance });
+    }
+  } catch (err) {}
 
   if (supabaseClient) {
     try {

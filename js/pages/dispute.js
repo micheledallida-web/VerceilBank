@@ -109,7 +109,7 @@ export function init(root, ctx) {
       if (error) throw error;
       disputeDescription.value = '';
       close();
-      showModal('Dispute Submitted', `Case Number: ${caseNum}. Estimated resolution: 5–10 business days. You can track status under Payment History.`);
+      showModal('Dispute Submitted', `Case Number: ${caseNum}. Estimated resolution: 5–10 business days.`);
     } catch (e) {
       console.error('Submit dispute error:', e);
       disputeSubmitError.textContent = 'Could not submit this dispute right now.';

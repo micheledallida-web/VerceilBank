@@ -266,6 +266,32 @@
     </div>
   </header>
 
+  <!-- SIGN IN MODAL (opened from the nav "Sign in" link, or automatically
+       after Sign Out redirects here with ?signin=1) -->
+  <div class="menu-backdrop" id="signInBackdrop" style="z-index: 1100;"></div>
+  <div id="signInModal" class="signin-modal" style="display:none; position:fixed; inset:0; z-index:1101; align-items:center; justify-content:center;">
+    <div style="background:#0f172a; border:1px solid rgba(255,255,255,0.08); border-radius:20px; width:100%; max-width:380px; margin:16px; padding:28px 24px; box-shadow:0 24px 60px rgba(0,0,0,0.5);">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:18px;">
+        <span style="font-weight:900; font-size:1.1rem; text-transform:uppercase; letter-spacing:-0.02em;"><span style="color:#ffffff;">VERCEIL</span><span style="color:#3b82f6;">BANK</span></span>
+        <button id="signInModalCloseBtn" aria-label="Close" style="background:none; border:none; color:#94a3b8; cursor:pointer; font-size:1.25rem; line-height:1;">&times;</button>
+      </div>
+      <h2 style="color:#fff; font-size:1.15rem; font-weight:700; margin:0 0 4px;">Sign in</h2>
+      <p style="color:#94a3b8; font-size:0.85rem; margin:0 0 20px;">Access your Verceil Bank dashboard.</p>
+      <form id="signInModalForm">
+        <div style="margin-bottom:14px;">
+          <label style="display:block; color:#cbd5e1; font-size:0.75rem; font-weight:600; margin-bottom:6px;">Email</label>
+          <input type="email" id="signInModalEmail" autocomplete="email" required style="width:100%; height:44px; padding:0 12px; border-radius:10px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:#fff; outline:none;">
+        </div>
+        <div style="margin-bottom:8px;">
+          <label style="display:block; color:#cbd5e1; font-size:0.75rem; font-weight:600; margin-bottom:6px;">Password</label>
+          <input type="password" id="signInModalPassword" autocomplete="current-password" required style="width:100%; height:44px; padding:0 12px; border-radius:10px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:#fff; outline:none;">
+        </div>
+        <div id="signInModalError" style="display:none; color:#f87171; font-size:0.8rem; margin:10px 0 0;"></div>
+        <button type="submit" id="signInModalSubmit" style="width:100%; height:46px; margin-top:18px; border-radius:12px; background:#0044ff; color:#fff; font-weight:700; border:none; cursor:pointer;">Sign in</button>
+      </form>
+    </div>
+  </div>
+
   <main>
     <!-- HERO SECTION -->
     <section class="hero" id="home">
@@ -525,5 +551,89 @@
     });
   </script>
   <script src="app.js"></script>
+
+  <!-- Supabase-backed Sign In modal: opened from the nav link, or
+       automatically when redirected here (e.g. after Sign Out) with
+       ?signin=1 in the URL. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script>
+    (function () {
+      let supabaseClient = null;
+      try {
+        if (window.supabase) {
+          supabaseClient = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+        }
+      } catch (err) {
+        console.error('Supabase init error:', err);
+      }
+
+      const backdrop = document.getElementById('signInBackdrop');
+      const modal = document.getElementById('signInModal');
+      const closeBtn = document.getElementById('signInModalCloseBtn');
+      const openBtn = document.getElementById('openLoginBtn');
+      const form = document.getElementById('signInModalForm');
+      const errorBox = document.getElementById('signInModalError');
+      const submitBtn = document.getElementById('signInModalSubmit');
+
+      function openSignInModal() {
+        modal.style.display = 'flex';
+        backdrop.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeSignInModal() {
+        modal.style.display = 'none';
+        backdrop.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      if (openBtn) {
+        openBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          openSignInModal();
+        });
+      }
+      if (closeBtn) closeBtn.addEventListener('click', closeSignInModal);
+      if (backdrop) backdrop.addEventListener('click', closeSignInModal);
+
+      if (form) {
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          errorBox.style.display = 'none';
+
+          if (!supabaseClient) {
+            errorBox.textContent = 'Network configuration error: Supabase failed to initialize.';
+            errorBox.style.display = 'block';
+            return;
+          }
+
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Signing in...';
+
+          const email = document.getElementById('signInModalEmail').value.trim();
+          const password = document.getElementById('signInModalPassword').value;
+
+          try {
+            const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+            if (error) throw error;
+            submitBtn.textContent = 'Success! Launching...';
+            window.location.href = 'dashboard.html';
+          } catch (err) {
+            errorBox.textContent = 'Invalid login credentials.';
+            errorBox.style.display = 'block';
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Sign in';
+          }
+        });
+      }
+
+      // Auto-open after Sign Out redirects here with ?signin=1.
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('signin') === '1') {
+        openSignInModal();
+      }
+    })();
+  </script>
 </body>
 </html>
