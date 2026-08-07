@@ -1267,7 +1267,7 @@
 
         const bars = Array.from(meter.querySelectorAll('.auth-strength-bar'));
         const colors = ['#f87171', '#fbbf24', '#60a5fa', '#34d399'];
-        const labels = ['Weak', 'Fair', 'Good', 'Strong'];
+        const labels = ['Very weak', 'Weak', 'Fair', 'Good', 'Strong'];
 
         input.addEventListener('input', () => {
           const { checks, metCount } = evaluatePasswordStrength(input.value);
@@ -1275,7 +1275,7 @@
           bars.forEach((bar, i) => {
             bar.style.background = (input.value.length > 0 && i < metCount) ? colors[Math.max(metCount - 1, 0)] : '#1E3A5F';
           });
-          label.textContent = input.value.length === 0 ? 'Password strength' : labels[Math.max(metCount - 1, 0)];
+          label.textContent = input.value.length === 0 ? 'Password strength' : labels[metCount];
 
           requirementsList.querySelectorAll('li[data-req]').forEach((li) => {
             const req = li.getAttribute('data-req');
@@ -1388,7 +1388,7 @@
           e.preventDefault();
           const errorBox = document.getElementById('recoveryStep2Error');
           const code = otpInputs.map((input) => input.value).join('');
-          if (code.length !== 6) {
+          if (!/^[0-9]{6}$/.test(code)) {
             errorBox.textContent = 'Enter the 6-digit verification code.';
             errorBox.style.display = 'block';
             return;
