@@ -268,10 +268,12 @@
 
   <!-- ==========================================================================
        AUTH MODALS (Sign In / Sign Up)
-       Both modals share the same dark navy visual identity. The city
-       background image is rendered on the fixed overlay itself (never on the
-       scrollable card), so it stays perfectly centered and never pans/bounces
-       while the card content scrolls or the on-screen keyboard appears.
+       Both modals (and the Forgot Password flow) share the exact same
+       ".auth-overlay" floating overlay. It intentionally has NO background
+       image or gray fallback of its own: it is a fixed, blurred glass layer
+       that floats above the homepage hero, so the real skyscraper background
+       and white nav bar (already rendered behind it in this same document)
+       stay perfectly visible and stationary while only the auth card scrolls.
        ========================================================================== -->
   <style>
     .auth-overlay {
@@ -282,10 +284,9 @@
       align-items: center;
       justify-content: center;
       padding: 24px 16px;
-      background:
-        linear-gradient(180deg, rgba(3, 9, 24, 0.72) 0%, rgba(3, 9, 24, 0.72) 100%),
-        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop') center center / cover no-repeat;
-      background-attachment: fixed;
+      background: rgba(2, 8, 23, 0.55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
     }
     .auth-overlay.active { display: flex; }
 
