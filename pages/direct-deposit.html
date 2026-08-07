@@ -1,0 +1,22 @@
+<div class="w-full max-w-[430px] mx-auto px-[16px] pt-[14px] pb-[40px]">
+  <div class="flex items-center gap-3 mb-[16px]">
+    <button data-action="close" class="w-[40px] h-[40px] rounded-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] flex items-center justify-center text-[#111827] dark:text-white shadow-lg cursor-pointer flex-shrink-0" aria-label="Back"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+    <div id="ddAccountName" class="text-[20px] font-bold text-white truncate">Direct Deposit</div>
+  </div>
+  <div class="text-[13px] font-normal text-white/80 dark:text-[#8E9CBA] mb-[20px] ml-[52px]">Share your direct deposit information with an employer or payer</div>
+
+  <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[22px] p-[18px] shadow-lg mb-[16px]">
+    <div class="flex justify-between py-[6px] text-[13px]"><span class="text-[#6B7280] dark:text-[#8E9CBA]">Bank Name</span><span class="font-semibold text-[#111827] dark:text-white">Verceil Bank</span></div>
+    <div class="flex justify-between py-[6px] text-[13px] border-t border-gray-100 dark:border-white/[0.06]"><span class="text-[#6B7280] dark:text-[#8E9CBA]">Routing Number</span><div class="flex items-center gap-[8px]"><span id="ddRoutingNumber" class="font-semibold text-[#111827] dark:text-white"></span><button class="dd-copy text-[11px] font-semibold text-[#2563EB] cursor-pointer" data-target="ddRoutingNumber">Copy</button></div></div>
+    <div class="flex justify-between py-[6px] text-[13px] border-t border-gray-100 dark:border-white/[0.06]"><span class="text-[#6B7280] dark:text-[#8E9CBA]">Account Number</span><div class="flex items-center gap-[8px]"><span id="ddAccountNumber" class="font-semibold text-[#111827] dark:text-white"></span><button class="dd-copy text-[11px] font-semibold text-[#2563EB] cursor-pointer" data-target="ddAccountNumber">Copy</button></div></div>
+    <div class="flex justify-between py-[6px] text-[13px] border-t border-gray-100 dark:border-white/[0.06]"><span class="text-[#6B7280] dark:text-[#8E9CBA]">Account Type</span><span id="ddAccountType" class="font-semibold text-[#111827] dark:text-white"></span></div>
+  </div>
+
+  <button id="ddShareBtn" class="w-full h-[44px] rounded-[14px] bg-white dark:bg-[#0D1728] border border-gray-200 dark:border-white/10 text-[#111827] dark:text-white text-[13px] font-semibold cursor-pointer mb-[20px]">Share Securely</button>
+
+  <div class="flex gap-[8px]">
+    <button id="ddDownloadFormBtn" class="flex-1 h-[46px] rounded-[14px] bg-[#2563EB] text-white text-[13px] font-semibold cursor-pointer">Download Form</button>
+    <button id="ddEmailFormBtn" class="flex-1 h-[46px] rounded-[14px] bg-white dark:bg-[#0D1728] border border-gray-200 dark:border-white/10 text-[#111827] dark:text-white text-[13px] font-semibold cursor-pointer">Email Form</button>
+    <button id="ddPrintFormBtn" class="flex-1 h-[46px] rounded-[14px] bg-white dark:bg-[#0D1728] border border-gray-200 dark:border-white/10 text-[#111827] dark:text-white text-[13px] font-semibold cursor-pointer">Print</button>
+  </div>
+</div>

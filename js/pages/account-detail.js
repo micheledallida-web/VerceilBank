@@ -46,6 +46,50 @@ const accountConfigs = {
   },
 };
 
+// Icon set shared by every quick action card — blue outline strokes on a
+// dark navy tile, per the Citi Mobile-style design spec.
+const qaIcons = {
+  transfer: '<svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 7h11m0 0l-4-4m4 4l-4 4M17 17H6m0 0l4 4m-4-4l4-4"></path></svg>',
+  sendMoney: '<svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M22 2L11 13"></path><path stroke-linecap="round" stroke-linejoin="round" d="M22 2l-7 20-4-9-9-4 20-7z"></path></svg>',
+  deposit: '<svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>',
+  accountDetails: '<svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><rect x="4" y="4" width="16" height="16" rx="3"></rect><path stroke-linecap="round" d="M8 10h8M8 14h5"></path></svg>',
+  goal: '<svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="4"></circle><circle cx="12" cy="12" r="0.5"></circle></svg>',
+  interest: '<svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" d="M6 18L18 6"></path><circle cx="7.5" cy="7.5" r="2"></circle><circle cx="16.5" cy="16.5" r="2"></circle></svg>',
+  directDeposit: '<svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10l9-6 9 6"></path><path stroke-linecap="round" d="M5 10v9h14v-9M10 19v-6h4v6"></path></svg>',
+  buy: '<svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 17l5-5 4 4 7-8"></path><path stroke-linecap="round" stroke-linejoin="round" d="M15 8h5v5"></path></svg>',
+  sell: '<svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 7l5 5 4-4 7 8"></path><path stroke-linecap="round" stroke-linejoin="round" d="M15 16h5v-5"></path></svg>',
+  portfolio: '<svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path d="M12 2v10l7 5"></path><circle cx="12" cy="12" r="9.5"></circle></svg>',
+};
+
+// Per-account-type Quick Actions — 2x2 grid, matches the copy in the
+// problem statement 1:1. `action` is invoked with `ctx` when the card is tapped.
+const quickActionConfigs = {
+  checking: [
+    { icon: qaIcons.transfer, title: 'Transfer', subtitle: 'Move money between Vercel accounts or external banks.', action: (ctx) => ctx.loadPage('transfer') },
+    { icon: qaIcons.sendMoney, title: 'Send Money', subtitle: 'Send money using Zelle® or internal bank transfers.', action: (ctx) => ctx.loadPage('send-money') },
+    { icon: qaIcons.deposit, title: 'Deposit Funds', subtitle: 'Add money to your checking account.', action: (ctx) => ctx.loadPage('fund-account') },
+    { icon: qaIcons.accountDetails, title: 'Account Details', subtitle: 'View routing number, account number, and direct deposit information.', action: (ctx) => ctx.loadPage('account-details') },
+  ],
+  savings: [
+    { icon: qaIcons.transfer, title: 'Transfer', subtitle: 'Move money to or from your savings account.', action: (ctx) => ctx.loadPage('transfer') },
+    { icon: qaIcons.deposit, title: 'Deposit Funds', subtitle: 'Add funds to your savings account.', action: (ctx) => ctx.loadPage('fund-account') },
+    { icon: qaIcons.goal, title: 'Savings Goal', subtitle: 'Create or manage savings goals.', action: (ctx) => ctx.loadPage('savings-goal') },
+    { icon: qaIcons.interest, title: 'Interest Details', subtitle: 'View APY, interest earned, and payment history.', action: (ctx) => ctx.loadPage('interest-details', 'savings') },
+  ],
+  interest_checking: [
+    { icon: qaIcons.transfer, title: 'Transfer', subtitle: 'Move money into or out of Interest Checking.', action: (ctx) => ctx.loadPage('transfer') },
+    { icon: qaIcons.deposit, title: 'Deposit Funds', subtitle: 'Fund your Interest Checking account.', action: (ctx) => ctx.loadPage('fund-account') },
+    { icon: qaIcons.directDeposit, title: 'Direct Deposit', subtitle: 'View and share direct deposit information.', action: (ctx) => ctx.loadPage('direct-deposit', 'interest_checking') },
+    { icon: qaIcons.interest, title: 'Interest Details', subtitle: 'View APY, accrued interest, and monthly earnings.', action: (ctx) => ctx.loadPage('interest-details', 'interest_checking') },
+  ],
+  investments: [
+    { icon: qaIcons.transfer, title: 'Transfer Funds', subtitle: 'Move money between banking and investment accounts.', action: (ctx) => ctx.loadPage('transfer') },
+    { icon: qaIcons.buy, title: 'Buy Investments', subtitle: 'Purchase stocks, ETFs, or mutual funds.', action: (ctx) => ctx.loadPage('trade', 'buy') },
+    { icon: qaIcons.sell, title: 'Sell Investments', subtitle: 'Sell holdings and move proceeds to cash.', action: (ctx) => ctx.loadPage('trade', 'sell') },
+    { icon: qaIcons.portfolio, title: 'Portfolio Details', subtitle: 'View holdings, performance, and investment activity.', action: (ctx) => ctx.loadPage('portfolio') },
+  ],
+};
+
 let listeners = [];
 function on(el, evt, fn) { el.addEventListener(evt, fn); listeners.push(() => el.removeEventListener(evt, fn)); }
 
@@ -63,13 +107,35 @@ export function init(root, ctx, type) {
   const detailRoutingSection = root.querySelector('#detailRoutingSection');
   const detailFullRoutingNumber = root.querySelector('#detailFullRoutingNumber');
   const detailFullAccountNumber = root.querySelector('#detailFullAccountNumber');
+  const detailQuickActionsSection = root.querySelector('#detailQuickActionsSection');
+  const detailQuickActions = root.querySelector('#detailQuickActions');
   const detailTransactionsSection = root.querySelector('#detailTransactionsSection');
   const detailTransactionsList = root.querySelector('#detailTransactionsList');
 
   on(root.querySelector('[data-action="close"]'), 'click', close);
-  on(root.querySelector('#detailFundAccountBtn'), 'click', () => {
-    loadPage('fund-account');
-  });
+
+  function renderQuickActions() {
+    const actions = quickActionConfigs[type] || quickActionConfigs.checking;
+    detailQuickActions.innerHTML = actions.map((a, idx) => `
+      <button class="detail-quick-action group text-left cursor-pointer rounded-[20px] p-[16px] h-[120px] flex flex-col justify-between transition-transform duration-150 active:scale-[0.97]" style="background:#0B1730;border:1px solid #1E3A5F;box-shadow:0 8px 20px rgba(0,0,0,0.25);" data-index="${idx}">
+        <div class="flex items-center justify-between">
+          <span class="w-[38px] h-[38px] rounded-[12px] flex items-center justify-center flex-shrink-0" style="background:rgba(37,99,235,0.12);color:#2563EB;">${a.icon}</span>
+          <svg class="w-[14px] h-[14px] text-[#52607D] opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </div>
+        <div>
+          <div class="text-[14px] font-semibold text-white leading-tight">${a.title}</div>
+          <div class="text-[11px] font-normal text-[#8E9CBA] mt-[3px] leading-snug line-clamp-2">${a.subtitle}</div>
+        </div>
+      </button>
+    `).join('');
+
+    detailQuickActions.querySelectorAll('.detail-quick-action').forEach((btn) => {
+      on(btn, 'click', () => {
+        const a = actions[parseInt(btn.getAttribute('data-index'), 10)];
+        a.action(ctx);
+      });
+    });
+  }
 
   detailAccountName.textContent = cfg.title;
   detailAccountTitle.textContent = cfg.title;
@@ -152,12 +218,15 @@ export function init(root, ctx, type) {
 
   if (cfg.unapplied) {
     detailRoutingSection.classList.add('hidden');
+    detailQuickActionsSection.classList.add('hidden');
     detailTransactionsSection.classList.add('hidden');
   } else {
     detailFullRoutingNumber.textContent = getOrCreateTempNumber(type, 'routing');
     detailFullAccountNumber.textContent = getOrCreateTempNumber(type, 'account');
     detailRoutingSection.classList.remove('hidden');
+    detailQuickActionsSection.classList.remove('hidden');
     detailTransactionsSection.classList.remove('hidden');
+    renderQuickActions();
     loadTransactions();
   }
 }
