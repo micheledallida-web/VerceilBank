@@ -169,7 +169,7 @@ function clearCachedUserData() {
 }
 
 function goToSignIn() {
-  window.location.href = 'index.html?signin=1';
+  window.location.href = 'signin.html';
 }
 
 async function handleSignOut() {

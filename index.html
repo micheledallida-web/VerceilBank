@@ -1216,12 +1216,8 @@
         unlockBodyScroll();
       }
 
-      if (openLoginBtn) {
-        openLoginBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          openSignInModal();
-        });
-      }
+      // openLoginBtn intentionally has no click handler here: it's a plain
+      // link to the standalone signin.html page (split-page structure).
       if (signInCloseBtn) signInCloseBtn.addEventListener('click', closeSignInModal);
       if (signInModal) {
         signInModal.addEventListener('click', (e) => {
@@ -1230,12 +1226,8 @@
       }
       if (goToSignUpBtn) goToSignUpBtn.addEventListener('click', openSignUpModal);
 
-      if (openSignUpBtn) {
-        openSignUpBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          openSignUpModal();
-        });
-      }
+      // openSignUpBtn intentionally has no click handler here: it's a plain
+      // link to the standalone signup.html page (split-page structure).
       if (signUpCloseBtn) signUpCloseBtn.addEventListener('click', closeSignUpModal);
       if (signUpModal) {
         signUpModal.addEventListener('click', (e) => {
@@ -1574,11 +1566,6 @@
         });
       }
 
-      // Auto-open after Sign Out redirects here with ?signin=1.
-      const params = new URLSearchParams(window.location.search);
-      if (params.get('signin') === '1') {
-        openSignInModal();
-      }
     })();
   </script>
 </body>
