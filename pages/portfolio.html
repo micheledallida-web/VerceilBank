@@ -21,17 +21,29 @@
       </div>
     </div>
 
-    <div class="relative h-[64px] w-full mt-[16px]">
-      <svg id="portChartSvg" class="w-full h-full" viewBox="0 0 380 64" fill="none" preserveAspectRatio="none">
-        <path id="portChartLine" d="M0 55 L380 55" stroke="#A855F7" stroke-width="2.2" stroke-linecap="round"></path>
-        <path id="portChartFill" d="M0 55 L380 55 L380 64 L0 64 Z" fill="url(#portGlow)" opacity="0.6"></path>
+    <div class="relative h-[180px] w-full mt-[16px] select-none" id="portChartWrap" style="touch-action: pan-y;">
+      <svg id="portChartSvg" class="w-full h-full" viewBox="0 0 380 180" fill="none" preserveAspectRatio="none">
         <defs>
+          <linearGradient id="portLineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#2563EB"></stop>
+            <stop offset="100%" stop-color="#A855F7"></stop>
+          </linearGradient>
           <linearGradient id="portGlow" x1="0%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%" stop-color="#8B5CF6" stop-opacity="0.35"></stop>
             <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0.0"></stop>
           </linearGradient>
         </defs>
+        <path id="portChartFill" d="M0 170 L380 170 L380 180 L0 180 Z" fill="url(#portGlow)" opacity="0.6"></path>
+        <path id="portChartLine" d="M0 170 L380 170" stroke="url(#portLineGradient)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        <g id="portChartCrosshair" class="hidden" style="transition: opacity 0.15s ease;">
+          <line id="portChartCrosshairLine" x1="0" y1="0" x2="0" y2="180" stroke="#8E9CBA" stroke-width="1" stroke-dasharray="3,3" opacity="0.6"></line>
+          <circle id="portChartCrosshairDot" cx="0" cy="0" r="4.5" fill="#ffffff" stroke="#2563EB" stroke-width="2.5"></circle>
+        </g>
       </svg>
+      <div id="portChartTooltip" class="hidden absolute top-0 left-0 pointer-events-none bg-[#111827] dark:bg-black/90 text-white text-[11px] font-semibold rounded-[8px] px-[8px] py-[5px] shadow-lg whitespace-nowrap" style="transform: translate(-50%, -110%);">
+        <div id="portChartTooltipValue">$0.00</div>
+        <div id="portChartTooltipDate" class="text-[10px] font-normal text-white/70"></div>
+      </div>
     </div>
     <div class="flex items-center justify-between text-[12px] font-medium text-[#6B7280] dark:text-[#8E9CBA] pt-[8px]" id="portChartRange">
       <span data-range="1D" class="port-range-btn cursor-pointer px-2 py-0.5">1D</span>

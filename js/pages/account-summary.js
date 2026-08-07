@@ -7,15 +7,18 @@ function on(el, evt, fn) {
 }
 
 export async function init(root, ctx) {
-  const { close, loadPage, parseBalanceText, formatCurrency, showModal, supabaseClient, getCurrentUser } = ctx;
+  const { close, loadPage, parseBalanceText, formatCurrency, supabaseClient, getCurrentUser } = ctx;
   on(root.querySelector('[data-action="close"]'), 'click', close);
 
   const checking = parseBalanceText(document.getElementById('checkingBalance')?.textContent || '0');
   const savings = parseBalanceText(document.getElementById('savingsBalance')?.textContent || '0');
   const investments = parseBalanceText(document.getElementById('investmentsBalance')?.textContent || '0');
-  root.querySelector('#asTotalDeposits').textContent = formatCurrency(checking + savings);
+  const interestCheckingEl = document.getElementById('interestCheckingBalance');
+  const hasInterestChecking = !document.getElementById('sectionInterestChecking')?.classList.contains('hidden');
+  const interestChecking = hasInterestChecking ? parseBalanceText(interestCheckingEl?.textContent || '0') : 0;
+  root.querySelector('#asTotalDeposits').textContent = formatCurrency(checking + savings + interestChecking);
   root.querySelector('#asTotalInvestments').textContent = formatCurrency(investments);
-  root.querySelector('#asAvailableCash').textContent = formatCurrency(checking + savings);
+  root.querySelector('#asAvailableCash').textContent = formatCurrency(checking + savings + interestChecking);
 
   let creditBalance = 0;
   try {
@@ -32,6 +35,7 @@ export async function init(root, ctx) {
   root.querySelector('#asAccountsList').innerHTML = `
     <button class="as-acct-row w-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[16px] p-[14px] shadow-lg flex items-center justify-between text-left cursor-pointer" data-acct="checking"><span class="text-[13px] font-semibold text-[#111827] dark:text-white">Verceil Checking</span><span class="text-[14px] font-bold text-[#111827] dark:text-white">${formatCurrency(checking)}</span></button>
     <button class="as-acct-row w-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[16px] p-[14px] shadow-lg flex items-center justify-between text-left cursor-pointer" data-acct="savings"><span class="text-[13px] font-semibold text-[#111827] dark:text-white">High-Yield Savings</span><span class="text-[14px] font-bold text-[#111827] dark:text-white">${formatCurrency(savings)}</span></button>
+    ${hasInterestChecking ? `<button class="as-acct-row w-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[16px] p-[14px] shadow-lg flex items-center justify-between text-left cursor-pointer" data-acct="interest_checking"><span class="text-[13px] font-semibold text-[#111827] dark:text-white">Vercel Interest Checking</span><span class="text-[14px] font-bold text-[#111827] dark:text-white">${formatCurrency(interestChecking)}</span></button>` : ''}
     <button class="as-acct-row w-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[16px] p-[14px] shadow-lg flex items-center justify-between text-left cursor-pointer" data-acct="investments"><span class="text-[13px] font-semibold text-[#111827] dark:text-white">Investment Portfolio</span><span class="text-[14px] font-bold text-[#111827] dark:text-white">${formatCurrency(investments)}</span></button>
     <button class="as-acct-row w-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[16px] p-[14px] shadow-lg flex items-center justify-between text-left cursor-pointer" data-acct="credit"><span class="text-[13px] font-semibold text-[#111827] dark:text-white">Verceil Signature Card</span><span class="text-[13px] font-semibold text-[#6B7280] dark:text-[#8E9CBA]">Apply</span></button>
   `;
@@ -40,7 +44,7 @@ export async function init(root, ctx) {
   on(root.querySelector('#asQuickTransfer'), 'click', () => loadPage('transfer'));
   on(root.querySelector('#asQuickDeposit'), 'click', () => loadPage('fund-account'));
   on(root.querySelector('#asQuickStatements'), 'click', () => loadPage('docs-hub'));
-  on(root.querySelector('#asQuickPayBills'), 'click', () => showModal('Pay Bills', 'Opening Pay Bills...'));
+  on(root.querySelector('#asQuickSendMoney'), 'click', () => loadPage('send-money'));
 
   const activity = root.querySelector('#asRecentActivity');
   const user = await getCurrentUser();

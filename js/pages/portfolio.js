@@ -1,3 +1,5 @@
+import { createPortfolioChart } from '../shared/portfolio-chart.js';
+
 const categoryMeta = {
   stocks: { label: 'Stocks', color: '#2563EB' },
   etfs: { label: 'ETFs', color: '#8B5CF6' },
@@ -7,6 +9,7 @@ const categoryMeta = {
 };
 
 let listeners = [];
+let activeChart = null;
 function on(el, evt, fn) {
   if (!el) return;
   el.addEventListener(evt, fn);
@@ -35,6 +38,11 @@ export function init(root, ctx) {
   const saveHoldingBtn = root.querySelector('#saveHoldingBtn');
 
   let currentHoldings = [];
+  let chart = null;
+  let portfolioTotalValue = 0;
+  let baseTodayChangeText = '$0.00 (0.00%)';
+  let baseTodayChangeColor = '#16A34A';
+  let baseTotalValueText = '$0.00';
 
   function showOverviewStep() {
     addHoldingStep.classList.add('hidden');
@@ -199,21 +207,36 @@ export function init(root, ctx) {
       }).join('');
     }
 
-    const chartLine = root.querySelector('#portChartLine');
-    const chartFill = root.querySelector('#portChartFill');
-    if (totalValue <= 0) {
-      chartLine.setAttribute('d', 'M0 55 L380 55');
-      chartFill.setAttribute('d', 'M0 55 L380 55 L380 64 L0 64 Z');
-    } else if (totalReturn >= 0) {
-      chartLine.setAttribute('d', 'M0 50 C 80 48, 140 40, 200 34 C 260 28, 320 18, 380 8');
-      chartFill.setAttribute('d', 'M0 50 C 80 48, 140 40, 200 34 C 260 28, 320 18, 380 8 L 380 64 L 0 64 Z');
-    } else {
-      chartLine.setAttribute('d', 'M0 12 C 80 18, 140 26, 200 32 C 260 38, 320 48, 380 56');
-      chartFill.setAttribute('d', 'M0 12 C 80 18, 140 26, 200 32 C 260 38, 320 48, 380 56 L 380 64 L 0 64 Z');
-    }
-
     const investmentsEl = document.getElementById('investmentsBalance');
     if (investmentsEl && totalValue >= 0) investmentsEl.textContent = formatCurrency(totalValue);
+
+    portfolioTotalValue = totalValue;
+    baseTodayChangeText = `${totalDayChange >= 0 ? '+' : ''}${formatCurrency(totalDayChange)} (${todayPct.toFixed(2)}%)`;
+    baseTodayChangeColor = totalDayChange >= 0 ? '#16A34A' : '#EF4444';
+    baseTotalValueText = formatCurrency(totalValue);
+
+    if (chart) {
+      chart.setEndValue(totalValue, 'portfolio');
+    } else {
+      chart = createPortfolioChart(root, {
+        formatCurrency,
+        onScrub: (value) => {
+          if (value === null) {
+            portTotalValue.textContent = baseTotalValueText;
+            portTodayChange.style.color = baseTodayChangeColor;
+            portTodayChange.textContent = baseTodayChangeText;
+            return;
+          }
+          const diff = value - portfolioTotalValue;
+          const pct = portfolioTotalValue > 0 ? (diff / portfolioTotalValue) * 100 : 0;
+          portTotalValue.textContent = formatCurrency(value);
+          portTodayChange.style.color = diff >= 0 ? '#16A34A' : '#EF4444';
+          portTodayChange.textContent = `${diff >= 0 ? '+' : ''}${formatCurrency(diff)} (${pct.toFixed(2)}%)`;
+        },
+      });
+      activeChart = chart;
+      chart.setRange('1M', totalValue, false);
+    }
   }
 
   async function refreshPortfolio() {
@@ -231,7 +254,10 @@ export function init(root, ctx) {
   });
 
   root.querySelectorAll('.port-range-btn').forEach(btn => {
-    on(btn, 'click', () => updateRangeButtonState(btn));
+    on(btn, 'click', () => {
+      updateRangeButtonState(btn);
+      if (chart) chart.setRange(btn.getAttribute('data-range'), portfolioTotalValue);
+    });
   });
   updateRangeButtonState(root.querySelector('.port-range-btn[data-range="1M"]'));
 
@@ -302,4 +328,8 @@ export function init(root, ctx) {
 export function cleanup() {
   listeners.forEach(off => off());
   listeners = [];
+  if (activeChart) {
+    activeChart.destroy();
+    activeChart = null;
+  }
 }
