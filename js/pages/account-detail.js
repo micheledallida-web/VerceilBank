@@ -117,14 +117,14 @@ export function init(root, ctx, type) {
   function renderQuickActions() {
     const actions = quickActionConfigs[type] || quickActionConfigs.checking;
     detailQuickActions.innerHTML = actions.map((a, idx) => `
-      <button class="detail-quick-action group text-left cursor-pointer rounded-[20px] p-[16px] h-[120px] flex flex-col justify-between transition-transform duration-150 active:scale-[0.97]" style="background:#0B1730;border:1px solid #1E3A5F;box-shadow:0 8px 20px rgba(0,0,0,0.25);" data-index="${idx}">
+      <button class="detail-quick-action group text-left cursor-pointer flex flex-col gap-[10px] transition-transform duration-150 active:scale-[0.97]" data-index="${idx}">
         <div class="flex items-center justify-between">
-          <span class="w-[38px] h-[38px] rounded-[12px] flex items-center justify-center flex-shrink-0" style="background:rgba(37,99,235,0.12);color:#2563EB;">${a.icon}</span>
+          <span class="w-[38px] h-[38px] rounded-[12px] flex items-center justify-center flex-shrink-0 bg-white/15 text-white dark:bg-[rgba(37,99,235,0.12)] dark:text-[#2563EB]">${a.icon}</span>
           <svg class="w-[14px] h-[14px] text-[#52607D] opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </div>
         <div>
           <div class="text-[14px] font-semibold text-white leading-tight">${a.title}</div>
-          <div class="text-[11px] font-normal text-[#8E9CBA] mt-[3px] leading-snug line-clamp-2">${a.subtitle}</div>
+          <div class="text-[11px] font-normal text-white/70 dark:text-[#8E9CBA] mt-[3px] leading-snug line-clamp-2">${a.subtitle}</div>
         </div>
       </button>
     `).join('');
