@@ -957,17 +957,23 @@
             if (error) throw error;
 
             if (!data.session) {
-              const loginRes = await supabaseClient.auth.signInWithPassword({ email, password });
-              if (loginRes.error) throw loginRes.error;
+              signUpSubmitBtn.textContent = 'Continue';
+              signUpSubmitBtn.disabled = false;
+              signUpErrorBox.style.color = '#34d399';
+              signUpErrorBox.textContent = 'Account created! Please check your email to confirm your address before signing in.';
+              signUpErrorBox.style.display = 'block';
+              return;
             }
 
             signUpSubmitBtn.textContent = 'Success! Launching...';
             window.location.href = 'dashboard.html';
           } catch (err) {
             let message = err.message || 'Load failed. Please check your network or try again.';
-            if (message.toLowerCase().includes('invalid') || message.toLowerCase().includes('credentials') || message.toLowerCase().includes('already registered')) {
+            const lowerMessage = message.toLowerCase();
+            if (lowerMessage.includes('invalid') || lowerMessage.includes('credentials') || lowerMessage.includes('already registered') || lowerMessage.includes('already exists') || lowerMessage.includes('already in use')) {
               message = 'Invalid registration details or email already in use.';
             }
+            signUpErrorBox.style.color = '#f87171';
             signUpErrorBox.textContent = message;
             signUpErrorBox.style.display = 'block';
             signUpSubmitBtn.disabled = false;
