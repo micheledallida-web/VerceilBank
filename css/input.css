@@ -228,10 +228,20 @@ body:not(.dark) .action-tile svg {
 .account-grid .account-number { text-align: left; }
 
 .account-grid .account-balance,
-.account-grid .account-sublabel { text-align: right; }
+.account-grid .account-sublabel { text-align: center; }
 
 .account-chevron {
   display: flex;
   align-items: center;
   flex-shrink: 0;
 }
+
+/* The Signature Card has no balance, so its grid holds three children
+   rather than four. Placing the approval note explicitly puts it in the
+   right-hand column of row 2 without a collapsing spacer element. */
+.account-grid .card-approval {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.account-grid .card-approval { white-space: nowrap; }
