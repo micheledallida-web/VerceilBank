@@ -50,7 +50,7 @@ export function init(root, ctx) {
     showModal('Vercel Interest Checking', 'Earn up to 4.00% APY with no monthly maintenance fees, FDIC insurance, mobile check deposit, Zelle® transfers, and early direct deposit — all with no minimum balance required.');
   });
 
-  on(openAccountBtn, 'click', async () => {
+  const handleOpenAccount = async () => {
     openAccountBtn.disabled = true;
     openAccountBtn.textContent = 'Opening Account...';
 
@@ -88,10 +88,108 @@ export function init(root, ctx) {
 
     offerStep.classList.add('hidden');
     confirmStep.classList.remove('hidden');
-  });
+  };
 
   on(root.querySelector('#icViewAccountBtn'), 'click', () => loadPage('account-detail', 'interest_checking'));
   on(root.querySelector('#icReturnToDashboardBtn'), 'click', close);
+
+  // ---------- Primary CTA gate ----------
+  // Persona is not installed yet, so identity verification is handled manually
+  // by support and only a profile already marked verified opens the account
+  // straight away. States B and C are wired up now so they begin working the
+  // moment kyc_status / verified_at land on user_profile: flip
+  // AUTOMATED_VERIFICATION_ENABLED and point startIdentityVerification() at
+  // Persona. Nothing else in the gate has to change.
+  const AUTOMATED_VERIFICATION_ENABLED = false;
+  const VERIFICATION_MAX_AGE_DAYS = 365;
+
+  // Reused verbatim from the two buttons already on this page, so the gate
+  // introduces no new visual styles.
+  const PRIMARY_BTN_CLASS = 'w-full h-[50px] rounded-[14px] bg-[#2563EB] text-white text-[15px] font-semibold cursor-pointer hover:opacity-90 transition-all shadow-lg';
+  const SECONDARY_BTN_CLASS = 'w-full h-[50px] rounded-[14px] bg-white dark:bg-[#0D1728] border border-gray-200 dark:border-white/10 text-[#111827] dark:text-white text-[15px] font-semibold cursor-pointer hover:opacity-90 transition-all';
+
+  const ctaHelper = document.createElement('div');
+  ctaHelper.id = 'icCtaHelper';
+  ctaHelper.className = 'hidden text-[12px] font-normal text-white/80 dark:text-[#8E9CBA] text-center';
+  openAccountBtn.insertAdjacentElement('afterend', ctaHelper);
+
+  function setCta(text, className, helperText, handler) {
+    openAccountBtn.textContent = text;
+    openAccountBtn.className = className;
+    openAccountBtn.disabled = false;
+    ctaHelper.textContent = helperText;
+    ctaHelper.classList.toggle('hidden', !helperText);
+    on(openAccountBtn, 'click', handler);
+  }
+
+  function startIdentityVerification() {
+    if (AUTOMATED_VERIFICATION_ENABLED) {
+      loadPage('contact-support');
+      return;
+    }
+    showModal('Verify Your Identity', 'Automated identity checks are not switched on yet, so verification is handled by our support team. Contact support to confirm your details and we will open your Interest Checking account once you are verified.');
+    loadPage('contact-support');
+  }
+
+  function isVerificationStale(verifiedAt) {
+    if (!verifiedAt) return false;
+    const ts = new Date(verifiedAt).getTime();
+    if (!ts) return false;
+    return (Date.now() - ts) / 86400000 > VERIFICATION_MAX_AGE_DAYS;
+  }
+
+  async function readGateState() {
+    if (!supabaseClient) return null;
+    const user = await getCurrentUser();
+    if (!user) return null;
+    // Two tables, so two requests, but issued together rather than waterfalled.
+    // select('*') because kyc_status / verified_at are not on user_profile yet
+    // and naming them explicitly would fail the whole request.
+    const [profileRes, accountRes] = await Promise.all([
+      supabaseClient.from('user_profile').select('*').eq('user_id', user.id).maybeSingle(),
+      supabaseClient.from('accounts').select('id').eq('user_id', user.id).eq('account_type', 'interest_checking').limit(1),
+    ]);
+    const profile = profileRes.data || {};
+    return {
+      kycStatus: profile.kyc_status || null,
+      verifiedAt: profile.verified_at || null,
+      ownsProduct: !!(accountRes.data && accountRes.data.length),
+    };
+  }
+
+  async function applyCtaState() {
+    openAccountBtn.disabled = true;
+    openAccountBtn.textContent = 'Loading';
+    ctaHelper.classList.add('hidden');
+
+    let gate = null;
+    try {
+      gate = await readGateState();
+    } catch (err) {
+      console.error('Interest Checking gate error:', err);
+    }
+
+    // A — already owns this product.
+    if (gate && gate.ownsProduct) {
+      setCta('View Your Interest Checking', SECONDARY_BTN_CLASS, '', () => loadPage('account-detail', 'interest_checking'));
+      return;
+    }
+    // B — not verified. Also catches "state unknown", because someone we
+    // cannot confirm as verified must not fall through to opening an account.
+    if (!gate || gate.kycStatus !== 'verified') {
+      setCta('Verify Identity to Open', PRIMARY_BTN_CLASS, AUTOMATED_VERIFICATION_ENABLED ? 'Identity verification takes about 3 minutes.' : 'Contact support to verify your identity — this is handled manually for now.', startIdentityVerification);
+      return;
+    }
+    // C — verified, but too long ago.
+    if (isVerificationStale(gate.verifiedAt)) {
+      setCta('Confirm Your Details to Open', PRIMARY_BTN_CLASS, 'We need to reconfirm your information before opening a new account.', startIdentityVerification);
+      return;
+    }
+    // D — verified, recent, does not own the product yet.
+    setCta('Open Interest Checking', PRIMARY_BTN_CLASS, '', handleOpenAccount);
+  }
+
+  applyCtaState();
 }
 
 export function cleanup() {
