@@ -10,312 +10,352 @@
   <style>
     /* ==========================================================================
        SIGN-UP PAGE SPECIFIC STYLING (VERCEIL BANK BRANDED)
+       Mirrors the dark navy "auth-card" modal used on the homepage so the
+       standalone page looks identical to the in-app Create Account modal.
        ========================================================================== */
     body.signup-page {
-      background: 
-        linear-gradient(to bottom, #1e293b 0%, #0f172a 40%, rgba(15, 23, 42, 0.4) 55%, transparent 55%),
-        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat fixed !important;
-      background-attachment: fixed !important;
+      margin: 0;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      position: relative;
     }
 
-    body.signup-page::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(15, 23, 42, 0.35);
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    .signup-header, .signup-main, .signup-footer {
-      position: relative;
-      z-index: 2;
-    }
-
-    .signup-header {
-      padding: 1.5rem 2rem;
+    .auth-hero {
+      flex: 1;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
+      background:
+        linear-gradient(180deg, rgba(3, 9, 24, 0.72) 0%, rgba(3, 9, 24, 0.72) 100%),
+        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop') center center / cover no-repeat;
+      background-attachment: fixed;
     }
 
-    .signup-header .logo {
-      display: inline-flex !important;
-      flex-direction: row !important;
-      align-items: center !important;
-      gap: 0.05rem !important;
-      font-weight: 900 !important;
-      font-size: 1.35rem !important;
-      letter-spacing: -0.03em !important;
-      text-transform: uppercase !important;
-      text-decoration: none;
-      background: transparent !important;
-      padding: 0 !important;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    .signup-header .logo-text {
-      display: inline-flex !important;
-      align-items: center !important;
-    }
-
-    .signup-header .logo-accent {
-      color: #ffffff !important;
-      font-weight: 900 !important;
-      margin-right: 0.05rem;
-    }
-
-    .signup-header .logo-main {
-      color: #3b82f6 !important;
-      font-weight: 900 !important;
-    }
-
-    .exit-btn {
-      color: #ffffff;
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      padding: 0.4rem 1rem;
-      border-radius: 4px;
-      font-weight: 600;
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: background 0.2s;
-    }
-
-    .exit-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .signup-main {
+    .auth-hero-main {
       flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 1rem 1rem 3rem 1rem;
+      padding: 24px 16px 40px;
     }
 
-    .signup-card {
-      background: #ffffff;
-      width: 100%;
-      max-width: 480px;
-      border-radius: 8px;
-      padding: 2.5rem 2rem;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    .auth-card {
+      position: relative;
+      width: 92%;
+      max-width: 460px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: #08142E;
+      border: 1px solid #1E3A5F;
+      border-radius: 24px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+      padding: 32px 28px 28px;
     }
 
-    .progress-container {
-      margin-bottom: 1.75rem;
+    .auth-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .auth-logo {
+      font-weight: 900;
+      font-size: 1.15rem;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+    }
+    .auth-logo .accent { color: #ffffff; }
+    .auth-logo .main { color: #2563FF; }
+    .auth-close-btn {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      font-size: 1.4rem;
+      line-height: 1;
+      padding: 4px;
+      text-decoration: none;
+    }
+    .auth-close-btn:hover { color: #ffffff; }
+
+    .auth-card h1 {
+      color: #ffffff;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0 0 6px;
+      letter-spacing: -0.02em;
+    }
+    .auth-card p.auth-subtitle {
+      color: #94a3b8;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      margin: 0 0 24px;
     }
 
-    .progress-label {
-      font-size: 0.85rem;
-      color: #4b5563;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
+    .auth-progress { margin-bottom: 24px; }
+    .auth-progress-label {
       display: block;
+      color: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 8px;
     }
-
-    .progress-bar-track {
+    .auth-progress-track {
       width: 100%;
-      height: 6px;
-      background: #e5e7eb;
-      border-radius: 3px;
+      height: 4px;
+      background: #1E3A5F;
+      border-radius: 2px;
       overflow: hidden;
     }
-
-    .progress-bar-fill {
-      width: 75%;
+    .auth-progress-fill {
       height: 100%;
-      background: #0044ff;
+      background: #2563FF;
+      border-radius: 2px;
       transition: width 0.4s ease-in-out;
     }
 
-    .signup-card h1 {
-      font-size: 1.75rem;
-      font-weight: 700;
-      color: #111827;
-      margin-bottom: 0.5rem;
-      letter-spacing: -0.02em;
-    }
-
-    .signup-card p.subtitle {
-      font-size: 0.95rem;
-      color: #4b5563;
-      margin-bottom: 1.75rem;
-      line-height: 1.4;
-    }
-
-    .input-group {
-      position: relative;
-      margin-bottom: 1.25rem;
-    }
-
-    .input-group label {
+    .auth-field { margin-bottom: 18px; }
+    .auth-field label {
       display: block;
-      font-size: 0.9rem;
-      color: #4b5563;
-      margin-bottom: 0.3rem;
-      font-weight: 400;
+      color: #cbd5e1;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 8px;
     }
-
-    .input-group input, .input-group select {
+    .auth-input {
       width: 100%;
-      padding: 0.75rem 0;
-      font-size: 1.05rem;
-      border: none;
-      border-bottom: 2px solid #0044ff;
+      height: 56px;
+      padding: 0 16px;
+      background: #111F3A;
+      border: 1px solid #2A3F66;
+      border-radius: 14px;
+      color: #ffffff;
+      font-size: 0.95rem;
       outline: none;
-      background: transparent;
-      color: #111827;
-      border-radius: 0;
+      transition: border-color 0.15s ease;
+      appearance: none;
+      -webkit-appearance: none;
+      box-sizing: border-box;
     }
-
-    .input-group select {
+    .auth-input::placeholder { color: #64748b; }
+    .auth-input:focus { border-color: #2563FF; }
+    select.auth-input {
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'><polyline points='6 9 12 15 18 9'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      background-size: 18px;
       cursor: pointer;
     }
+    input[type="date"].auth-input { color-scheme: dark; }
 
-    .input-group input:focus, .input-group select:focus {
-      border-bottom-color: #0033cc;
-    }
-
-    .btn-next-full {
+    .auth-btn-primary {
       width: 100%;
-      background-color: #0044ff;
+      height: 56px;
+      margin-top: 8px;
+      background: #2563FF;
       color: #ffffff;
-      padding: 0.85rem;
+      font-weight: 700;
       font-size: 1rem;
-      font-weight: 600;
       border: none;
-      border-radius: 4px;
+      border-radius: 16px;
       cursor: pointer;
       transition: background-color 0.2s ease;
-      margin-top: 1rem;
     }
+    .auth-btn-primary:hover { background: #1d4fd8; }
+    .auth-btn-primary:disabled { opacity: 0.7; cursor: default; }
 
-    .btn-next-full:hover {
-      background-color: #0033cc;
-    }
-
-    .signup-footer {
-      background-color: #ffffff;
-      padding: 1.5rem 1rem;
+    .auth-switch {
       text-align: center;
-      border-top: 1px solid #e5e7eb;
-      font-size: 0.85rem;
-      color: #6b7280;
+      color: #94a3b8;
+      font-size: 0.9rem;
+      margin: 18px 0 0;
     }
-
-    .error-msg {
-      background-color: #fef2f2;
-      border: 1px solid #f87171;
-      color: #ef4444;
-      padding: 0.75rem;
-      border-radius: 4px;
-      font-size: 0.88rem;
-      margin-bottom: 1rem;
-      display: none;
-    }
-
-    .success-msg {
-      background-color: #ecfdf5;
-      border: 1px solid #34d399;
-      color: #059669;
-      padding: 0.75rem;
-      border-radius: 4px;
-      font-size: 0.88rem;
-      margin-bottom: 1rem;
+    .auth-switch a {
+      color: #2563FF;
       font-weight: 600;
-      display: none;
+      text-decoration: none;
     }
+    .auth-switch a:hover { text-decoration: underline; }
+
+    .auth-error {
+      display: none;
+      color: #f87171;
+      font-size: 0.8rem;
+      margin: 16px 0 0;
+    }
+    .auth-success {
+      display: none;
+      color: #34d399;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin: 0 0 16px;
+    }
+
+    /* Password field with show/hide eye icon */
+    .auth-field-password { position: relative; }
+    .auth-field-password .auth-input { padding-right: 48px; }
+    .auth-toggle-eye {
+      position: absolute;
+      top: 50%;
+      right: 14px;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+    }
+    .auth-toggle-eye:hover { color: #ffffff; }
+    .auth-toggle-eye svg { width: 20px; height: 20px; }
+
+    /* Trust badge strip beneath the card, on top of the background image */
+    .auth-trust-footer {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 2.5rem;
+      padding: 0 1rem 2rem;
+    }
+    .auth-trust-item {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      color: #ffffff;
+    }
+    .auth-trust-item svg {
+      width: 20px;
+      height: 20px;
+      color: #94a3b8;
+      flex-shrink: 0;
+    }
+    .auth-trust-title { font-size: 0.85rem; font-weight: 600; line-height: 1.3; }
+    .auth-trust-sub { font-size: 0.75rem; color: #94a3b8; line-height: 1.3; }
   </style>
   <!-- Include Supabase JS SDK CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="signup-page">
 
-  <!-- HEADER -->
-  <header class="signup-header">
-    <a href="index.html" class="logo">
-      <span class="logo-text"><span class="logo-accent">VERCEIL</span><span class="logo-main">BANK</span></span>
-    </a>
-    <a href="index.html" class="exit-btn">Exit</a>
+  <!-- SITE HEADER (matches homepage header) -->
+  <header class="main-header">
+    <div class="container nav-container">
+      <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <a href="index.html" class="logo">
+        <span class="logo-text"><span class="logo-accent" style="color: #000000; font-weight: 900; margin-right: 0.05rem;">VERCEIL</span><span class="logo-main" style="color: #0044ff; font-weight: 900;">BANK</span></span>
+        <img src="logo.png" alt="Verceil Bank" class="logo-image">
+      </a>
+
+      <div class="nav-actions">
+        <a href="signin.html" class="btn btn-primary sign-in-btn">Sign in</a>
+      </div>
+    </div>
   </header>
 
-  <!-- MAIN CARD CONTAINER -->
-  <main class="signup-main">
-    <div class="signup-card">
-      
-      <div class="progress-container">
-        <span class="progress-label">Your information</span>
-        <div class="progress-bar-track">
-          <div class="progress-bar-fill" id="progressBarFill"></div>
+  <!-- BACKGROUND HERO WITH CENTERED AUTH CARD -->
+  <div class="auth-hero">
+    <main class="auth-hero-main">
+      <div class="auth-card">
+
+        <div class="auth-header">
+          <span class="auth-logo"><span class="accent">VERCEIL</span><span class="main">BANK</span></span>
+          <a href="index.html" aria-label="Close" class="auth-close-btn">&times;</a>
         </div>
+
+        <h1>Create account</h1>
+        <p class="auth-subtitle">Open your Vercel Bank account in just a few minutes.</p>
+
+        <div class="auth-progress">
+          <span class="auth-progress-label">Your information</span>
+          <div class="auth-progress-track">
+            <div class="auth-progress-fill" id="progressBarFill" style="width: 75%;"></div>
+          </div>
+        </div>
+
+        <div id="errorBanner" class="auth-error"></div>
+        <div id="successBanner" class="auth-success">Account created successfully! Launching dashboard...</div>
+
+        <form id="signupForm">
+
+          <div class="auth-field">
+            <label for="firstName">First name</label>
+            <input type="text" id="firstName" class="auth-input" required>
+          </div>
+
+          <div class="auth-field">
+            <label for="middleName">Middle name (optional)</label>
+            <input type="text" id="middleName" class="auth-input">
+          </div>
+
+          <div class="auth-field">
+            <label for="lastName">Last name</label>
+            <input type="text" id="lastName" class="auth-input" required>
+          </div>
+
+          <div class="auth-field">
+            <label for="suffix">Suffix (optional)</label>
+            <select id="suffix" class="auth-input">
+              <option value="">None</option>
+              <option value="Jr">Jr.</option>
+              <option value="Sr">Sr.</option>
+              <option value="II">II</option>
+              <option value="III">III</option>
+            </select>
+          </div>
+
+          <div class="auth-field">
+            <label for="dob">Date of birth</label>
+            <input type="date" id="dob" class="auth-input" required>
+          </div>
+
+          <div class="auth-field">
+            <label for="email">Email address</label>
+            <input type="email" id="email" class="auth-input" required>
+          </div>
+
+          <div class="auth-field">
+            <label for="password">Password</label>
+            <div class="auth-field-password">
+              <input type="password" id="password" class="auth-input" autocomplete="new-password" required>
+              <button type="button" class="auth-toggle-eye" data-toggle-for="password" aria-label="Show password">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="auth-field" style="margin-bottom:0;">
+            <label for="confirmPassword">Confirm password</label>
+            <div class="auth-field-password">
+              <input type="password" id="confirmPassword" class="auth-input" autocomplete="new-password" required>
+              <button type="button" class="auth-toggle-eye" data-toggle-for="confirmPassword" aria-label="Show password">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" id="submitBtn" class="auth-btn-primary">Continue</button>
+
+        </form>
+
+        <p class="auth-switch">Already have an account? <a href="signin.html">Sign in</a></p>
       </div>
+    </main>
 
-      <h1>Let's get to know you</h1>
-      <p class="subtitle">Tell us your full legal name as it appears on your government ID, along with your secure credentials and date of birth.</p>
-
-      <div id="errorBanner" class="error-msg"></div>
-      <div id="successBanner" class="success-msg">Account created successfully! Launching dashboard...</div>
-
-      <form id="signupForm">
-        
-        <div class="input-group">
-          <label for="firstName">First name</label>
-          <input type="text" id="firstName" required>
-        </div>
-
-        <div class="input-group">
-          <label for="middleName">Middle name (optional)</label>
-          <input type="text" id="middleName">
-        </div>
-
-        <div class="input-group">
-          <label for="lastName">Last name</label>
-          <input type="text" id="lastName" required>
-        </div>
-
-        <div class="input-group">
-          <label for="suffix">Suffix (optional)</label>
-          <select id="suffix">
-            <option value="None">None</option>
-            <option value="Jr">Jr.</option>
-            <option value="Sr">Sr.</option>
-            <option value="II">II</option>
-            <option value="III">III</option>
-          </select>
-        </div>
-
-        <div class="input-group">
-          <label for="dob">Date of birth</label>
-          <input type="date" id="dob" required>
-        </div>
-
-        <div class="input-group">
-          <label for="email">Email address</label>
-          <input type="email" id="email" required>
-        </div>
-
-        <div class="input-group">
-          <label for="password">Create password</label>
-          <input type="password" id="password" required>
-        </div>
-
-        <button type="submit" id="submitBtn" class="btn-next-full">Next</button>
-
-      </form>
+    <!-- TRUST BADGE FOOTER -->
+    <div class="auth-trust-footer">
+      <div class="auth-trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5v6c0 5 3.5 8.5 9 10 5.5-1.5 9-5 9-10V5l-9-3-9 3z"/><path d="M9 12l2 2 4-4"/></svg>
+        <span>
+          <span class="auth-trust-title" style="display:block;">Support</span>
+          <span class="auth-trust-sub" style="display:block;">24/7 customer service</span>
+        </span>
+      </div>
     </div>
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="signup-footer">
-    <p>© 2026 Verceil Bank, N.A. Member FDIC. Equal Housing Lender.</p>
-  </footer>
+  </div>
 
   <!-- Generated at build time by scripts/generate-config.js; sets window.SUPABASE_URL / window.SUPABASE_ANON_KEY -->
   <script src="js/config.js"></script>
@@ -324,7 +364,7 @@
     // SUPABASE_ANON_KEY env vars -- see scripts/generate-config.js).
     const SUPABASE_URL = window.SUPABASE_URL;
     const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY;
-    
+
     let supabaseClient = null;
     try {
       if (window.supabase) {
@@ -351,10 +391,6 @@
         return;
       }
 
-      submitBtn.textContent = 'Creating account...';
-      submitBtn.disabled = true;
-      progressBarFill.style.width = '100%';
-
       const firstName = document.getElementById('firstName').value.trim();
       const middleName = document.getElementById('middleName').value.trim();
       const lastName = document.getElementById('lastName').value.trim();
@@ -362,15 +398,23 @@
       const dob = document.getElementById('dob').value;
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
 
       if (password.length < 6) {
         errorBanner.textContent = 'Password should be at least 6 characters.';
         errorBanner.style.display = 'block';
-        submitBtn.textContent = 'Next';
-        submitBtn.disabled = false;
-        progressBarFill.style.width = '75%';
         return;
       }
+
+      if (password !== confirmPassword) {
+        errorBanner.textContent = 'Passwords do not match.';
+        errorBanner.style.display = 'block';
+        return;
+      }
+
+      submitBtn.textContent = 'Creating account...';
+      submitBtn.disabled = true;
+      progressBarFill.style.width = '100%';
 
       try {
         const { data, error } = await supabaseClient.auth.signUp({
@@ -410,13 +454,24 @@
         if (message.toLowerCase().includes('invalid') || message.toLowerCase().includes('credentials') || message.toLowerCase().includes('already registered')) {
           message = 'Invalid registration details or email already in use.';
         }
-        
+
         errorBanner.textContent = message;
         errorBanner.style.display = 'block';
-        submitBtn.textContent = 'Next';
+        submitBtn.textContent = 'Continue';
         submitBtn.disabled = false;
         progressBarFill.style.width = '75%';
       }
+    });
+
+    document.querySelectorAll('.auth-toggle-eye').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-toggle-for');
+        const input = document.getElementById(targetId);
+        if (!input) return;
+        const isHidden = input.type === 'password';
+        input.type = isHidden ? 'text' : 'password';
+        btn.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+      });
     });
   </script>
 </body>
