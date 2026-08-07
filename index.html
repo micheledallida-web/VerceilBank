@@ -1236,6 +1236,20 @@
       }
       if (goToSignInBtn) goToSignInBtn.addEventListener('click', openSignInModal);
 
+      // Automatically reopen the Sign In modal when redirected here after a
+      // Sign Out (Dashboard -> Sign Out -> Landing Page -> Sign In Modal).
+      try {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('signin') === '1') {
+          openSignInModal();
+          params.delete('signin');
+          const cleanUrl = window.location.pathname + (params.toString() ? `?${params.toString()}` : '') + window.location.hash;
+          window.history.replaceState({}, document.title, cleanUrl);
+        }
+      } catch (err) {
+        console.error('Auto-open sign in modal error:', err);
+      }
+
       if (goToForgotPasswordBtn) {
         goToForgotPasswordBtn.addEventListener('click', (e) => {
           e.preventDefault();

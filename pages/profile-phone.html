@@ -1,0 +1,53 @@
+<div class="min-h-full w-full bg-[#F8F9FB] dark:bg-[#060B14] pb-[60px]">
+  <div class="w-full bg-white dark:bg-[#0D1728] border-b border-[#E5E7EB] dark:border-white/[0.06]">
+    <div class="w-full max-w-[430px] mx-auto px-[16px] h-[56px] flex items-center relative">
+      <button data-action="back" class="w-[36px] h-[36px] flex items-center justify-center text-[#0F172A] dark:text-white cursor-pointer" aria-label="Back">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <div class="absolute left-1/2 -translate-x-1/2 text-[16px] font-semibold text-[#0F172A] dark:text-white">Phone Number</div>
+    </div>
+  </div>
+
+  <div class="w-full max-w-[430px] mx-auto px-[20px] pt-[28px]">
+
+    <div id="pdFormView">
+      <div class="flex flex-col items-center text-center mb-[28px]">
+        <span class="w-[72px] h-[72px] rounded-full bg-blue-50 flex items-center justify-center mb-[18px]">
+          <svg class="w-[34px] h-[34px] text-[#2563EB]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M5 4h3.4l1.6 5-2.2 1.6a12 12 0 006.6 6.6l1.6-2.2 5 1.6V20a2 2 0 01-2.2 2C10.5 21.6 2.4 13.5 3 5.2 3.1 4.5 3.7 4 4.4 4H5z"></path></svg>
+        </span>
+        <div class="text-[24px] font-bold text-[#0F172A] dark:text-white mb-[6px]">Phone Number</div>
+        <div class="text-[15px] text-[#6B7280] dark:text-[#8E9CBA]">View and update your phone number.</div>
+      </div>
+
+      <div class="bg-white dark:bg-[#0D1728] rounded-[20px] border border-[#E5E7EB] dark:border-white/[0.06] shadow-sm p-[20px] mb-[24px]">
+        <div class="mb-[20px]">
+          <div class="text-[13px] font-bold uppercase tracking-[1.2px] text-[#6B7280] dark:text-[#8E9CBA] mb-[6px]">Current Phone Number</div>
+          <div id="pdCurrentPhone" class="text-[16px] font-semibold text-[#0F172A] dark:text-white">(212) 555-0188</div>
+          <div id="phStatus" class="text-[13px] text-[#6B7280] dark:text-[#8E9CBA] mt-[4px]">Not verified</div>
+        </div>
+
+        <div class="flex gap-[10px] mb-[14px]">
+          <input id="phCode" type="text" placeholder="+1" class="w-[72px] h-[56px] px-[12px] rounded-[16px] bg-gray-50 dark:bg-white/5 border border-[#E5E7EB] dark:border-white/10 text-[16px] text-[#0F172A] dark:text-white outline-none focus:border-[#2563EB]">
+          <input id="phNumber" type="tel" placeholder="Mobile number" class="flex-1 h-[56px] px-[16px] rounded-[16px] bg-gray-50 dark:bg-white/5 border border-[#E5E7EB] dark:border-white/10 text-[16px] text-[#0F172A] dark:text-white outline-none focus:border-[#2563EB]">
+        </div>
+        <button id="phSendCodeBtn" type="button" class="w-full h-[48px] rounded-[16px] bg-white dark:bg-white/5 border border-[#E5E7EB] dark:border-white/10 text-[#0F172A] dark:text-white text-[14px] font-semibold cursor-pointer mb-[10px]">Send Verification Code</button>
+        <div id="phVerifyRow" class="hidden gap-[10px] mb-[10px]">
+          <input id="phCodeInput" type="text" placeholder="6-digit code" class="flex-1 h-[48px] px-[16px] rounded-[16px] bg-gray-50 dark:bg-white/5 border border-[#E5E7EB] dark:border-white/10 text-[15px] text-[#0F172A] dark:text-white outline-none">
+          <button id="phVerifyBtn" type="button" class="px-[20px] h-[48px] rounded-[16px] bg-[#2563EB] text-white text-[14px] font-semibold cursor-pointer">Verify</button>
+        </div>
+      </div>
+
+      <div class="bg-blue-50 dark:bg-white/5 rounded-[16px] p-[16px] mb-[28px]">
+        <div class="text-[14px] font-semibold text-[#0F172A] dark:text-white mb-[6px]">Important Information</div>
+        <div class="text-[13px] text-[#374151] dark:text-[#8E9CBA] leading-relaxed">Your phone number is used for account alerts and identity verification. You may need to verify a new number before it takes effect.</div>
+      </div>
+
+      <div class="flex flex-col gap-[12px] pb-[20px]">
+        <button id="pdSaveBtn" type="button" class="w-full h-[56px] rounded-[16px] bg-[#2563EB] text-white text-[16px] font-semibold cursor-pointer">Update Phone Number</button>
+        <button data-action="back" type="button" class="w-full h-[44px] text-[15px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] cursor-pointer">Cancel</button>
+      </div>
+    </div>
+
+    <div id="pdConfirmView" class="hidden"></div>
+  </div>
+</div>

@@ -36,9 +36,9 @@ async function getOrCreateNotifPrefs({ supabaseClient, getCurrentUser }) {
 }
 
 export async function init(root, ctx) {
-  const { close, showModal, supabaseClient, getCurrentUser } = ctx;
+  const { loadPage, showModal, supabaseClient, getCurrentUser } = ctx;
 
-  on(root.querySelector('[data-action="close"]'), 'click', close);
+  on(root.querySelector('[data-action="back"]'), 'click', () => loadPage('profile'));
 
   notifPrefs = await getOrCreateNotifPrefs(ctx);
   if (!notifPrefs) notifPrefs = { push: {}, email: {}, sms: {} };
