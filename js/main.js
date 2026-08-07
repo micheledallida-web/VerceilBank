@@ -86,12 +86,12 @@ let activePageCleanup = null;
  *   /js/pages/<name>.js  — a module exporting `init(root)` and optionally `cleanup()`
  */
 export async function loadPage(name, ...args) {
-  // The Profile menu is a bottom-sheet, not a full page (see openProfileSheet
-  // below) — redirect any `loadPage('profile')` call (e.g. a destination
+  // The Profile menu is the original dark dropdown/modal (navMenuSheet), not
+  // a page — redirect any `loadPage('profile')` call (e.g. a destination
   // page's "Return to Profile"/back button) there instead.
   if (name === 'profile') {
     if (activePageCleanup) { activePageCleanup(); activePageCleanup = null; }
-    return openProfileSheet();
+    return openNavMenu('navProfile');
   }
 
   // Tear down whatever page is currently open first
@@ -160,6 +160,7 @@ const headerMenus = {
   appearance: { title: 'Appearance', items: ['Light Mode', 'Dark Mode', 'System Default'] },
   alerts: { title: 'Alerts', items: ['Transaction Alerts', 'Security Alerts', 'Payment Reminders', 'Account Notifications', 'Notification Settings'] },
   messages: { title: 'Messages', items: ['Secure Inbox', 'Contact Support', 'Live Chat', 'Schedule an Appointment'] },
+  profile: { title: 'Profile', items: ['My Profile', 'Linked Accounts', 'Notification Preferences', 'Privacy & Data Settings', 'Sign Out'] },
 };
 
 const headerDropdownOverlay = document.getElementById('headerDropdownOverlay');
@@ -291,7 +292,7 @@ document.getElementById('moreMenuBtn').addEventListener('click', (e) => openHead
 document.getElementById('appearanceBtn').addEventListener('click', (e) => openHeaderDropdown('appearance', e.currentTarget));
 document.getElementById('alertsBtn').addEventListener('click', (e) => openHeaderDropdown('alerts', e.currentTarget));
 document.getElementById('messagesBtn').addEventListener('click', (e) => openHeaderDropdown('messages', e.currentTarget));
-document.getElementById('profilePillBtn').addEventListener('click', () => openProfileSheet());
+document.getElementById('profilePillBtn').addEventListener('click', (e) => openHeaderDropdown('profile', e.currentTarget));
 
 // ---------- Account cards ----------
 document.getElementById('cardChecking').addEventListener('click', () => loadPage('account-detail', 'checking'));
@@ -322,6 +323,14 @@ const navMenus = {
   navSupport: {
     title: 'Support',
     items: ['Secure Messages', 'Live Chat', 'Contact Support', 'Card Services', 'Report Lost or Stolen Card', 'Dispute a Transaction', 'Travel Notification', 'Help Center'],
+  },
+  navProfile: {
+    title: 'Profile',
+    groups: [
+      { category: 'Personal Information', items: ['Full Legal Name', 'Date of Birth', 'Residential Address', 'Mailing Address', 'Phone Number', 'Email Address'] },
+      { category: 'Additional', items: ['Linked Accounts', 'Tax Documents', 'Notification Preferences', 'Privacy & Data Settings'] },
+    ],
+    standaloneItems: ['Sign Out'],
   },
 };
 
@@ -369,6 +378,20 @@ const navMenuRoutes = {
   'Dispute a Transaction': () => loadPage('dispute'),
   'Travel Notification': () => loadPage('travel'),
   'Help Center': () => loadPage('help-center'),
+
+  // Profile — Personal Information
+  'Full Legal Name': () => loadPage('profile-full-name'),
+  'Date of Birth': () => loadPage('profile-dob'),
+  'Residential Address': () => loadPage('profile-residential-address'),
+  'Mailing Address': () => loadPage('profile-mailing-address'),
+  'Phone Number': () => loadPage('profile-phone'),
+  'Email Address': () => loadPage('profile-email'),
+
+  // Profile — Additional
+  'Linked Accounts': () => loadPage('linked-accounts'),
+  'Tax Documents': () => loadPage('tax-docs'),
+  'Notification Preferences': () => loadPage('notification-prefs'),
+  'Privacy & Data Settings': () => loadPage('privacy'),
 };
 
 // Labels in the header "quick actions" dropdown that map to a ported screen.
@@ -379,6 +402,7 @@ const headerMenuRoutes = {
   'Secure Inbox': () => loadPage('secure-messages'),
   'Contact Support': () => loadPage('contact-support'),
   'Live Chat': () => loadPage('live-chat'),
+  'My Profile': () => loadPage('profile'),
   'Linked Accounts': () => loadPage('linked-accounts'),
   'Notification Preferences': () => loadPage('notification-prefs'),
   'Privacy & Data Settings': () => loadPage('privacy'),
@@ -454,66 +478,7 @@ document.getElementById('navAccounts').addEventListener('click', () => openNavMe
 document.getElementById('navPayments').addEventListener('click', () => openNavMenu('navPayments'));
 document.getElementById('navInvest').addEventListener('click', () => openNavMenu('navInvest'));
 document.getElementById('navSupport').addEventListener('click', () => openNavMenu('navSupport'));
-document.getElementById('navProfile').addEventListener('click', () => openProfileSheet());
-
-// ---------- Profile bottom sheet (dropdown/bottom-sheet style Profile menu) ----------
-// Renders pages/profile.html + js/pages/profile.js inside a slide-up sheet
-// instead of a full-page screen — tapping a row still opens its own
-// dedicated Citi-style destination page via loadPage().
-const profileSheetOverlay = document.getElementById('profileSheetOverlay');
-const profileSheet = document.getElementById('profileSheet');
-const profileSheetBody = document.getElementById('profileSheetBody');
-let activeProfileCleanup = null;
-
-function closeProfileSheet(immediate) {
-  profileSheet.classList.add('translate-y-full');
-  document.body.style.overflow = '';
-  const teardown = () => {
-    profileSheetOverlay.classList.add('hidden');
-    profileSheet.classList.add('hidden');
-    profileSheetBody.innerHTML = '';
-    if (activeProfileCleanup) { activeProfileCleanup(); activeProfileCleanup = null; }
-  };
-  if (immediate) teardown();
-  else setTimeout(teardown, 300);
-}
-
-async function openProfileSheet() {
-  const [html, mod] = await Promise.all([
-    fetch('/pages/profile.html').then(r => r.text()),
-    import('/js/pages/profile.js'),
-  ]);
-
-  profileSheetBody.innerHTML = html;
-  profileSheetOverlay.classList.remove('hidden');
-  profileSheet.classList.remove('hidden');
-  requestAnimationFrame(() => profileSheet.classList.remove('translate-y-full'));
-  document.body.style.overflow = 'hidden';
-
-  // Close the sheet immediately (no slide-down animation) before navigating
-  // to a dedicated destination page, so it isn't left visually stacked above
-  // the full-page screen while it finishes animating away.
-  const loadPageAndCloseSheet = (...args) => {
-    closeProfileSheet(true);
-    return loadPage(...args);
-  };
-
-  mod.init(profileSheetBody, {
-    close: () => closeProfileSheet(),
-    loadPage: loadPageAndCloseSheet,
-    supabaseClient,
-    getCurrentUser,
-    genRef,
-    formatCurrency,
-    parseBalanceText,
-    getOrCreateTempNumber,
-    showModal,
-    signOut: () => handleSignOut(),
-  });
-  activeProfileCleanup = () => { if (mod.cleanup) mod.cleanup(); };
-}
-
-profileSheetOverlay.addEventListener('click', () => closeProfileSheet());
+document.getElementById('navProfile').addEventListener('click', () => openNavMenu('navProfile'));
 
 // ---------- Greeting + live balances from Supabase ----------
 async function initSupabaseData() {
