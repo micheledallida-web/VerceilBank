@@ -53,9 +53,9 @@ async function loadLinkedAccountsSection(root, ctx) {
 }
 
 export async function init(root, ctx) {
-  const { close, loadPage, showModal, supabaseClient, getCurrentUser } = ctx;
+  const { loadPage, showModal, supabaseClient, getCurrentUser } = ctx;
 
-  on(root.querySelector('[data-action="close"]'), 'click', close);
+  on(root.querySelector('[data-action="back"]'), 'click', () => loadPage('profile'));
   root.querySelector('#laAddForm').classList.add('hidden');
 
   on(root.querySelector('#laAddBankBtn'), 'click', () => loadPage('link-account'));

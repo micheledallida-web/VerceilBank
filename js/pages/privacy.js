@@ -16,8 +16,8 @@ function setToggleState(btn, onState) {
 }
 
 export async function init(root, ctx) {
-  const { close, supabaseClient, getCurrentUser, showModal } = ctx;
-  on(root.querySelector('[data-action="close"]'), 'click', close);
+  const { loadPage, supabaseClient, getCurrentUser, showModal } = ctx;
+  on(root.querySelector('[data-action="back"]'), 'click', () => loadPage('profile'));
 
   try {
     const user = await getCurrentUser();

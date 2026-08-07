@@ -90,8 +90,8 @@ function renderTaxDocs(root) {
 }
 
 export async function init(root, ctx) {
-  const { close, showModal, supabaseClient, getCurrentUser } = ctx;
-  on(root.querySelector('[data-action="close"]'), 'click', close);
+  const { loadPage, showModal, supabaseClient, getCurrentUser } = ctx;
+  on(root.querySelector('[data-action="back"]'), 'click', () => loadPage('profile'));
 
   setActiveTab(root);
   root.querySelectorAll('.tax-doc-tab').forEach((btn) => {

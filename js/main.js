@@ -117,6 +117,7 @@ export async function loadPage(name, ...args) {
     parseBalanceText,
     getOrCreateTempNumber,
     showModal,
+    signOut: () => handleSignOut(),
   }, ...args);
 
   activePageCleanup = closePage;
@@ -169,7 +170,10 @@ function clearCachedUserData() {
 }
 
 function goToSignIn() {
-  window.location.href = 'signin.html';
+  // Land on the main landing page with ?signin=1 so it automatically opens
+  // the Sign In modal (see index.html), per the Dashboard -> Sign Out ->
+  // Landing Page -> Sign In Modal flow.
+  window.location.href = 'index.html?signin=1';
 }
 
 async function handleSignOut() {
@@ -312,14 +316,6 @@ const navMenus = {
     title: 'Support',
     items: ['Secure Messages', 'Live Chat', 'Contact Support', 'Card Services', 'Report Lost or Stolen Card', 'Dispute a Transaction', 'Travel Notification', 'Help Center'],
   },
-  navProfile: {
-    title: 'Profile',
-    groups: [
-      { category: 'Personal Information', items: ['Full Legal Name', 'Date of Birth', 'Residential Address', 'Mailing Address', 'Phone Number', 'Email Address'] },
-      { category: 'Additional', items: ['Linked Accounts', 'Tax Documents', 'Notification Preferences', 'Privacy & Data Settings'] },
-    ],
-    standaloneItems: ['Sign Out'],
-  },
 };
 
 const navMenuOverlay = document.getElementById('navMenuOverlay');
@@ -366,20 +362,6 @@ const navMenuRoutes = {
   'Dispute a Transaction': () => loadPage('dispute'),
   'Travel Notification': () => loadPage('travel'),
   'Help Center': () => loadPage('help-center'),
-
-  // Profile — Personal Information
-  'Full Legal Name': () => loadPage('personal-info'),
-  'Date of Birth': () => loadPage('personal-info'),
-  'Residential Address': () => loadPage('personal-info'),
-  'Mailing Address': () => loadPage('personal-info'),
-  'Phone Number': () => loadPage('personal-info'),
-  'Email Address': () => loadPage('personal-info'),
-
-  // Profile — Additional
-  'Linked Accounts': () => loadPage('linked-accounts'),
-  'Tax Documents': () => loadPage('tax-docs'),
-  'Notification Preferences': () => loadPage('notification-prefs'),
-  'Privacy & Data Settings': () => loadPage('privacy'),
 };
 
 // Labels in the header "quick actions" dropdown that map to a ported screen.
@@ -390,7 +372,7 @@ const headerMenuRoutes = {
   'Secure Inbox': () => loadPage('secure-messages'),
   'Contact Support': () => loadPage('contact-support'),
   'Live Chat': () => loadPage('live-chat'),
-  'My Profile': () => loadPage('personal-info'),
+  'My Profile': () => loadPage('profile'),
   'Linked Accounts': () => loadPage('linked-accounts'),
   'Notification Preferences': () => loadPage('notification-prefs'),
   'Privacy & Data Settings': () => loadPage('privacy'),
@@ -466,7 +448,7 @@ document.getElementById('navAccounts').addEventListener('click', () => openNavMe
 document.getElementById('navPayments').addEventListener('click', () => openNavMenu('navPayments'));
 document.getElementById('navInvest').addEventListener('click', () => openNavMenu('navInvest'));
 document.getElementById('navSupport').addEventListener('click', () => openNavMenu('navSupport'));
-document.getElementById('navProfile').addEventListener('click', () => openNavMenu('navProfile'));
+document.getElementById('navProfile').addEventListener('click', () => loadPage('profile'));
 
 // ---------- Greeting + live balances from Supabase ----------
 async function initSupabaseData() {
