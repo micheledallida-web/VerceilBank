@@ -260,3 +260,159 @@ body:not(.dark) .action-tile svg {
      Nudge it down to match their spacing. */
   margin-top: 5px;
 }
+
+/* ===================== KYC UPLOAD SLOTS =====================
+   Used only by the identity verification view (pages/verify.html).
+   Every other element on that screen reuses the input, card and button
+   utility classes already used across the app; these cover the file
+   upload slots and the in-button spinner, which had no equivalent.
+
+   The `:not(.hidden)` guards matter: these rules are appended after
+   `@tailwind utilities`, so a bare `display` here would outrank
+   Tailwind's `.hidden` at equal specificity and the slot would stay
+   visible when the JS hides it. */
+.kyc-slot {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #E5E7EB;
+  border-radius: 18px;
+  padding: 14px;
+}
+
+.dark .kyc-slot {
+  background: #0D1728;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Kept in the layout but invisible, so the <label for> tap target and
+   keyboard focus both still reach it. */
+.kyc-slot-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.kyc-slot-label:not(.hidden) {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.kyc-slot-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: #EFF6FF;
+  color: #2563EB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dark .kyc-slot-icon {
+  background: rgba(29, 97, 242, 0.2);
+  color: #3B82F6;
+}
+
+.kyc-slot-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.kyc-slot-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.dark .kyc-slot-title {
+  color: #ffffff;
+}
+
+.kyc-slot-hint {
+  font-size: 12px;
+  font-weight: 400;
+  color: #6B7280;
+  margin-top: 2px;
+}
+
+.dark .kyc-slot-hint {
+  color: #8E9CBA;
+}
+
+.kyc-slot-preview:not(.hidden) {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.kyc-slot-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  object-fit: cover;
+  background: #F3F4F6;
+  flex-shrink: 0;
+}
+
+.dark .kyc-slot-thumb {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.kyc-slot-filename {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: #111827;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dark .kyc-slot-filename {
+  color: #ffffff;
+}
+
+.kyc-slot-replace {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #2563EB;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.dark .kyc-slot-replace {
+  color: #3B82F6;
+}
+
+.kyc-slot-error:not(.hidden) {
+  display: block;
+  margin-top: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #EF4444;
+}
+
+.kyc-spinner:not(.hidden) {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #ffffff;
+  animation: kycSpin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes kycSpin {
+  to { transform: rotate(360deg); }
+}

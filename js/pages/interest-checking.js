@@ -45,10 +45,6 @@ export function init(root, ctx) {
   `).join('');
 
   on(root.querySelector('[data-action="close"]'), 'click', close);
-  on(root.querySelector('#icTransferFundsBtn'), 'click', () => loadPage('transfer'));
-  on(root.querySelector('#icLearnMoreBtn'), 'click', () => {
-    showModal('Vercel Interest Checking', 'Earn up to 4.00% APY with no monthly maintenance fees, FDIC insurance, mobile check deposit, Zelle® transfers, and early direct deposit — all with no minimum balance required.');
-  });
 
   const handleOpenAccount = async () => {
     openAccountBtn.disabled = true;
@@ -197,7 +193,59 @@ export function init(root, ctx) {
     setCta('Open Interest Checking', PRIMARY_BTN_CLASS, '', handleOpenAccount);
   }
 
-  applyCtaState();
+  // ---------- Primary CTA gate, KYC edition ----------
+  // Supersedes applyCtaState() above, which read user_profile and is left in
+  // place untouched. This one reads profiles.kyc_status — the column the
+  // representative-review flow actually writes — and routes anyone who is not
+  // already verified into the verify view rather than to support.
+  async function readKycProfile() {
+    if (!supabaseClient) return null;
+    const user = await getCurrentUser();
+    if (!user) return null;
+    // One request. rejection_reason rides along because the rejected state
+    // renders it as the CTA's helper text.
+    const { data, error } = await supabaseClient
+      .from('profiles')
+      .select('kyc_status, rejection_reason')
+      .eq('id', user.id)
+      .maybeSingle();
+    if (error) throw error;
+    return data;
+  }
+
+  async function applyKycCtaState() {
+    // Nothing actionable is ever on screen before the status is known.
+    openAccountBtn.disabled = true;
+    openAccountBtn.textContent = 'Loading';
+    openAccountBtn.className = PRIMARY_BTN_CLASS + ' opacity-60';
+    ctaHelper.classList.add('hidden');
+
+    let profile = null;
+    try {
+      profile = await readKycProfile();
+    } catch (err) {
+      console.error('Interest Checking KYC gate error:', err);
+    }
+
+    const status = profile ? profile.kyc_status : null;
+
+    if (status === 'verified') {
+      setCta('Open Interest Checking', PRIMARY_BTN_CLASS, '', handleOpenAccount);
+      return;
+    }
+    if (status === 'pending') {
+      setCta('Verification in Review', PRIMARY_BTN_CLASS + ' opacity-60', "We'll notify you within 1 business day.", () => {});
+      openAccountBtn.disabled = true;
+      return;
+    }
+    if (status === 'rejected') {
+      setCta('Resubmit Your Information', PRIMARY_BTN_CLASS, profile.rejection_reason || '', () => loadPage('verify'));
+      return;
+    }
+    setCta('Verify Identity to Open', PRIMARY_BTN_CLASS, 'Identity verification takes about 3 minutes.', () => loadPage('verify'));
+  }
+
+  applyKycCtaState();
 }
 
 export function cleanup() {
