@@ -6,6 +6,8 @@
 // This is what actually makes the app fast: the browser only ever downloads
 // and parses the one screen someone is looking at.
 
+import { createLiveSparkline } from './shared/live-sparkline.js';
+
 // Populated by js/config.js (generated at build time from SUPABASE_URL /
 // SUPABASE_ANON_KEY env vars -- see scripts/generate-config.js). js/config.js
 // is loaded as a plain script in dashboard.html, before this module.
@@ -178,10 +180,9 @@ function clearCachedUserData() {
 }
 
 function goToSignIn() {
-  // Land on the main landing page with ?signin=1 so it automatically opens
-  // the Sign In modal (see index.html), per the Dashboard -> Sign Out ->
-  // Landing Page -> Sign In Modal flow.
-  window.location.href = 'index.html?signin=1';
+  // The standalone sign-in page, which is the current one. This used to go to
+  // index.html?signin=1, the landing page's older Sign In modal.
+  window.location.href = 'signin.html';
 }
 
 async function handleSignOut() {
@@ -572,3 +573,12 @@ async function initSupabaseData() {
 }
 
 initSupabaseData();
+
+// Investments card sparkline. Runs on its own animation loop, and parks itself
+// when the tab is hidden or the card scrolls out of view.
+createLiveSparkline({
+  line: document.getElementById('investSparkLine'),
+  fill: document.getElementById('investSparkFill'),
+  dot: document.getElementById('investSparkDot'),
+  container: document.getElementById('investSparkWrap'),
+});
