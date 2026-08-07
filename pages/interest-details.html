@@ -1,0 +1,31 @@
+<div class="w-full max-w-[430px] mx-auto px-[16px] pt-[14px] pb-[40px]">
+
+  <div class="flex items-center gap-3 mb-[16px]">
+    <button data-action="close" class="w-[40px] h-[40px] rounded-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] flex items-center justify-center text-[#111827] dark:text-white shadow-lg cursor-pointer flex-shrink-0" aria-label="Back">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <div id="idAccountName" class="text-[20px] font-bold text-white truncate">Interest Details</div>
+  </div>
+
+  <div class="w-full bg-gradient-to-r from-[#1E40AF] via-[#2563EB] to-[#4F46E5] dark:from-[#0C1B3A] dark:via-[#10234A] dark:to-[#152B5A] border border-white/20 dark:border-white/[0.08] rounded-[22px] p-[20px] text-white shadow-xl mb-[20px]">
+    <div id="idApyLabel" class="text-[10px] font-bold uppercase tracking-wider text-blue-100 dark:text-[#8E9CBA] mb-1">ANNUAL PERCENTAGE YIELD</div>
+    <div id="idApyValue" class="text-[32px] font-bold tracking-tight">4.00% APY</div>
+    <div class="text-[13px] font-normal text-white/85 mt-[6px]">No monthly maintenance fees. No minimum balance required.</div>
+  </div>
+
+  <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">INTEREST EARNED</div>
+  <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[20px] p-[16px] shadow-lg mb-[20px]">
+    <div class="grid grid-cols-2 gap-[12px] text-[13px]">
+      <div><div class="text-[11px] text-[#6B7280] dark:text-[#8E9CBA]">Current Balance</div><div id="idCurrentBalance" class="font-semibold text-[#111827] dark:text-white">$0.00</div></div>
+      <div><div class="text-[11px] text-[#6B7280] dark:text-[#8E9CBA]">Estimated Monthly Earnings</div><div id="idMonthlyEarnings" class="font-semibold text-[#111827] dark:text-white">$0.00</div></div>
+      <div><div class="text-[11px] text-[#6B7280] dark:text-[#8E9CBA]">Estimated Annual Earnings</div><div id="idAnnualEarnings" class="font-semibold text-[#111827] dark:text-white">$0.00</div></div>
+      <div><div class="text-[11px] text-[#6B7280] dark:text-[#8E9CBA]">Interest Paid Year-to-Date</div><div id="idYtdEarnings" class="font-semibold text-[#111827] dark:text-white">$0.00</div></div>
+    </div>
+  </div>
+
+  <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px]">INTEREST PAYMENT HISTORY</div>
+  <div id="idPaymentHistory" class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[20px] px-[16px] shadow-lg py-4 divide-y divide-gray-100 dark:divide-white/[0.06]">
+    <div class="text-center text-[14px] text-[#6B7280] dark:text-[#8E9CBA] py-2">No interest payments yet</div>
+  </div>
+
+</div>
