@@ -103,6 +103,13 @@ export function init(root, ctx) {
   const AUTOMATED_VERIFICATION_ENABLED = false;
   const VERIFICATION_MAX_AGE_DAYS = 365;
 
+  // The only two statuses that let someone open the account. 'verified' is
+  // what Persona will write once it is installed; 'manually_approved' is a rep
+  // clearing someone by hand after checking their details off-platform. They
+  // are kept separate so the two remain tellable apart in an audit rather than
+  // a rep having to pass their approval off as an automated check.
+  const APPROVED_KYC_STATUSES = ['verified', 'manually_approved'];
+
   // Reused verbatim from the two buttons already on this page, so the gate
   // introduces no new visual styles.
   const PRIMARY_BTN_CLASS = 'w-full h-[50px] rounded-[14px] bg-[#2563EB] text-white text-[15px] font-semibold cursor-pointer hover:opacity-90 transition-all shadow-lg';
@@ -174,9 +181,10 @@ export function init(root, ctx) {
       setCta('View Your Interest Checking', SECONDARY_BTN_CLASS, '', () => loadPage('account-detail', 'interest_checking'));
       return;
     }
-    // B — not verified. Also catches "state unknown", because someone we
-    // cannot confirm as verified must not fall through to opening an account.
-    if (!gate || gate.kycStatus !== 'verified') {
+    // B — neither verified nor manually approved by a rep. Also catches
+    // "state unknown", because someone we cannot confirm must never fall
+    // through to opening an account.
+    if (!gate || APPROVED_KYC_STATUSES.indexOf(gate.kycStatus) === -1) {
       setCta('Verify Identity to Open', PRIMARY_BTN_CLASS, AUTOMATED_VERIFICATION_ENABLED ? 'Identity verification takes about 3 minutes.' : 'Contact support to verify your identity — this is handled manually for now.', startIdentityVerification);
       return;
     }
