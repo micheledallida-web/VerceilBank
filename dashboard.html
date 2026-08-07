@@ -357,6 +357,14 @@
   </div>
 
 
+  <!-- PROFILE BOTTOM SHEET (dropdown/bottom-sheet style Profile menu) -->
+  <div id="profileSheetOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden"></div>
+  <div id="profileSheet" class="fixed left-0 right-0 bottom-0 z-50 hidden translate-y-full transition-transform duration-300 ease-out">
+    <div class="w-full max-w-[430px] mx-auto max-h-[85vh] overflow-y-auto rounded-t-[24px] shadow-2xl">
+      <div id="profileSheetBody"></div>
+    </div>
+  </div>
+
   <!-- Lazy-loaded screen container. Filled/cleared by loadPage() in js/main.js -->
   <div id="page-root" class="hidden fixed inset-0 z-40 bg-[#0B4CC2] dark:bg-[#060B14] overflow-y-auto"></div>
 
