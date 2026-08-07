@@ -5,7 +5,7 @@ const ICONS = {
   name: '<path stroke-linecap="round" stroke-linejoin="round" d="M5.5 21a6.5 6.5 0 0113 0M12 11a4 4 0 100-8 4 4 0 000 8z"></path>',
   dob: '<rect x="3" y="4.5" width="18" height="16" rx="3"></rect><path stroke-linecap="round" d="M3 9.5h18M8 2.5v4M16 2.5v4"></path>',
   home: '<path stroke-linecap="round" stroke-linejoin="round" d="M3 10.5L12 3l9 7.5M5 9.5V21h14V9.5"></path>',
-  mail: '<rect x="3" y="5" width="18" height="14" rx="2.5"></rect><path stroke-linecap="round" stroke-linejoin="round" d="M3.5 6.5l8.5 6.5 8.5-6.5"></path>',
+  mail: '<path stroke-linecap="round" stroke-linejoin="round" d="M3.5 20.5L20.5 12 3.5 3.5l2.2 7.2 9.8 1.3-9.8 1.3-2.2 7.2z"></path>',
   phone: '<path stroke-linecap="round" stroke-linejoin="round" d="M5 4h3.4l1.6 5-2.2 1.6a12 12 0 006.6 6.6l1.6-2.2 5 1.6V20a2 2 0 01-2.2 2C10.5 21.6 2.4 13.5 3 5.2 3.1 4.5 3.7 4 4.4 4H5z"></path>',
   envelope: '<rect x="3" y="5" width="18" height="14" rx="2.5"></rect><path stroke-linecap="round" stroke-linejoin="round" d="M3.5 6.5l8.5 6.5 8.5-6.5"></path>',
   link: '<path stroke-linecap="round" stroke-linejoin="round" d="M9 12a4 4 0 004 4h1a4 4 0 000-8h-1m-2 4a4 4 0 00-4-4H6a4 4 0 000 8h1"></path>',
@@ -27,7 +27,7 @@ function rowHTML({ icon, title, secondary, isLast, danger }) {
   const titleColor = danger ? 'text-[#DC2626]' : 'text-[#0F172A] dark:text-white';
   const iconColor = danger ? 'text-[#DC2626]' : 'text-[#2563EB]';
   return `
-    <button type="button" class="profile-row w-full flex items-center gap-[14px] px-[18px] cursor-pointer text-left transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-white/5" style="min-height:60px; ${isLast ? '' : 'border-bottom:1px solid #E5E7EB;'}">
+    <button type="button" class="profile-row w-full flex items-center gap-[14px] px-[18px] min-h-[60px] cursor-pointer text-left transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-white/5 ${isLast ? '' : 'border-b border-[#E5E7EB]'}">
       <span class="w-[38px] h-[38px] rounded-full ${danger ? 'bg-red-50' : 'bg-blue-50'} dark:bg-white/5 flex items-center justify-center flex-shrink-0">${iconSvg(icon, iconColor)}</span>
       <span class="flex-1 min-w-0 py-[12px]">
         <span class="block text-[16px] font-semibold ${titleColor} truncate">${title}</span>
@@ -87,15 +87,24 @@ export async function init(root, ctx) {
     else showModal('Sign Out', 'Signing out...');
   });
 
-  // Try to reflect the signed-in user's initials/name in the avatar + name row.
+  // Try to reflect the signed-in user's initials in the avatar, preferring
+  // their saved first/last name over the email address when available.
   try {
     const user = await ctx.getCurrentUser();
-    const email = user && user.email;
-    if (email) {
-      const local = email.split('@')[0];
-      const initials = local.slice(0, 2).toUpperCase();
+    if (user) {
+      let initials = null;
+      if (ctx.supabaseClient) {
+        const { data: profile } = await ctx.supabaseClient.from('user_profile').select('first_name,last_name').eq('user_id', user.id).maybeSingle();
+        if (profile && (profile.first_name || profile.last_name)) {
+          initials = `${(profile.first_name || '').charAt(0)}${(profile.last_name || '').charAt(0)}`.toUpperCase();
+        }
+      }
+      if (!initials && user.email) {
+        const local = user.email.split('@')[0];
+        initials = local.slice(0, 2).toUpperCase();
+      }
       const avatar = root.querySelector('#profileAvatar');
-      if (avatar) avatar.textContent = initials;
+      if (avatar && initials) avatar.textContent = initials;
     }
   } catch (err) {
     // Non-fatal — fall back to the default initials already in the markup.

@@ -20,19 +20,19 @@ export function showConfirmation(root, ctx, { fieldLabel, valueText }) {
       <div class="text-[15px] text-[#6B7280] dark:text-[#8E9CBA] mb-[28px]">Your ${fieldLabel.toLowerCase()} has been updated.</div>
     </div>
     <div class="bg-white dark:bg-[#0D1728] rounded-[20px] border border-[#E5E7EB] dark:border-white/[0.06] shadow-sm overflow-hidden mb-[28px]">
-      <div class="flex items-center justify-between px-[18px]" style="min-height:60px; border-bottom:1px solid #E5E7EB;">
+      <div class="flex items-center justify-between px-[18px] min-h-[60px] border-b border-[#E5E7EB]">
         <span class="text-[14px] text-[#6B7280] dark:text-[#8E9CBA]">Updated Field</span>
         <span class="text-[15px] font-semibold text-[#0F172A] dark:text-white text-right">${fieldLabel}</span>
       </div>
-      <div class="flex items-center justify-between px-[18px]" style="min-height:60px; border-bottom:1px solid #E5E7EB;">
+      <div class="flex items-center justify-between px-[18px] min-h-[60px] border-b border-[#E5E7EB]">
         <span class="text-[14px] text-[#6B7280] dark:text-[#8E9CBA]">New Value</span>
         <span class="text-[15px] font-semibold text-[#0F172A] dark:text-white text-right truncate max-w-[220px]">${valueText}</span>
       </div>
-      <div class="flex items-center justify-between px-[18px]" style="min-height:60px; border-bottom:1px solid #E5E7EB;">
+      <div class="flex items-center justify-between px-[18px] min-h-[60px] border-b border-[#E5E7EB]">
         <span class="text-[14px] text-[#6B7280] dark:text-[#8E9CBA]">Date &amp; Time</span>
         <span class="text-[15px] font-semibold text-[#0F172A] dark:text-white text-right">${dateStr}</span>
       </div>
-      <div class="flex items-center justify-between px-[18px]" style="min-height:60px;">
+      <div class="flex items-center justify-between px-[18px] min-h-[60px]">
         <span class="text-[14px] text-[#6B7280] dark:text-[#8E9CBA]">Confirmation Number</span>
         <span class="text-[15px] font-semibold text-[#0F172A] dark:text-white text-right">${refNumber}</span>
       </div>

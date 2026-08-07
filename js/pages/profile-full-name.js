@@ -48,6 +48,11 @@ export async function init(root, ctx) {
     const lastName = root.querySelector('#pnLastName').value.trim();
     const suffix = root.querySelector('#pnSuffix').value.trim();
 
+    if (!firstName || !lastName) {
+      showModal('Missing Information', 'Please enter both a first name and last name before saving.');
+      return;
+    }
+
     try {
       await saveUserProfile(ctx, { first_name: firstName, middle_name: middleName, last_name: lastName, suffix });
       const fullName = [firstName, middleName, lastName, suffix].filter(Boolean).join(' ') || 'Mercy Johnson';

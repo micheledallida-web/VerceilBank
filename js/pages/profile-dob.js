@@ -47,6 +47,10 @@ export async function init(root, ctx) {
 
   on(root.querySelector('#pdSaveBtn'), 'click', async () => {
     const value = root.querySelector('#pdDobInput').value;
+    if (!value) {
+      showModal('Missing Date of Birth', 'Please select a date of birth before saving.');
+      return;
+    }
     try {
       await saveUserProfile(ctx, { date_of_birth: value });
       showConfirmation(root, ctx, { fieldLabel: 'Date of Birth', valueText: formatDob(value) });
