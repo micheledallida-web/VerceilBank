@@ -1167,14 +1167,18 @@
       // shared body scroll lock. We also compensate for the scrollbar width
       // removed by "overflow: hidden" so the sticky header and page content
       // don't shift horizontally while the modal is open.
+      const originalBodyPaddingRight = window.getComputedStyle(document.body).paddingRight;
       function lockBodyScroll() {
         const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
         document.body.style.overflow = 'hidden';
-        if (scrollBarWidth > 0) document.body.style.paddingRight = scrollBarWidth + 'px';
+        if (scrollBarWidth > 0) {
+          const basePadding = parseFloat(originalBodyPaddingRight) || 0;
+          document.body.style.paddingRight = (basePadding + scrollBarWidth) + 'px';
+        }
       }
       function unlockBodyScroll() {
         document.body.style.overflow = '';
-        document.body.style.paddingRight = '';
+        document.body.style.paddingRight = originalBodyPaddingRight;
       }
 
       function closeAllAuthModals() {
