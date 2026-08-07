@@ -434,6 +434,190 @@
       font-size: 0.8rem;
       margin: 16px 0 0;
     }
+
+    /* Password field with show/hide eye icon */
+    .auth-field-password { position: relative; }
+    .auth-field-password .auth-input { padding-right: 48px; }
+    .auth-toggle-eye {
+      position: absolute;
+      top: 50%;
+      right: 14px;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+    }
+    .auth-toggle-eye:hover { color: #ffffff; }
+    .auth-toggle-eye svg { width: 20px; height: 20px; }
+
+    .auth-forgot-link {
+      display: block;
+      text-align: right;
+      color: #2563FF;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      margin: 10px 0 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      width: 100%;
+    }
+    .auth-forgot-link:hover { text-decoration: underline; }
+
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 24px 0;
+      color: #64748b;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .auth-divider::before,
+    .auth-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #1E3A5F;
+    }
+
+    .auth-btn-secondary {
+      width: 100%;
+      height: 56px;
+      background: transparent;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 1rem;
+      border: 1px solid #2A3F66;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+    .auth-btn-secondary:hover { background: rgba(37, 99, 255, 0.08); border-color: #2563FF; }
+
+    /* Chase-style password recovery flow */
+    .auth-recovery-step { display: none; }
+    .auth-recovery-step.active { display: block; }
+
+    .auth-back-btn {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .auth-back-btn:hover { color: #ffffff; }
+
+    .auth-otp-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .auth-otp-input {
+      width: 100%;
+      height: 56px;
+      text-align: center;
+      font-size: 1.25rem;
+      font-weight: 700;
+      background: #111F3A;
+      border: 1px solid #2A3F66;
+      border-radius: 14px;
+      color: #ffffff;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+    .auth-otp-input:focus { border-color: #2563FF; }
+
+    .auth-resend-row {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin: 0 0 8px;
+    }
+    .auth-resend-btn {
+      background: none;
+      border: none;
+      color: #2563FF;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+      font-size: 0.85rem;
+    }
+    .auth-resend-btn:disabled { color: #64748b; cursor: default; }
+
+    .auth-strength-meter {
+      display: flex;
+      gap: 4px;
+      margin: 10px 0 8px;
+    }
+    .auth-strength-bar {
+      flex: 1;
+      height: 4px;
+      border-radius: 2px;
+      background: #1E3A5F;
+      transition: background-color 0.2s ease;
+    }
+    .auth-strength-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #94a3b8;
+    }
+    .auth-requirements {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 18px;
+      font-size: 0.8rem;
+      color: #94a3b8;
+    }
+    .auth-requirements li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .auth-requirements li::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #64748b;
+      flex-shrink: 0;
+    }
+    .auth-requirements li.met { color: #34d399; }
+    .auth-requirements li.met::before { background: #34d399; }
+
+    .auth-success-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(52, 211, 153, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 8px auto 20px;
+    }
+    .auth-success-icon svg { width: 32px; height: 32px; color: #34d399; }
+    .auth-success-text {
+      text-align: center;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0 0 8px;
+    }
   </style>
 
   <!-- SIGN IN MODAL (opened from the nav "Sign in" link, or automatically
@@ -453,12 +637,123 @@
         </div>
         <div class="auth-field" style="margin-bottom:0;">
           <label for="signInModalPassword">Password</label>
-          <input type="password" id="signInModalPassword" class="auth-input" autocomplete="current-password" required>
+          <div class="auth-field-password">
+            <input type="password" id="signInModalPassword" class="auth-input" autocomplete="current-password" required>
+            <button type="button" class="auth-toggle-eye" data-toggle-for="signInModalPassword" aria-label="Show password">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <button type="button" class="auth-forgot-link" id="goToForgotPasswordBtn">Forgot password?</button>
         </div>
         <div id="signInModalError" class="auth-error"></div>
         <button type="submit" id="signInModalSubmit" class="auth-btn-primary">Sign in</button>
       </form>
-      <p class="auth-switch">Don't have an account? <button type="button" id="goToSignUpBtn">Sign up</button></p>
+      <div class="auth-divider">or</div>
+      <button type="button" class="auth-btn-secondary" id="signInPasskeyBtn">Sign in with passkey</button>
+      <p class="auth-switch">New to Vercel Bank? <button type="button" id="goToSignUpBtn">Create account</button></p>
+    </div>
+  </div>
+
+  <!-- FORGOT PASSWORD MODAL (Chase-style 4-step recovery flow) -->
+  <div id="forgotPasswordModal" class="auth-overlay">
+    <div class="auth-card">
+      <div class="auth-header">
+        <span class="auth-logo"><span class="accent">VERCEIL</span><span class="main">BANK</span></span>
+        <button id="forgotPasswordCloseBtn" aria-label="Close" class="auth-close-btn">&times;</button>
+      </div>
+
+      <!-- Step 1: Verify identity -->
+      <div class="auth-recovery-step active" id="recoveryStep1">
+        <h2>Reset your password</h2>
+        <p class="auth-subtitle">First, let's verify it's you.</p>
+        <form id="recoveryStep1Form">
+          <div class="auth-field">
+            <label for="recoveryEmail">Email address</label>
+            <input type="email" id="recoveryEmail" class="auth-input" autocomplete="email" required>
+          </div>
+          <div class="auth-field">
+            <label for="recoveryDob">Date of birth</label>
+            <input type="date" id="recoveryDob" class="auth-input" required>
+          </div>
+          <div class="auth-field" style="margin-bottom:0;">
+            <label for="recoveryLastFour">Last 4 digits of phone number or account number</label>
+            <input type="text" id="recoveryLastFour" class="auth-input" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" required>
+          </div>
+          <div id="recoveryStep1Error" class="auth-error"></div>
+          <button type="submit" class="auth-btn-primary">Continue</button>
+        </form>
+      </div>
+
+      <!-- Step 2: Send verification code -->
+      <div class="auth-recovery-step" id="recoveryStep2">
+        <button type="button" class="auth-back-btn" data-back-to="recoveryStep1">&larr; Back</button>
+        <h2>Verify it's you</h2>
+        <p class="auth-subtitle">We sent a six-digit verification code to the email or phone number on your account. Enter it below to continue.</p>
+        <form id="recoveryStep2Form">
+          <div class="auth-otp-row">
+            <input type="text" maxlength="1" inputmode="numeric" class="auth-otp-input" data-otp-index="0">
+            <input type="text" maxlength="1" inputmode="numeric" class="auth-otp-input" data-otp-index="1">
+            <input type="text" maxlength="1" inputmode="numeric" class="auth-otp-input" data-otp-index="2">
+            <input type="text" maxlength="1" inputmode="numeric" class="auth-otp-input" data-otp-index="3">
+            <input type="text" maxlength="1" inputmode="numeric" class="auth-otp-input" data-otp-index="4">
+            <input type="text" maxlength="1" inputmode="numeric" class="auth-otp-input" data-otp-index="5">
+          </div>
+          <p class="auth-resend-row">Didn't get a code? <button type="button" class="auth-resend-btn" id="recoveryResendBtn" disabled>Resend code (0:30)</button></p>
+          <div id="recoveryStep2Error" class="auth-error"></div>
+          <button type="submit" class="auth-btn-primary">Continue</button>
+        </form>
+      </div>
+
+      <!-- Step 3: Create new password -->
+      <div class="auth-recovery-step" id="recoveryStep3">
+        <button type="button" class="auth-back-btn" data-back-to="recoveryStep2">&larr; Back</button>
+        <h2>Create new password</h2>
+        <p class="auth-subtitle">Choose a strong password you haven't used before.</p>
+        <form id="recoveryStep3Form">
+          <div class="auth-field">
+            <label for="recoveryNewPassword">New password</label>
+            <div class="auth-field-password">
+              <input type="password" id="recoveryNewPassword" class="auth-input" autocomplete="new-password" required>
+              <button type="button" class="auth-toggle-eye" data-toggle-for="recoveryNewPassword" aria-label="Show password">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <div class="auth-strength-meter" id="recoveryStrengthMeter">
+              <div class="auth-strength-bar"></div>
+              <div class="auth-strength-bar"></div>
+              <div class="auth-strength-bar"></div>
+              <div class="auth-strength-bar"></div>
+            </div>
+            <span class="auth-strength-label" id="recoveryStrengthLabel">Password strength</span>
+            <ul class="auth-requirements" id="recoveryRequirements">
+              <li data-req="length">At least 8 characters</li>
+              <li data-req="upper">One uppercase letter</li>
+              <li data-req="number">One number</li>
+              <li data-req="symbol">One symbol</li>
+            </ul>
+          </div>
+          <div class="auth-field" style="margin-bottom:0;">
+            <label for="recoveryConfirmPassword">Confirm new password</label>
+            <div class="auth-field-password">
+              <input type="password" id="recoveryConfirmPassword" class="auth-input" autocomplete="new-password" required>
+              <button type="button" class="auth-toggle-eye" data-toggle-for="recoveryConfirmPassword" aria-label="Show password">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+          <div id="recoveryStep3Error" class="auth-error"></div>
+          <button type="submit" class="auth-btn-primary">Reset password</button>
+        </form>
+      </div>
+
+      <!-- Step 4: Success confirmation -->
+      <div class="auth-recovery-step" id="recoveryStep4">
+        <div class="auth-success-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <p class="auth-success-text">Your password has been updated successfully.</p>
+        <button type="button" class="auth-btn-primary" id="recoveryReturnToSignInBtn">Return to Sign in</button>
+      </div>
     </div>
   </div>
 
@@ -512,11 +807,34 @@
         </div>
         <div class="auth-field">
           <label for="signUpPassword">Password</label>
-          <input type="password" id="signUpPassword" class="auth-input" autocomplete="new-password" required>
+          <div class="auth-field-password">
+            <input type="password" id="signUpPassword" class="auth-input" autocomplete="new-password" required>
+            <button type="button" class="auth-toggle-eye" data-toggle-for="signUpPassword" aria-label="Show password">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <div class="auth-strength-meter" id="signUpStrengthMeter">
+            <div class="auth-strength-bar"></div>
+            <div class="auth-strength-bar"></div>
+            <div class="auth-strength-bar"></div>
+            <div class="auth-strength-bar"></div>
+          </div>
+          <span class="auth-strength-label" id="signUpStrengthLabel">Password strength</span>
+          <ul class="auth-requirements" id="signUpRequirements">
+            <li data-req="length">At least 8 characters</li>
+            <li data-req="upper">One uppercase letter</li>
+            <li data-req="number">One number</li>
+            <li data-req="symbol">One symbol</li>
+          </ul>
         </div>
         <div class="auth-field" style="margin-bottom:0;">
           <label for="signUpConfirmPassword">Confirm password</label>
-          <input type="password" id="signUpConfirmPassword" class="auth-input" autocomplete="new-password" required>
+          <div class="auth-field-password">
+            <input type="password" id="signUpConfirmPassword" class="auth-input" autocomplete="new-password" required>
+            <button type="button" class="auth-toggle-eye" data-toggle-for="signUpConfirmPassword" aria-label="Show password">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
         </div>
         <div id="signUpModalError" class="auth-error"></div>
         <button type="submit" id="signUpModalSubmit" class="auth-btn-primary">Continue</button>
@@ -817,13 +1135,24 @@
       const signUpSubmitBtn = document.getElementById('signUpModalSubmit');
       const goToSignInBtn = document.getElementById('goToSignInBtn');
 
-      // Only one auth modal (sign in or sign up) is ever open at a time, so a
-      // single lock/unlock pair is enough to manage the shared body scroll lock.
+      const forgotPasswordModal = document.getElementById('forgotPasswordModal');
+      const forgotPasswordCloseBtn = document.getElementById('forgotPasswordCloseBtn');
+      const goToForgotPasswordBtn = document.getElementById('goToForgotPasswordBtn');
+
+      // Only one auth modal (sign in, sign up, or password recovery) is ever
+      // open at a time, so a single lock/unlock pair is enough to manage the
+      // shared body scroll lock.
       function lockBodyScroll() { document.body.style.overflow = 'hidden'; }
       function unlockBodyScroll() { document.body.style.overflow = ''; }
 
-      function openSignInModal() {
+      function closeAllAuthModals() {
+        if (signInModal) signInModal.classList.remove('active');
         if (signUpModal) signUpModal.classList.remove('active');
+        if (forgotPasswordModal) forgotPasswordModal.classList.remove('active');
+      }
+
+      function openSignInModal() {
+        closeAllAuthModals();
         signInModal.classList.add('active');
         lockBodyScroll();
       }
@@ -832,12 +1161,22 @@
         unlockBodyScroll();
       }
       function openSignUpModal() {
-        signInModal.classList.remove('active');
+        closeAllAuthModals();
         signUpModal.classList.add('active');
         lockBodyScroll();
       }
       function closeSignUpModal() {
         signUpModal.classList.remove('active');
+        unlockBodyScroll();
+      }
+      function openForgotPasswordModal() {
+        closeAllAuthModals();
+        resetRecoveryFlow();
+        forgotPasswordModal.classList.add('active');
+        lockBodyScroll();
+      }
+      function closeForgotPasswordModal() {
+        forgotPasswordModal.classList.remove('active');
         unlockBodyScroll();
       }
 
@@ -869,11 +1208,228 @@
       }
       if (goToSignInBtn) goToSignInBtn.addEventListener('click', openSignInModal);
 
+      if (goToForgotPasswordBtn) {
+        goToForgotPasswordBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          openForgotPasswordModal();
+        });
+      }
+      if (forgotPasswordCloseBtn) forgotPasswordCloseBtn.addEventListener('click', closeForgotPasswordModal);
+      if (forgotPasswordModal) {
+        forgotPasswordModal.addEventListener('click', (e) => {
+          if (e.target === forgotPasswordModal) closeForgotPasswordModal();
+        });
+      }
+
       document.addEventListener('keydown', (e) => {
         if (e.key !== 'Escape') return;
         if (signInModal && signInModal.classList.contains('active')) closeSignInModal();
         if (signUpModal && signUpModal.classList.contains('active')) closeSignUpModal();
+        if (forgotPasswordModal && forgotPasswordModal.classList.contains('active')) closeForgotPasswordModal();
       });
+
+      // ------------------------------------------------------------------
+      // Show/hide password eye icons (shared across sign in, sign up, and
+      // the password recovery flow).
+      // ------------------------------------------------------------------
+      document.querySelectorAll('.auth-toggle-eye').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const input = document.getElementById(btn.getAttribute('data-toggle-for'));
+          if (!input) return;
+          const showing = input.type === 'text';
+          input.type = showing ? 'password' : 'text';
+          btn.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');
+        });
+      });
+
+      // ------------------------------------------------------------------
+      // Password strength meter + requirements checklist (shared helper used
+      // by both the Sign Up password field and the recovery flow's new
+      // password field).
+      // ------------------------------------------------------------------
+      function evaluatePasswordStrength(password) {
+        const checks = {
+          length: password.length >= 8,
+          upper: /[A-Z]/.test(password),
+          number: /[0-9]/.test(password),
+          symbol: /[^A-Za-z0-9]/.test(password)
+        };
+        const metCount = Object.values(checks).filter(Boolean).length;
+        return { checks, metCount };
+      }
+
+      function wireStrengthMeter(passwordInputId, meterId, labelId, requirementsId) {
+        const input = document.getElementById(passwordInputId);
+        const meter = document.getElementById(meterId);
+        const label = document.getElementById(labelId);
+        const requirementsList = document.getElementById(requirementsId);
+        if (!input || !meter || !label || !requirementsList) return;
+
+        const bars = Array.from(meter.querySelectorAll('.auth-strength-bar'));
+        const colors = ['#f87171', '#fbbf24', '#60a5fa', '#34d399'];
+        const labels = ['Very weak', 'Weak', 'Fair', 'Good', 'Strong'];
+
+        input.addEventListener('input', () => {
+          const { checks, metCount } = evaluatePasswordStrength(input.value);
+
+          bars.forEach((bar, i) => {
+            bar.style.background = (input.value.length > 0 && i < metCount) ? colors[Math.max(metCount - 1, 0)] : '#1E3A5F';
+          });
+          label.textContent = input.value.length === 0 ? 'Password strength' : labels[metCount];
+
+          requirementsList.querySelectorAll('li[data-req]').forEach((li) => {
+            const req = li.getAttribute('data-req');
+            li.classList.toggle('met', !!checks[req]);
+          });
+        });
+      }
+
+      wireStrengthMeter('signUpPassword', 'signUpStrengthMeter', 'signUpStrengthLabel', 'signUpRequirements');
+      wireStrengthMeter('recoveryNewPassword', 'recoveryStrengthMeter', 'recoveryStrengthLabel', 'recoveryRequirements');
+
+      // ------------------------------------------------------------------
+      // "Sign in with passkey" — placeholder hook for WebAuthn integration.
+      // ------------------------------------------------------------------
+      const signInPasskeyBtn = document.getElementById('signInPasskeyBtn');
+      if (signInPasskeyBtn) {
+        signInPasskeyBtn.addEventListener('click', () => {
+          signInErrorBox.textContent = 'Passkey sign-in is not available yet. Please sign in with your email and password.';
+          signInErrorBox.style.display = 'block';
+        });
+      }
+
+      // ------------------------------------------------------------------
+      // Chase-style password recovery flow (4 steps): verify identity ->
+      // send verification code -> create new password -> success.
+      // ------------------------------------------------------------------
+      const recoverySteps = ['recoveryStep1', 'recoveryStep2', 'recoveryStep3', 'recoveryStep4'].map((id) => document.getElementById(id));
+      let recoveryResendTimer = null;
+
+      function showRecoveryStep(stepId) {
+        recoverySteps.forEach((step) => {
+          if (step) step.classList.toggle('active', step.id === stepId);
+        });
+      }
+
+      function resetRecoveryFlow() {
+        const step1Form = document.getElementById('recoveryStep1Form');
+        const step2Form = document.getElementById('recoveryStep2Form');
+        const step3Form = document.getElementById('recoveryStep3Form');
+        if (step1Form) step1Form.reset();
+        if (step2Form) step2Form.reset();
+        if (step3Form) step3Form.reset();
+        ['recoveryStep1Error', 'recoveryStep2Error', 'recoveryStep3Error'].forEach((id) => {
+          const box = document.getElementById(id);
+          if (box) box.style.display = 'none';
+        });
+        showRecoveryStep('recoveryStep1');
+      }
+
+      document.querySelectorAll('.auth-back-btn[data-back-to]').forEach((btn) => {
+        btn.addEventListener('click', () => showRecoveryStep(btn.getAttribute('data-back-to')));
+      });
+
+      function startResendTimer() {
+        const resendBtn = document.getElementById('recoveryResendBtn');
+        if (!resendBtn) return;
+        let seconds = 30;
+        resendBtn.disabled = true;
+        resendBtn.textContent = `Resend code (0:${String(seconds).padStart(2, '0')})`;
+        if (recoveryResendTimer) clearInterval(recoveryResendTimer);
+        recoveryResendTimer = setInterval(() => {
+          seconds -= 1;
+          if (seconds <= 0) {
+            clearInterval(recoveryResendTimer);
+            resendBtn.disabled = false;
+            resendBtn.textContent = 'Resend code';
+            return;
+          }
+          resendBtn.textContent = `Resend code (0:${String(seconds).padStart(2, '0')})`;
+        }, 1000);
+      }
+
+      const recoveryResendBtn = document.getElementById('recoveryResendBtn');
+      if (recoveryResendBtn) {
+        recoveryResendBtn.addEventListener('click', () => startResendTimer());
+      }
+
+      // Auto-advance focus between the six OTP digit boxes.
+      const otpInputs = Array.from(document.querySelectorAll('.auth-otp-input'));
+      otpInputs.forEach((input, index) => {
+        input.addEventListener('input', () => {
+          input.value = input.value.replace(/[^0-9]/g, '').slice(0, 1);
+          if (input.value && otpInputs[index + 1]) otpInputs[index + 1].focus();
+        });
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Backspace' && !input.value && otpInputs[index - 1]) otpInputs[index - 1].focus();
+        });
+      });
+
+      const recoveryStep1Form = document.getElementById('recoveryStep1Form');
+      if (recoveryStep1Form) {
+        recoveryStep1Form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const errorBox = document.getElementById('recoveryStep1Error');
+          const lastFour = document.getElementById('recoveryLastFour').value.trim();
+          if (!/^[0-9]{4}$/.test(lastFour)) {
+            errorBox.textContent = 'Enter the last 4 digits of your phone number or account number.';
+            errorBox.style.display = 'block';
+            return;
+          }
+          errorBox.style.display = 'none';
+          showRecoveryStep('recoveryStep2');
+          startResendTimer();
+        });
+      }
+
+      const recoveryStep2Form = document.getElementById('recoveryStep2Form');
+      if (recoveryStep2Form) {
+        recoveryStep2Form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const errorBox = document.getElementById('recoveryStep2Error');
+          const code = otpInputs.map((input) => input.value).join('');
+          if (!/^[0-9]{6}$/.test(code)) {
+            errorBox.textContent = 'Enter the 6-digit verification code.';
+            errorBox.style.display = 'block';
+            return;
+          }
+          errorBox.style.display = 'none';
+          if (recoveryResendTimer) clearInterval(recoveryResendTimer);
+          showRecoveryStep('recoveryStep3');
+        });
+      }
+
+      const recoveryStep3Form = document.getElementById('recoveryStep3Form');
+      if (recoveryStep3Form) {
+        recoveryStep3Form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const errorBox = document.getElementById('recoveryStep3Error');
+          const newPassword = document.getElementById('recoveryNewPassword').value;
+          const confirmPassword = document.getElementById('recoveryConfirmPassword').value;
+          const { checks } = evaluatePasswordStrength(newPassword);
+
+          if (!checks.length || !checks.upper || !checks.number || !checks.symbol) {
+            errorBox.textContent = 'Password must be at least 8 characters and include an uppercase letter, a number, and a symbol.';
+            errorBox.style.display = 'block';
+            return;
+          }
+          if (newPassword !== confirmPassword) {
+            errorBox.textContent = 'Passwords do not match.';
+            errorBox.style.display = 'block';
+            return;
+          }
+          errorBox.style.display = 'none';
+          showRecoveryStep('recoveryStep4');
+        });
+      }
+
+      const recoveryReturnToSignInBtn = document.getElementById('recoveryReturnToSignInBtn');
+      if (recoveryReturnToSignInBtn) {
+        recoveryReturnToSignInBtn.addEventListener('click', () => {
+          closeForgotPasswordModal();
+          openSignInModal();
+        });
+      }
 
       if (signInForm) {
         signInForm.addEventListener('submit', async (e) => {
