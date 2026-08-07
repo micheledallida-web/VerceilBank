@@ -45,16 +45,16 @@
 
     .auth-card {
       position: relative;
-      width: 520px;
-      max-width: 90vw;
-      max-height: 92vh;
+      width: 400px;
+      max-width: 92vw;
+      max-height: 90vh;
       overflow-y: auto;
       background: linear-gradient(160deg, #0B1228 0%, #060B1A 100%);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 28px;
-      box-shadow: 0 0 60px rgba(37, 99, 235, 0.25), 0 24px 60px rgba(0, 0, 0, 0.55);
-      padding: 32px;
-      padding-bottom: max(32px, calc(32px + env(safe-area-inset-bottom)));
+      border-radius: 18px;
+      box-shadow: 0 0 40px rgba(37, 99, 235, 0.2), 0 16px 40px rgba(0, 0, 0, 0.5);
+      padding: 22px;
+      padding-bottom: max(22px, calc(22px + env(safe-area-inset-bottom)));
       box-sizing: border-box;
       animation: authCardIn 220ms ease-out;
     }
@@ -63,11 +63,11 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 24px;
+      margin-bottom: 14px;
     }
     .auth-logo {
       font-weight: 800;
-      font-size: 22px;
+      font-size: 17px;
       text-transform: uppercase;
       letter-spacing: -0.02em;
     }
@@ -78,7 +78,7 @@
       border: none;
       color: rgba(255, 255, 255, 0.65);
       cursor: pointer;
-      font-size: 24px;
+      font-size: 20px;
       line-height: 1;
       padding: 4px;
       text-decoration: none;
@@ -87,7 +87,7 @@
 
     .auth-card h1 {
       color: #ffffff;
-      font-size: 32px;
+      font-size: 22px;
       font-weight: 800;
       margin: 0;
       letter-spacing: -0.02em;
@@ -95,28 +95,28 @@
     }
     .auth-card p.auth-subtitle {
       color: rgba(255, 255, 255, 0.72);
-      font-size: 15px;
+      font-size: 13px;
       line-height: 1.4;
-      margin: 6px 0 24px;
+      margin: 4px 0 16px;
     }
 
-    .auth-field { margin-bottom: 20px; }
+    .auth-field { margin-bottom: 12px; }
     .auth-field label {
       display: block;
       color: #ffffff;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
-      margin-bottom: 8px;
+      margin-bottom: 5px;
     }
     .auth-input {
       width: 100%;
-      height: 56px;
-      padding: 0 16px;
+      height: 42px;
+      padding: 0 12px;
       background: rgba(18, 34, 74, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 14px;
+      border-radius: 10px;
       color: #ffffff;
-      font-size: 15px;
+      font-size: 14px;
       outline: none;
       transition: border-color 0.15s ease, box-shadow 0.15s ease;
       appearance: none;
@@ -131,14 +131,14 @@
 
     .auth-btn-primary {
       width: 100%;
-      height: 56px;
-      margin-top: 8px;
+      height: 44px;
+      margin-top: 6px;
       background: #2563EB;
       color: #ffffff;
       font-weight: 700;
-      font-size: 16px;
+      font-size: 14px;
       border: none;
-      border-radius: 14px;
+      border-radius: 10px;
       cursor: pointer;
       box-shadow: 0 8px 24px rgba(37, 99, 235, 0.25);
       transition: background-color 0.2s ease;
@@ -150,8 +150,8 @@
     .auth-switch {
       text-align: center;
       color: rgba(255, 255, 255, 0.65);
-      font-size: 15px;
-      margin: 24px 0 0;
+      font-size: 13px;
+      margin: 16px 0 0;
     }
     .auth-switch a {
       color: #2563EB;
@@ -163,24 +163,24 @@
     .auth-error {
       display: none;
       color: #f87171;
-      font-size: 0.8rem;
-      margin: 16px 0 0;
+      font-size: 0.75rem;
+      margin: 12px 0 0;
     }
     .auth-success {
       display: none;
       color: #34d399;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 600;
-      margin: 0 0 16px;
+      margin: 0 0 12px;
     }
 
     /* Password field with show/hide eye icon */
     .auth-field-password { position: relative; }
-    .auth-field-password .auth-input { padding-right: 48px; }
+    .auth-field-password .auth-input { padding-right: 40px; }
     .auth-toggle-eye {
       position: absolute;
       top: 50%;
-      right: 14px;
+      right: 10px;
       transform: translateY(-50%);
       background: none;
       border: none;
@@ -191,16 +191,16 @@
       align-items: center;
     }
     .auth-toggle-eye:hover { color: #ffffff; }
-    .auth-toggle-eye svg { width: 20px; height: 20px; }
+    .auth-toggle-eye svg { width: 17px; height: 17px; }
 
     .auth-forgot-link {
       display: block;
       text-align: left;
       color: #2563EB;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       text-decoration: none;
-      margin: 12px 0 24px;
+      margin: 8px 0 16px;
       background: none;
       border: none;
       cursor: pointer;
@@ -211,10 +211,10 @@
     .auth-divider {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin: 28px 0;
+      gap: 10px;
+      margin: 16px 0;
       color: rgba(255, 255, 255, 0.45);
-      font-size: 0.8rem;
+      font-size: 0.7rem;
       font-weight: 600;
       text-transform: uppercase;
     }
@@ -228,13 +228,13 @@
 
     .auth-btn-secondary {
       width: 100%;
-      height: 56px;
+      height: 44px;
       background: transparent;
       color: #ffffff;
       font-weight: 600;
-      font-size: 1rem;
+      font-size: 0.9rem;
       border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 14px;
+      border-radius: 10px;
       cursor: pointer;
       transition: background-color 0.2s ease, border-color 0.2s ease;
       display: flex;
@@ -243,7 +243,19 @@
       gap: 0.5rem;
     }
     .auth-btn-secondary:hover { background: rgba(255, 255, 255, 0.05); }
-    .auth-btn-secondary svg { width: 18px; height: 18px; }
+    .auth-btn-secondary svg { width: 16px; height: 16px; }
+
+    /* Chase-style compact sizing on small/mobile screens */
+    @media (max-width: 480px) {
+      .auth-hero-main { padding: 16px 12px 24px; }
+      .auth-card {
+        width: 100%;
+        max-width: 100%;
+        padding: 18px;
+        border-radius: 14px;
+      }
+      .auth-card h1 { font-size: 20px; }
+    }
 
     /* Trust badge strip beneath the card, on top of the background image */
     .auth-trust-footer {

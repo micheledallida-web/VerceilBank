@@ -292,15 +292,15 @@
 
     .auth-card {
       position: relative;
-      width: 520px;
-      max-width: 90vw;
-      max-height: 90vh;
+      width: 400px;
+      max-width: 92vw;
+      max-height: 88vh;
       overflow-y: auto;
       background: linear-gradient(160deg, #0B1228 0%, #060B1A 100%);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 28px;
-      box-shadow: 0 0 60px rgba(37, 99, 235, 0.25), 0 24px 60px rgba(0, 0, 0, 0.55);
-      padding: 32px;
+      border-radius: 18px;
+      box-shadow: 0 0 40px rgba(37, 99, 235, 0.2), 0 16px 40px rgba(0, 0, 0, 0.5);
+      padding: 22px;
       box-sizing: border-box;
     }
 
@@ -308,11 +308,11 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 24px;
+      margin-bottom: 14px;
     }
     .auth-logo {
       font-weight: 800;
-      font-size: 1.35rem;
+      font-size: 1.05rem;
       text-transform: uppercase;
       letter-spacing: -0.02em;
     }
@@ -323,7 +323,7 @@
       border: none;
       color: #94a3b8;
       cursor: pointer;
-      font-size: 1.4rem;
+      font-size: 1.2rem;
       line-height: 1;
       padding: 4px;
     }
@@ -331,26 +331,26 @@
 
     .auth-card h2 {
       color: #ffffff;
-      font-size: 2rem;
+      font-size: 1.4rem;
       font-weight: 800;
-      margin: 0 0 6px;
+      margin: 0 0 4px;
       letter-spacing: -0.02em;
       line-height: 1.15;
     }
     .auth-card p.auth-subtitle {
       color: #94a3b8;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       line-height: 1.4;
-      margin: 0 0 24px;
+      margin: 0 0 16px;
     }
 
-    .auth-progress { margin-bottom: 24px; }
+    .auth-progress { margin-bottom: 16px; }
     .auth-progress-label {
       display: block;
       color: #ffffff;
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       font-weight: 600;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     .auth-progress-track {
       width: 100%;
@@ -365,23 +365,23 @@
       border-radius: 2px;
     }
 
-    .auth-field { margin-bottom: 18px; }
+    .auth-field { margin-bottom: 12px; }
     .auth-field label {
       display: block;
       color: #cbd5e1;
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       font-weight: 600;
-      margin-bottom: 8px;
+      margin-bottom: 5px;
     }
     .auth-input {
       width: 100%;
-      height: 56px;
-      padding: 0 16px;
+      height: 42px;
+      padding: 0 12px;
       background: #111F3A;
       border: 1px solid #2A3F66;
-      border-radius: 14px;
+      border-radius: 10px;
       color: #ffffff;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       outline: none;
       transition: border-color 0.15s ease;
       appearance: none;
@@ -392,22 +392,22 @@
     select.auth-input {
       background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'><polyline points='6 9 12 15 18 9'/></svg>");
       background-repeat: no-repeat;
-      background-position: right 16px center;
-      background-size: 18px;
+      background-position: right 12px center;
+      background-size: 16px;
       cursor: pointer;
     }
     input[type="date"].auth-input { color-scheme: dark; }
 
     .auth-btn-primary {
       width: 100%;
-      height: 56px;
-      margin-top: 32px;
+      height: 44px;
+      margin-top: 16px;
       background: #2563EB;
       color: #ffffff;
       font-weight: 700;
-      font-size: 1rem;
+      font-size: 0.9rem;
       border: none;
-      border-radius: 14px;
+      border-radius: 10px;
       cursor: pointer;
       transition: background-color 0.2s ease;
     }
@@ -417,15 +417,15 @@
     .auth-switch {
       text-align: center;
       color: #94a3b8;
-      font-size: 0.9rem;
-      margin: 18px 0 0;
+      font-size: 0.8rem;
+      margin: 14px 0 0;
     }
     .auth-switch button {
       background: none;
       border: none;
       color: #2563EB;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       cursor: pointer;
       padding: 0;
     }
@@ -434,17 +434,17 @@
     .auth-error {
       display: none;
       color: #f87171;
-      font-size: 0.8rem;
-      margin: 16px 0 0;
+      font-size: 0.75rem;
+      margin: 12px 0 0;
     }
 
     /* Password field with show/hide eye icon */
     .auth-field-password { position: relative; }
-    .auth-field-password .auth-input { padding-right: 48px; }
+    .auth-field-password .auth-input { padding-right: 40px; }
     .auth-toggle-eye {
       position: absolute;
       top: 50%;
-      right: 14px;
+      right: 10px;
       transform: translateY(-50%);
       background: none;
       border: none;
@@ -455,16 +455,16 @@
       align-items: center;
     }
     .auth-toggle-eye:hover { color: #ffffff; }
-    .auth-toggle-eye svg { width: 20px; height: 20px; }
+    .auth-toggle-eye svg { width: 17px; height: 17px; }
 
     .auth-forgot-link {
       display: block;
       text-align: left;
       color: #2563EB;
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       font-weight: 600;
       text-decoration: none;
-      margin: 10px 0 0;
+      margin: 8px 0 0;
       background: none;
       border: none;
       cursor: pointer;
@@ -476,10 +476,10 @@
     .auth-divider {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin: 24px 0;
+      gap: 10px;
+      margin: 16px 0;
       color: #64748b;
-      font-size: 0.8rem;
+      font-size: 0.7rem;
       font-weight: 600;
       text-transform: uppercase;
     }
@@ -493,13 +493,13 @@
 
     .auth-btn-secondary {
       width: 100%;
-      height: 56px;
+      height: 44px;
       background: transparent;
       color: #ffffff;
       font-weight: 700;
-      font-size: 1rem;
+      font-size: 0.9rem;
       border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 14px;
+      border-radius: 10px;
       cursor: pointer;
       transition: background-color 0.2s ease, border-color 0.2s ease;
       display: flex;
@@ -507,7 +507,7 @@
       justify-content: center;
       gap: 0.5rem;
     }
-    .auth-btn-secondary svg { width: 18px; height: 18px; }
+    .auth-btn-secondary svg { width: 16px; height: 16px; }
     .auth-btn-secondary:hover { background: rgba(37, 99, 235, 0.08); border-color: #2563EB; }
 
     /* Chase-style password recovery flow */
@@ -519,10 +519,10 @@
       border: none;
       color: #94a3b8;
       cursor: pointer;
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       font-weight: 600;
       padding: 0;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -531,18 +531,18 @@
 
     .auth-otp-row {
       display: flex;
-      gap: 10px;
-      margin-bottom: 16px;
+      gap: 8px;
+      margin-bottom: 12px;
     }
     .auth-otp-input {
       width: 100%;
-      height: 56px;
+      height: 44px;
       text-align: center;
-      font-size: 1.25rem;
+      font-size: 1.05rem;
       font-weight: 700;
       background: #111F3A;
       border: 1px solid #2A3F66;
-      border-radius: 14px;
+      border-radius: 10px;
       color: #ffffff;
       outline: none;
       transition: border-color 0.15s ease;
@@ -551,9 +551,9 @@
 
     .auth-resend-row {
       text-align: center;
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       color: #94a3b8;
-      margin: 0 0 8px;
+      margin: 0 0 6px;
     }
     .auth-resend-btn {
       background: none;
@@ -562,14 +562,14 @@
       font-weight: 600;
       cursor: pointer;
       padding: 0;
-      font-size: 0.85rem;
+      font-size: 0.75rem;
     }
     .auth-resend-btn:disabled { color: #64748b; cursor: default; }
 
     .auth-strength-meter {
       display: flex;
       gap: 4px;
-      margin: 10px 0 8px;
+      margin: 8px 0 6px;
     }
     .auth-strength-bar {
       flex: 1;
@@ -579,28 +579,28 @@
       transition: background-color 0.2s ease;
     }
     .auth-strength-label {
-      font-size: 0.8rem;
+      font-size: 0.7rem;
       font-weight: 600;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       color: #94a3b8;
     }
     .auth-requirements {
       list-style: none;
       padding: 0;
-      margin: 0 0 18px;
-      font-size: 0.8rem;
+      margin: 0 0 12px;
+      font-size: 0.7rem;
       color: #94a3b8;
     }
     .auth-requirements li {
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 6px;
+      gap: 6px;
+      margin-bottom: 5px;
     }
     .auth-requirements li::before {
       content: '';
-      width: 6px;
-      height: 6px;
+      width: 5px;
+      height: 5px;
       border-radius: 50%;
       background: #64748b;
       flex-shrink: 0;
@@ -609,22 +609,34 @@
     .auth-requirements li.met::before { background: #34d399; }
 
     .auth-success-icon {
-      width: 64px;
-      height: 64px;
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
       background: rgba(52, 211, 153, 0.12);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 8px auto 20px;
+      margin: 4px auto 16px;
     }
-    .auth-success-icon svg { width: 32px; height: 32px; color: #34d399; }
+    .auth-success-icon svg { width: 26px; height: 26px; color: #34d399; }
     .auth-success-text {
       text-align: center;
       color: #ffffff;
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-weight: 600;
       margin: 0 0 8px;
+    }
+
+    /* Chase-style compact sizing on small/mobile screens */
+    @media (max-width: 480px) {
+      .auth-overlay { padding: 12px; }
+      .auth-card {
+        width: 100%;
+        max-width: 100%;
+        padding: 18px;
+        border-radius: 14px;
+      }
+      .auth-card h2 { font-size: 1.25rem; }
     }
   </style>
 
@@ -1152,9 +1164,22 @@
 
       // Only one auth modal (sign in, sign up, or password recovery) is ever
       // open at a time, so a single lock/unlock pair is enough to manage the
-      // shared body scroll lock.
-      function lockBodyScroll() { document.body.style.overflow = 'hidden'; }
-      function unlockBodyScroll() { document.body.style.overflow = ''; }
+      // shared body scroll lock. We also compensate for the scrollbar width
+      // removed by "overflow: hidden" so the sticky header and page content
+      // don't shift horizontally while the modal is open.
+      const originalBodyPaddingRight = window.getComputedStyle(document.body).paddingRight;
+      function lockBodyScroll() {
+        const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+        document.body.style.overflow = 'hidden';
+        if (scrollBarWidth > 0) {
+          const basePadding = parseFloat(originalBodyPaddingRight) || 0;
+          document.body.style.paddingRight = (basePadding + scrollBarWidth) + 'px';
+        }
+      }
+      function unlockBodyScroll() {
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = originalBodyPaddingRight;
+      }
 
       function closeAllAuthModals() {
         if (signInModal) signInModal.classList.remove('active');
