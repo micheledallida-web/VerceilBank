@@ -155,39 +155,50 @@ body.dark {
 .action-tile-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  gap: 8px;
+  /* Top-align every column so the icons stay on one line even when a
+     longer label ("Send Money") wraps to two lines on narrow screens. */
+  align-items: start;
 }
 
 .action-tile {
-  background: #0F1523;
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 20px;
-  padding: 20px 8px;
+  background: none;
+  border: 0;
+  padding: 6px 2px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 14px;
+  justify-content: flex-start;
+  gap: 8px;
   cursor: pointer;
-  transition: background 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.15s ease;
 }
 
-.action-tile:active { background: #141b2c; }
+.action-tile:active { opacity: 0.55; }
 
 .action-tile svg {
-  width: 26px;
-  height: 26px;
+  width: 22px;
+  height: 22px;
   stroke: #3B82F6;
   fill: none;
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+/* Light mode paints the app blue (#0B4CC2); with the card gone a blue
+   icon would sit blue-on-blue, so it goes white there. */
+body:not(.dark) .action-tile svg {
+  stroke: #FFFFFF;
 }
 
 .action-tile span {
   color: #F5F7FA;
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 600;
   text-align: center;
-  line-height: 1.2;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
 }
