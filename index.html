@@ -292,15 +292,16 @@
 
     .auth-card {
       position: relative;
-      width: 92%;
-      max-width: 460px;
+      width: 520px;
+      max-width: 90vw;
       max-height: 90vh;
       overflow-y: auto;
-      background: #08142E;
-      border: 1px solid #1E3A5F;
-      border-radius: 24px;
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
-      padding: 32px 28px 28px;
+      background: linear-gradient(160deg, #0B1228 0%, #060B1A 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 28px;
+      box-shadow: 0 0 60px rgba(37, 99, 235, 0.25), 0 24px 60px rgba(0, 0, 0, 0.55);
+      padding: 32px;
+      box-sizing: border-box;
     }
 
     .auth-header {
@@ -310,13 +311,13 @@
       margin-bottom: 24px;
     }
     .auth-logo {
-      font-weight: 900;
-      font-size: 1.15rem;
+      font-weight: 800;
+      font-size: 1.35rem;
       text-transform: uppercase;
       letter-spacing: -0.02em;
     }
     .auth-logo .accent { color: #ffffff; }
-    .auth-logo .main { color: #2563FF; }
+    .auth-logo .main { color: #2563EB; }
     .auth-close-btn {
       background: none;
       border: none;
@@ -330,10 +331,11 @@
 
     .auth-card h2 {
       color: #ffffff;
-      font-size: 1.5rem;
-      font-weight: 700;
+      font-size: 2rem;
+      font-weight: 800;
       margin: 0 0 6px;
       letter-spacing: -0.02em;
+      line-height: 1.15;
     }
     .auth-card p.auth-subtitle {
       color: #94a3b8;
@@ -359,7 +361,7 @@
     }
     .auth-progress-fill {
       height: 100%;
-      background: #2563FF;
+      background: #2563EB;
       border-radius: 2px;
     }
 
@@ -386,7 +388,7 @@
       -webkit-appearance: none;
     }
     .auth-input::placeholder { color: #64748b; }
-    .auth-input:focus { border-color: #2563FF; }
+    .auth-input:focus { border-color: #2563EB; }
     select.auth-input {
       background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'><polyline points='6 9 12 15 18 9'/></svg>");
       background-repeat: no-repeat;
@@ -400,12 +402,12 @@
       width: 100%;
       height: 56px;
       margin-top: 32px;
-      background: #2563FF;
+      background: #2563EB;
       color: #ffffff;
       font-weight: 700;
       font-size: 1rem;
       border: none;
-      border-radius: 16px;
+      border-radius: 14px;
       cursor: pointer;
       transition: background-color 0.2s ease;
     }
@@ -421,7 +423,7 @@
     .auth-switch button {
       background: none;
       border: none;
-      color: #2563FF;
+      color: #2563EB;
       font-weight: 600;
       font-size: 0.9rem;
       cursor: pointer;
@@ -457,8 +459,8 @@
 
     .auth-forgot-link {
       display: block;
-      text-align: right;
-      color: #2563FF;
+      text-align: left;
+      color: #2563EB;
       font-size: 0.85rem;
       font-weight: 600;
       text-decoration: none;
@@ -496,12 +498,17 @@
       color: #ffffff;
       font-weight: 700;
       font-size: 1rem;
-      border: 1px solid #2A3F66;
-      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 14px;
       cursor: pointer;
       transition: background-color 0.2s ease, border-color 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
     }
-    .auth-btn-secondary:hover { background: rgba(37, 99, 255, 0.08); border-color: #2563FF; }
+    .auth-btn-secondary svg { width: 18px; height: 18px; }
+    .auth-btn-secondary:hover { background: rgba(37, 99, 235, 0.08); border-color: #2563EB; }
 
     /* Chase-style password recovery flow */
     .auth-recovery-step { display: none; }
@@ -540,7 +547,7 @@
       outline: none;
       transition: border-color 0.15s ease;
     }
-    .auth-otp-input:focus { border-color: #2563FF; }
+    .auth-otp-input:focus { border-color: #2563EB; }
 
     .auth-resend-row {
       text-align: center;
@@ -551,7 +558,7 @@
     .auth-resend-btn {
       background: none;
       border: none;
-      color: #2563FF;
+      color: #2563EB;
       font-weight: 600;
       cursor: pointer;
       padding: 0;
@@ -650,8 +657,11 @@
         <button type="submit" id="signInModalSubmit" class="auth-btn-primary">Sign in</button>
       </form>
       <div class="auth-divider">or</div>
-      <button type="button" class="auth-btn-secondary" id="signInPasskeyBtn">Sign in with passkey</button>
-      <p class="auth-switch">New to Vercel Bank? <button type="button" id="goToSignUpBtn">Create account</button></p>
+      <button type="button" class="auth-btn-secondary" id="signInPasskeyBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2" ry="2"></rect><circle cx="12" cy="16" r="1"></circle><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        Sign in with passkey
+      </button>
+      <p class="auth-switch">New to Verceil Bank? <button type="button" id="goToSignUpBtn">Create account</button></p>
     </div>
   </div>
 
@@ -771,7 +781,7 @@
       <div class="auth-progress">
         <span class="auth-progress-label">Your information</span>
         <div class="auth-progress-track">
-          <div class="auth-progress-fill" style="width:50%;"></div>
+          <div class="auth-progress-fill" style="width:75%;"></div>
         </div>
       </div>
 
