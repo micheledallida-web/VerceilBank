@@ -45,16 +45,14 @@
 
     .auth-card {
       position: relative;
-      width: 90vw;
-      max-width: 420px;
+      width: 520px;
+      max-width: 90vw;
       max-height: 92vh;
       overflow-y: auto;
-      background:
-        radial-gradient(circle at 0% 0%, rgba(37, 99, 235, 0.18) 0%, rgba(37, 99, 235, 0) 45%),
-        #020B2E;
-      border: 1px solid rgba(59, 130, 246, 0.25);
+      background: linear-gradient(160deg, #0B1228 0%, #060B1A 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 28px;
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+      box-shadow: 0 0 60px rgba(37, 99, 235, 0.25), 0 24px 60px rgba(0, 0, 0, 0.55);
       padding: 32px;
       padding-bottom: max(32px, calc(32px + env(safe-area-inset-bottom)));
       box-sizing: border-box;
@@ -65,7 +63,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 32px;
+      margin-bottom: 24px;
     }
     .auth-logo {
       font-weight: 800;
@@ -89,36 +87,36 @@
 
     .auth-card h1 {
       color: #ffffff;
-      font-size: 52px;
+      font-size: 32px;
       font-weight: 800;
       margin: 0;
       letter-spacing: -0.02em;
-      line-height: 1.1;
+      line-height: 1.15;
     }
     .auth-card p.auth-subtitle {
       color: rgba(255, 255, 255, 0.72);
-      font-size: 18px;
+      font-size: 15px;
       line-height: 1.4;
-      margin: 8px 0 32px;
+      margin: 6px 0 24px;
     }
 
     .auth-field { margin-bottom: 20px; }
     .auth-field label {
       display: block;
       color: #ffffff;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 600;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
     .auth-input {
       width: 100%;
-      height: 64px;
-      padding: 0 20px;
+      height: 56px;
+      padding: 0 16px;
       background: rgba(18, 34, 74, 0.85);
-      border: 1px solid rgba(59, 130, 246, 0.18);
-      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
       color: #ffffff;
-      font-size: 17px;
+      font-size: 15px;
       outline: none;
       transition: border-color 0.15s ease, box-shadow 0.15s ease;
       appearance: none;
@@ -133,30 +131,30 @@
 
     .auth-btn-primary {
       width: 100%;
-      height: 60px;
+      height: 56px;
       margin-top: 8px;
-      background: linear-gradient(180deg, #2563EB 0%, #1D4ED8 100%);
+      background: #2563EB;
       color: #ffffff;
       font-weight: 700;
-      font-size: 18px;
+      font-size: 16px;
       border: none;
-      border-radius: 18px;
+      border-radius: 14px;
       cursor: pointer;
-      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35);
-      transition: filter 0.2s ease;
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.25);
+      transition: background-color 0.2s ease;
     }
-    .auth-btn-primary:hover { filter: brightness(1.08); }
-    .auth-btn-primary:active { filter: brightness(0.92); }
+    .auth-btn-primary:hover { background: #1D4ED8; }
+    .auth-btn-primary:active { background: #1a46c4; }
     .auth-btn-primary:disabled { opacity: 0.7; cursor: default; }
 
     .auth-switch {
       text-align: center;
       color: rgba(255, 255, 255, 0.65);
-      font-size: 16px;
+      font-size: 15px;
       margin: 24px 0 0;
     }
     .auth-switch a {
-      color: #3B82F6;
+      color: #2563EB;
       font-weight: 600;
       text-decoration: none;
     }
@@ -178,11 +176,11 @@
 
     /* Password field with show/hide eye icon */
     .auth-field-password { position: relative; }
-    .auth-field-password .auth-input { padding-right: 52px; }
+    .auth-field-password .auth-input { padding-right: 48px; }
     .auth-toggle-eye {
       position: absolute;
       top: 50%;
-      right: 18px;
+      right: 14px;
       transform: translateY(-50%);
       background: none;
       border: none;
@@ -197,9 +195,9 @@
 
     .auth-forgot-link {
       display: block;
-      text-align: right;
-      color: #3B82F6;
-      font-size: 15px;
+      text-align: left;
+      color: #2563EB;
+      font-size: 14px;
       font-weight: 600;
       text-decoration: none;
       margin: 12px 0 24px;
@@ -230,13 +228,13 @@
 
     .auth-btn-secondary {
       width: 100%;
-      height: 58px;
+      height: 56px;
       background: transparent;
       color: #ffffff;
       font-weight: 600;
       font-size: 1rem;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 14px;
       cursor: pointer;
       transition: background-color 0.2s ease, border-color 0.2s ease;
       display: flex;
@@ -338,7 +336,7 @@
           Sign in with passkey
         </button>
 
-        <p class="auth-switch">New to Vercel Bank? <a href="signup.html">Create account</a></p>
+        <p class="auth-switch">New to Verceil Bank? <a href="signup.html">Create account</a></p>
       </div>
     </main>
 
@@ -421,7 +419,7 @@
         errorBanner.style.display = 'block';
         submitBtn.textContent = 'Sign in';
         submitBtn.disabled = false;
-        submitBtn.style.backgroundColor = '#2563FF';
+        submitBtn.style.backgroundColor = '#2563EB';
       }
     });
 
