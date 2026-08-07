@@ -219,7 +219,7 @@ body:not(.dark) .action-tile svg {
   display: grid;
   grid-template-columns: 1fr auto auto;
   column-gap: 12px;
-  row-gap: 4px;
+  row-gap: 6px;
   align-items: baseline;
   min-width: 0;
 }
@@ -228,7 +228,7 @@ body:not(.dark) .action-tile svg {
 .account-grid .account-number { text-align: left; }
 
 .account-grid .account-balance,
-.account-grid .account-sublabel { text-align: center; }
+.account-grid .account-sublabel { text-align: right; }
 
 /* The chevron is the grid's third column, pinned to row 1, so it centers
    on the amount line instead of floating between the two text rows. */
@@ -249,4 +249,8 @@ body:not(.dark) .action-tile svg {
   grid-row: 2;
   text-align: right;
   white-space: nowrap;
+  /* This note is 10px against the other cards' 12px sublabels, so its
+     shorter line box would otherwise sit ~2px tighter under row 1.
+     Nudge it down to match their spacing. */
+  margin-top: 2px;
 }
