@@ -218,7 +218,7 @@ body:not(.dark) .action-tile svg {
   flex: 1;
   display: grid;
   grid-template-columns: 1fr auto auto;
-  column-gap: 12px;
+  column-gap: 8px;
   row-gap: 6px;
   align-items: baseline;
   min-width: 0;
@@ -252,5 +252,5 @@ body:not(.dark) .action-tile svg {
   /* This note is 10px against the other cards' 12px sublabels, so its
      shorter line box would otherwise sit ~2px tighter under row 1.
      Nudge it down to match their spacing. */
-  margin-top: 2px;
+  margin-top: 5px;
 }
