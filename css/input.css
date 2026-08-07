@@ -202,3 +202,36 @@ body:not(.dark) .action-tile svg {
   line-height: 1.25;
   letter-spacing: -0.01em;
 }
+
+/* ===================== ACCOUNT CARD TEXT GRID =====================
+   The account name/balance and number/sublabel used to live in two
+   separate flex columns of differing height, so no two lines shared a
+   baseline. One two-column, two-row grid with align-items: baseline
+   fixes that. Grid child order is name, balance, number, sublabel. */
+.account-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.account-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 12px;
+  row-gap: 4px;
+  align-items: baseline;
+  min-width: 0;
+}
+
+.account-grid .account-name,
+.account-grid .account-number { text-align: left; }
+
+.account-grid .account-balance,
+.account-grid .account-sublabel { text-align: right; }
+
+.account-chevron {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
