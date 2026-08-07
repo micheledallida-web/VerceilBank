@@ -266,29 +266,262 @@
     </div>
   </header>
 
+  <!-- ==========================================================================
+       AUTH MODALS (Sign In / Sign Up)
+       Both modals share the same dark navy visual identity. The city
+       background image is rendered on the fixed overlay itself (never on the
+       scrollable card), so it stays perfectly centered and never pans/bounces
+       while the card content scrolls or the on-screen keyboard appears.
+       ========================================================================== -->
+  <style>
+    .auth-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1101;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      background:
+        linear-gradient(180deg, rgba(3, 9, 24, 0.72) 0%, rgba(3, 9, 24, 0.72) 100%),
+        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop') center center / cover no-repeat;
+      background-attachment: fixed;
+    }
+    .auth-overlay.active { display: flex; }
+
+    .auth-card {
+      position: relative;
+      width: 92%;
+      max-width: 460px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: #08142E;
+      border: 1px solid #1E3A5F;
+      border-radius: 24px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+      padding: 32px 28px 28px;
+    }
+
+    .auth-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .auth-logo {
+      font-weight: 900;
+      font-size: 1.15rem;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+    }
+    .auth-logo .accent { color: #ffffff; }
+    .auth-logo .main { color: #2563FF; }
+    .auth-close-btn {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      font-size: 1.4rem;
+      line-height: 1;
+      padding: 4px;
+    }
+    .auth-close-btn:hover { color: #ffffff; }
+
+    .auth-card h2 {
+      color: #ffffff;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0 0 6px;
+      letter-spacing: -0.02em;
+    }
+    .auth-card p.auth-subtitle {
+      color: #94a3b8;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      margin: 0 0 24px;
+    }
+
+    .auth-progress { margin-bottom: 24px; }
+    .auth-progress-label {
+      display: block;
+      color: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .auth-progress-track {
+      width: 100%;
+      height: 4px;
+      background: #1E3A5F;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .auth-progress-fill {
+      height: 100%;
+      background: #2563FF;
+      border-radius: 2px;
+    }
+
+    .auth-field { margin-bottom: 18px; }
+    .auth-field label {
+      display: block;
+      color: #cbd5e1;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .auth-input {
+      width: 100%;
+      height: 56px;
+      padding: 0 16px;
+      background: #111F3A;
+      border: 1px solid #2A3F66;
+      border-radius: 14px;
+      color: #ffffff;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.15s ease;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .auth-input::placeholder { color: #64748b; }
+    .auth-input:focus { border-color: #2563FF; }
+    select.auth-input {
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'><polyline points='6 9 12 15 18 9'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      background-size: 18px;
+      cursor: pointer;
+    }
+    input[type="date"].auth-input { color-scheme: dark; }
+
+    .auth-btn-primary {
+      width: 100%;
+      height: 56px;
+      margin-top: 32px;
+      background: #2563FF;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 1rem;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+    .auth-btn-primary:hover { background: #1d4fd8; }
+    .auth-btn-primary:disabled { opacity: 0.7; cursor: default; }
+
+    .auth-switch {
+      text-align: center;
+      color: #94a3b8;
+      font-size: 0.9rem;
+      margin: 18px 0 0;
+    }
+    .auth-switch button {
+      background: none;
+      border: none;
+      color: #2563FF;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      padding: 0;
+    }
+    .auth-switch button:hover { text-decoration: underline; }
+
+    .auth-error {
+      display: none;
+      color: #f87171;
+      font-size: 0.8rem;
+      margin: 16px 0 0;
+    }
+  </style>
+
   <!-- SIGN IN MODAL (opened from the nav "Sign in" link, or automatically
        after Sign Out redirects here with ?signin=1) -->
-  <div class="menu-backdrop" id="signInBackdrop" style="z-index: 1100;"></div>
-  <div id="signInModal" class="signin-modal" style="display:none; position:fixed; inset:0; z-index:1101; align-items:center; justify-content:center;">
-    <div style="background:#0f172a; border:1px solid rgba(255,255,255,0.08); border-radius:20px; width:100%; max-width:380px; margin:16px; padding:28px 24px; box-shadow:0 24px 60px rgba(0,0,0,0.5);">
-      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:18px;">
-        <span style="font-weight:900; font-size:1.1rem; text-transform:uppercase; letter-spacing:-0.02em;"><span style="color:#ffffff;">VERCEIL</span><span style="color:#3b82f6;">BANK</span></span>
-        <button id="signInModalCloseBtn" aria-label="Close" style="background:none; border:none; color:#94a3b8; cursor:pointer; font-size:1.25rem; line-height:1;">&times;</button>
+  <div id="signInModal" class="auth-overlay">
+    <div class="auth-card">
+      <div class="auth-header">
+        <span class="auth-logo"><span class="accent">VERCEIL</span><span class="main">BANK</span></span>
+        <button id="signInModalCloseBtn" aria-label="Close" class="auth-close-btn">&times;</button>
       </div>
-      <h2 style="color:#fff; font-size:1.15rem; font-weight:700; margin:0 0 4px;">Sign in</h2>
-      <p style="color:#94a3b8; font-size:0.85rem; margin:0 0 20px;">Access your Verceil Bank dashboard.</p>
+      <h2>Sign in</h2>
+      <p class="auth-subtitle">Access your Verceil Bank dashboard.</p>
       <form id="signInModalForm">
-        <div style="margin-bottom:14px;">
-          <label style="display:block; color:#cbd5e1; font-size:0.75rem; font-weight:600; margin-bottom:6px;">Email</label>
-          <input type="email" id="signInModalEmail" autocomplete="email" required style="width:100%; height:44px; padding:0 12px; border-radius:10px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:#fff; outline:none;">
+        <div class="auth-field">
+          <label for="signInModalEmail">Email address</label>
+          <input type="email" id="signInModalEmail" class="auth-input" autocomplete="email" required>
         </div>
-        <div style="margin-bottom:8px;">
-          <label style="display:block; color:#cbd5e1; font-size:0.75rem; font-weight:600; margin-bottom:6px;">Password</label>
-          <input type="password" id="signInModalPassword" autocomplete="current-password" required style="width:100%; height:44px; padding:0 12px; border-radius:10px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:#fff; outline:none;">
+        <div class="auth-field" style="margin-bottom:0;">
+          <label for="signInModalPassword">Password</label>
+          <input type="password" id="signInModalPassword" class="auth-input" autocomplete="current-password" required>
         </div>
-        <div id="signInModalError" style="display:none; color:#f87171; font-size:0.8rem; margin:10px 0 0;"></div>
-        <button type="submit" id="signInModalSubmit" style="width:100%; height:46px; margin-top:18px; border-radius:12px; background:#0044ff; color:#fff; font-weight:700; border:none; cursor:pointer;">Sign in</button>
+        <div id="signInModalError" class="auth-error"></div>
+        <button type="submit" id="signInModalSubmit" class="auth-btn-primary">Sign in</button>
       </form>
+      <p class="auth-switch">Don't have an account? <button type="button" id="goToSignUpBtn">Sign up</button></p>
+    </div>
+  </div>
+
+  <!-- SIGN UP MODAL (opened from "Get Started" / "Sign up" links) -->
+  <div id="signUpModal" class="auth-overlay">
+    <div class="auth-card">
+      <div class="auth-header">
+        <span class="auth-logo"><span class="accent">VERCEIL</span><span class="main">BANK</span></span>
+        <button id="signUpModalCloseBtn" aria-label="Close" class="auth-close-btn">&times;</button>
+      </div>
+      <h2>Create account</h2>
+      <p class="auth-subtitle">Open your Verceil Bank account in just a few minutes.</p>
+
+      <div class="auth-progress">
+        <span class="auth-progress-label">Your information</span>
+        <div class="auth-progress-track">
+          <div class="auth-progress-fill" style="width:50%;"></div>
+        </div>
+      </div>
+
+      <form id="signUpModalForm">
+        <div class="auth-field">
+          <label for="signUpFirstName">First name</label>
+          <input type="text" id="signUpFirstName" class="auth-input" required>
+        </div>
+        <div class="auth-field">
+          <label for="signUpMiddleName">Middle name (optional)</label>
+          <input type="text" id="signUpMiddleName" class="auth-input">
+        </div>
+        <div class="auth-field">
+          <label for="signUpLastName">Last name</label>
+          <input type="text" id="signUpLastName" class="auth-input" required>
+        </div>
+        <div class="auth-field">
+          <label for="signUpSuffix">Suffix (optional)</label>
+          <select id="signUpSuffix" class="auth-input">
+            <option value="">None</option>
+            <option value="Jr">Jr.</option>
+            <option value="Sr">Sr.</option>
+            <option value="II">II</option>
+            <option value="III">III</option>
+          </select>
+        </div>
+        <div class="auth-field">
+          <label for="signUpDob">Date of birth</label>
+          <input type="date" id="signUpDob" class="auth-input" required>
+        </div>
+        <div class="auth-field">
+          <label for="signUpEmail">Email address</label>
+          <input type="email" id="signUpEmail" class="auth-input" autocomplete="email" required>
+        </div>
+        <div class="auth-field">
+          <label for="signUpPassword">Password</label>
+          <input type="password" id="signUpPassword" class="auth-input" autocomplete="new-password" required>
+        </div>
+        <div class="auth-field" style="margin-bottom:0;">
+          <label for="signUpConfirmPassword">Confirm password</label>
+          <input type="password" id="signUpConfirmPassword" class="auth-input" autocomplete="new-password" required>
+        </div>
+        <div id="signUpModalError" class="auth-error"></div>
+        <button type="submit" id="signUpModalSubmit" class="auth-btn-primary">Continue</button>
+      </form>
+      <p class="auth-switch">Already have an account? <button type="button" id="goToSignInBtn">Sign in</button></p>
     </div>
   </div>
 
@@ -308,7 +541,7 @@
             Manage your money, transfer funds, and grow your savings — all in one powerful app designed for your financial freedom.
           </p>
           <div class="hero-ctas">
-            <a href="signup.html" class="btn btn-pill">Get Started</a>
+            <a href="signup.html" class="btn btn-pill" id="openSignUpBtn">Get Started</a>
           </div>
         </div>
       </div>
@@ -568,48 +801,93 @@
         console.error('Supabase init error:', err);
       }
 
-      const backdrop = document.getElementById('signInBackdrop');
-      const modal = document.getElementById('signInModal');
-      const closeBtn = document.getElementById('signInModalCloseBtn');
-      const openBtn = document.getElementById('openLoginBtn');
-      const form = document.getElementById('signInModalForm');
-      const errorBox = document.getElementById('signInModalError');
-      const submitBtn = document.getElementById('signInModalSubmit');
+      const signInModal = document.getElementById('signInModal');
+      const signInCloseBtn = document.getElementById('signInModalCloseBtn');
+      const openLoginBtn = document.getElementById('openLoginBtn');
+      const signInForm = document.getElementById('signInModalForm');
+      const signInErrorBox = document.getElementById('signInModalError');
+      const signInSubmitBtn = document.getElementById('signInModalSubmit');
+      const goToSignUpBtn = document.getElementById('goToSignUpBtn');
+
+      const signUpModal = document.getElementById('signUpModal');
+      const signUpCloseBtn = document.getElementById('signUpModalCloseBtn');
+      const openSignUpBtn = document.getElementById('openSignUpBtn');
+      const signUpForm = document.getElementById('signUpModalForm');
+      const signUpErrorBox = document.getElementById('signUpModalError');
+      const signUpSubmitBtn = document.getElementById('signUpModalSubmit');
+      const goToSignInBtn = document.getElementById('goToSignInBtn');
+
+      // Only one auth modal (sign in or sign up) is ever open at a time, so a
+      // single lock/unlock pair is enough to manage the shared body scroll lock.
+      function lockBodyScroll() { document.body.style.overflow = 'hidden'; }
+      function unlockBodyScroll() { document.body.style.overflow = ''; }
 
       function openSignInModal() {
-        modal.style.display = 'flex';
-        backdrop.classList.add('active');
-        document.body.style.overflow = 'hidden';
+        if (signUpModal) signUpModal.classList.remove('active');
+        signInModal.classList.add('active');
+        lockBodyScroll();
       }
-
       function closeSignInModal() {
-        modal.style.display = 'none';
-        backdrop.classList.remove('active');
-        document.body.style.overflow = '';
+        signInModal.classList.remove('active');
+        unlockBodyScroll();
+      }
+      function openSignUpModal() {
+        signInModal.classList.remove('active');
+        signUpModal.classList.add('active');
+        lockBodyScroll();
+      }
+      function closeSignUpModal() {
+        signUpModal.classList.remove('active');
+        unlockBodyScroll();
       }
 
-      if (openBtn) {
-        openBtn.addEventListener('click', (e) => {
+      if (openLoginBtn) {
+        openLoginBtn.addEventListener('click', (e) => {
           e.preventDefault();
           openSignInModal();
         });
       }
-      if (closeBtn) closeBtn.addEventListener('click', closeSignInModal);
-      if (backdrop) backdrop.addEventListener('click', closeSignInModal);
+      if (signInCloseBtn) signInCloseBtn.addEventListener('click', closeSignInModal);
+      if (signInModal) {
+        signInModal.addEventListener('click', (e) => {
+          if (e.target === signInModal) closeSignInModal();
+        });
+      }
+      if (goToSignUpBtn) goToSignUpBtn.addEventListener('click', openSignUpModal);
 
-      if (form) {
-        form.addEventListener('submit', async (e) => {
+      if (openSignUpBtn) {
+        openSignUpBtn.addEventListener('click', (e) => {
           e.preventDefault();
-          errorBox.style.display = 'none';
+          openSignUpModal();
+        });
+      }
+      if (signUpCloseBtn) signUpCloseBtn.addEventListener('click', closeSignUpModal);
+      if (signUpModal) {
+        signUpModal.addEventListener('click', (e) => {
+          if (e.target === signUpModal) closeSignUpModal();
+        });
+      }
+      if (goToSignInBtn) goToSignInBtn.addEventListener('click', openSignInModal);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Escape') return;
+        if (signInModal && signInModal.classList.contains('active')) closeSignInModal();
+        if (signUpModal && signUpModal.classList.contains('active')) closeSignUpModal();
+      });
+
+      if (signInForm) {
+        signInForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          signInErrorBox.style.display = 'none';
 
           if (!supabaseClient) {
-            errorBox.textContent = 'Network configuration error: Supabase failed to initialize.';
-            errorBox.style.display = 'block';
+            signInErrorBox.textContent = 'Network configuration error: Supabase failed to initialize.';
+            signInErrorBox.style.display = 'block';
             return;
           }
 
-          submitBtn.disabled = true;
-          submitBtn.textContent = 'Signing in...';
+          signInSubmitBtn.disabled = true;
+          signInSubmitBtn.textContent = 'Signing in...';
 
           const email = document.getElementById('signInModalEmail').value.trim();
           const password = document.getElementById('signInModalPassword').value;
@@ -617,13 +895,83 @@
           try {
             const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
             if (error) throw error;
-            submitBtn.textContent = 'Success! Launching...';
+            signInSubmitBtn.textContent = 'Success! Launching...';
             window.location.href = 'dashboard.html';
           } catch (err) {
-            errorBox.textContent = 'Invalid login credentials.';
-            errorBox.style.display = 'block';
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Sign in';
+            signInErrorBox.textContent = 'Invalid login credentials.';
+            signInErrorBox.style.display = 'block';
+            signInSubmitBtn.disabled = false;
+            signInSubmitBtn.textContent = 'Sign in';
+          }
+        });
+      }
+
+      if (signUpForm) {
+        signUpForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          signUpErrorBox.style.display = 'none';
+
+          const firstName = document.getElementById('signUpFirstName').value.trim();
+          const middleName = document.getElementById('signUpMiddleName').value.trim();
+          const lastName = document.getElementById('signUpLastName').value.trim();
+          const suffix = document.getElementById('signUpSuffix').value;
+          const dob = document.getElementById('signUpDob').value;
+          const email = document.getElementById('signUpEmail').value.trim();
+          const password = document.getElementById('signUpPassword').value;
+          const confirmPassword = document.getElementById('signUpConfirmPassword').value;
+
+          if (password !== confirmPassword) {
+            signUpErrorBox.textContent = 'Passwords do not match.';
+            signUpErrorBox.style.display = 'block';
+            return;
+          }
+          if (password.length < 6) {
+            signUpErrorBox.textContent = 'Password should be at least 6 characters.';
+            signUpErrorBox.style.display = 'block';
+            return;
+          }
+          if (!supabaseClient) {
+            signUpErrorBox.textContent = 'Network configuration error: Supabase failed to initialize.';
+            signUpErrorBox.style.display = 'block';
+            return;
+          }
+
+          signUpSubmitBtn.disabled = true;
+          signUpSubmitBtn.textContent = 'Creating account...';
+
+          try {
+            const { data, error } = await supabaseClient.auth.signUp({
+              email: email,
+              password: password,
+              options: {
+                data: {
+                  first_name: firstName,
+                  middle_name: middleName,
+                  last_name: lastName,
+                  suffix: suffix,
+                  date_of_birth: dob
+                }
+              }
+            });
+
+            if (error) throw error;
+
+            if (!data.session) {
+              const loginRes = await supabaseClient.auth.signInWithPassword({ email, password });
+              if (loginRes.error) throw loginRes.error;
+            }
+
+            signUpSubmitBtn.textContent = 'Success! Launching...';
+            window.location.href = 'dashboard.html';
+          } catch (err) {
+            let message = err.message || 'Load failed. Please check your network or try again.';
+            if (message.toLowerCase().includes('invalid') || message.toLowerCase().includes('credentials') || message.toLowerCase().includes('already registered')) {
+              message = 'Invalid registration details or email already in use.';
+            }
+            signUpErrorBox.textContent = message;
+            signUpErrorBox.style.display = 'block';
+            signUpSubmitBtn.disabled = false;
+            signUpSubmitBtn.textContent = 'Continue';
           }
         });
       }
