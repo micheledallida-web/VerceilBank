@@ -146,3 +146,48 @@ body.dark {
 .dark .credit-card-item .approval-note {
   color: #8E9CBA;
 }
+
+/* ===================== ACTION TILES =====================
+   The single shared style for every icon+label action tile.
+   Tiles are <button class="action-tile"> inside a
+   <div class="action-tile-grid">. Do not add per-screen tile
+   styles — extend these instead. */
+.action-tile-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.action-tile {
+  background: #0F1523;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 20px;
+  padding: 20px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.action-tile:active { background: #141b2c; }
+
+.action-tile svg {
+  width: 26px;
+  height: 26px;
+  stroke: #3B82F6;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.action-tile span {
+  color: #F5F7FA;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.2;
+}
