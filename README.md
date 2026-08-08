@@ -24,22 +24,6 @@ Add a watch script while developing:
 npx tailwindcss -i css/input.css -o css/output.css --watch
 ```
 
-## Bitcoin deposit address (environment variable)
-
-Fund Account quotes Bitcoin deposits against a live rate and shows a deposit
-address with a scannable QR code. That address comes from the
-`BTC_DEPOSIT_ADDRESS` environment variable, injected into `js/config.js` by the
-same build step as the Supabase settings below.
-
-**Set it before taking deposits.** When it's unset the screen falls back to a
-placeholder address with an invalid checksum — wallets refuse to send to it, by
-design, so a misconfigured deploy can't route real funds somewhere nobody
-controls. `scripts/generate-config.js` warns on every build until it's set.
-
-```bash
-export BTC_DEPOSIT_ADDRESS="bc1..."   # or set it in Vercel → Settings → Environment Variables
-```
-
 ## Supabase configuration (environment variables)
 
 The Supabase URL and anon key are **not** hardcoded in tracked source. They're
@@ -102,7 +86,6 @@ js/
   config.example.js     # Template documenting the shape of js/config.js
   shared/
     receipt.js          # Shared success receipt used by all payment flows
-    qr.js               # QR encoder behind the Bitcoin deposit address
   pages/
     transfer.js         # One module per screen
     send-money.js
