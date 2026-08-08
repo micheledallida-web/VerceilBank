@@ -998,75 +998,128 @@ body:not(.dark) .action-tile svg {
 }
 
 /* ---- amount step ----
-   Layout follows the supplied reference; every colour is one already used
-   on this screen, so the reference's #1652D9 maps to the screen's accent
-   #3B82F6, #0A1020 to #111827, #C6CDDB to #9AA4B8, #EDF0F5 to #EEF1F7 and
-   #DC2626 to the app's #EF4444. */
+   One card holding the label, the editable amount and a single status line
+   that doubles as the range hint and the error. Layout follows the supplied
+   reference; every colour is one already used on this screen, so the
+   reference's #0F4FD4 maps to the screen's accent #3B82F6, #0A1020 to
+   #111827, #C6CDDB to #9AA4B8, #EDF0F5 to #EEF1F7 and #DC2626 to the app's
+   #EF4444. */
 .fund-amount-sub {
   color: rgba(255, 255, 255, 0.72);
-  font-size: 14.5px;
-  line-height: 1.5;
-  margin: 0 0 24px 52px;
+  font-size: 14px;
+  margin: 0 0 18px 52px;
 }
 
 .fund-amount-card {
   background: #FFFFFF;
-  border-radius: 22px;
-  padding: 30px 22px 26px;
-  text-align: center;
+  border-radius: 20px;
+  padding: 26px 18px 20px;
   box-shadow: 0 1px 3px rgba(8, 20, 50, 0.08);
-  margin-bottom: 14px;
+  margin-bottom: 12px;
+  cursor: text;
+  transition: box-shadow 0.18s ease;
+}
+
+.fund-amount-card.fund-amount-focus {
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.45), 0 1px 3px rgba(8, 20, 50, 0.08);
 }
 
 .fund-amount-lab {
   color: #8B95AB;
-  font-size: 13px;
-  font-weight: 600;
-  margin: 0 0 10px;
-  letter-spacing: 0.01em;
-}
-
-.fund-amount-value {
-  color: #111827;
-  font-size: 46px;
+  font-size: 12px;
   font-weight: 700;
-  margin: 0;
-  letter-spacing: -0.035em;
-  font-variant-numeric: tabular-nums;
-  transition: color 0.15s ease;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 12px;
+  text-align: center;
 }
 
-.fund-amount-value.fund-amount-zero { color: #9AA4B8; }
+.fund-amount-field {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  transition: transform 0.16s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
 
-.fund-amount-min {
+.fund-amount-field.fund-amount-bump { transform: scale(1.06); }
+
+.fund-amount-cur {
+  color: #111827;
+  font-size: clamp(30px, 9vw, 38px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  transition: color 0.16s ease;
+}
+
+.fund-amount-cur.fund-amount-dim { color: #9AA4B8; }
+
+.fund-amount-field input {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #111827;
+  font-family: inherit;
+  font-size: clamp(34px, 11vw, 44px);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  padding: 0;
+  font-variant-numeric: tabular-nums;
+  width: 100%;
+  max-width: none;
+  text-align: left;
+  min-width: 0;
+  caret-color: #3B82F6;
+}
+
+.fund-amount-field input::placeholder { color: #9AA4B8; }
+
+.fund-amount-field input::-webkit-outer-spin-button,
+.fund-amount-field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.fund-amount-meta {
+  margin: 16px 0 0;
+  padding-top: 13px;
+  border-top: 1px solid #EEF1F7;
   color: #8B95AB;
   font-size: 12.5px;
-  margin: 14px 0 0;
-  padding-top: 14px;
-  border-top: 1px solid #EEF1F7;
+  text-align: center;
+  line-height: 1.5;
+  transition: color 0.18s ease;
+}
+
+.fund-amount-meta.fund-amount-bad {
+  color: #EF4444;
+  font-weight: 600;
 }
 
 .fund-amount-chips {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 9px;
-  margin-bottom: 14px;
+  gap: clamp(6px, 2vw, 9px);
+  margin-bottom: 16px;
 }
 
 .fund-amount-chip {
   background: rgba(255, 255, 255, 0.13);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 14px;
-  padding: 14px 4px;
+  border-radius: 13px;
+  padding: 13px 2px;
   color: #FFFFFF;
-  font-size: 14.5px;
+  font-size: clamp(12.5px, 3.6vw, 14px);
   font-weight: 700;
   cursor: pointer;
   text-align: center;
-  transition: background 0.14s ease, border-color 0.14s ease;
+  font-family: inherit;
+  transition: transform 0.12s ease, background 0.14s ease, border-color 0.14s ease;
 }
 
-.fund-amount-chip:active { background: rgba(255, 255, 255, 0.2); }
+.fund-amount-chip:active { transform: scale(0.94); }
 
 .fund-amount-chip.fund-amount-chip-on {
   background: #FFFFFF;
@@ -1074,96 +1127,36 @@ body:not(.dark) .action-tile svg {
   color: #3B82F6;
 }
 
-.fund-amount-in-card {
-  background: #FFFFFF;
-  border-radius: 20px;
-  padding: 18px 20px;
-  box-shadow: 0 1px 3px rgba(8, 20, 50, 0.08);
-  margin-bottom: 20px;
-}
-
-.fund-amount-in-lab {
-  color: #8B95AB;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin: 0 0 11px;
-}
-
-.fund-amount-in-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  border-bottom: 2px solid #EEF1F7;
-  padding-bottom: 10px;
-  transition: border-color 0.15s ease;
-}
-
-.fund-amount-in-row.fund-amount-in-focus { border-color: #3B82F6; }
-
-.fund-amount-cur {
-  color: #111827;
-  font-size: 26px;
-  font-weight: 700;
-}
-
-.fund-amount-in-row input {
-  flex: 1;
-  border: none;
-  outline: none;
-  background: transparent;
-  color: #111827;
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  font-family: inherit;
-  min-width: 0;
-  font-variant-numeric: tabular-nums;
-}
-
-.fund-amount-in-row input::placeholder {
-  color: #9AA4B8;
-  font-weight: 700;
-}
-
-.fund-amount-err {
-  color: #EF4444;
-  font-size: 12.5px;
-  margin: 10px 0 0;
-  display: none;
-}
-
-.fund-amount-err.fund-amount-err-on { display: block; }
-
 .fund-amount-continue {
   width: 100%;
   border: none;
-  border-radius: 16px;
-  padding: 19px;
-  font-size: 16.5px;
+  border-radius: 15px;
+  padding: 17px;
+  font-size: 16px;
   font-weight: 700;
   font-family: inherit;
   cursor: pointer;
   background: #FFFFFF;
   color: #3B82F6;
   box-shadow: 0 2px 8px rgba(8, 20, 50, 0.08);
-  transition: opacity 0.15s ease;
+  transition: transform 0.12s ease, opacity 0.18s ease, background 0.18s ease;
 }
+
+.fund-amount-continue:active { transform: scale(0.985); }
 
 .fund-amount-continue:disabled {
   background: rgba(255, 255, 255, 0.13);
   color: rgba(255, 255, 255, 0.45);
   box-shadow: none;
   cursor: not-allowed;
+  transform: none;
 }
 
 .fund-amount-foot {
   color: rgba(255, 255, 255, 0.45);
-  font-size: 12px;
+  font-size: 11.5px;
   text-align: center;
-  margin: 16px 8px 0;
-  line-height: 1.55;
+  margin: 12px 4px 0;
 }
 
 /* ===================== KYC ID TYPE + UPLOAD STATE =====================
