@@ -10,23 +10,33 @@
   <!-- ================= SCREEN 1 · CHOOSE AMOUNT ================= -->
   <div id="fundAmountScreen" class="fund-screen fund-screen-active">
 
+    <p class="fund-amount-sub">How much would you like to add?</p>
+
     <div class="fund-amount-card">
-      <div class="fund-amount-value" id="fundAmountValue">$0.00</div>
+      <p class="fund-amount-lab">Deposit amount</p>
+      <p class="fund-amount-value fund-amount-zero" id="fundAmountValue">$0.00</p>
+      <p class="fund-amount-min">Minimum deposit: $25.00</p>
+    </div>
 
-      <div class="fund-amount-presets">
-        <button type="button" class="fund-amount-chip" data-amount="100">$100</button>
-        <button type="button" class="fund-amount-chip" data-amount="250">$250</button>
-        <button type="button" class="fund-amount-chip" data-amount="500">$500</button>
-        <button type="button" class="fund-amount-chip" data-amount="1000">$1,000</button>
+    <div class="fund-amount-chips">
+      <button type="button" class="fund-amount-chip" data-amount="100">$100</button>
+      <button type="button" class="fund-amount-chip" data-amount="250">$250</button>
+      <button type="button" class="fund-amount-chip" data-amount="500">$500</button>
+      <button type="button" class="fund-amount-chip" data-amount="1000">$1,000</button>
+    </div>
+
+    <div class="fund-amount-in-card">
+      <p class="fund-amount-in-lab">Or enter an amount</p>
+      <div class="fund-amount-in-row" id="fundAmountRow">
+        <span class="fund-amount-cur">$</span>
+        <input id="fundAmountInput" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off">
       </div>
-
-      <label class="fund-amount-label" for="fundAmountInput">Or enter an amount</label>
-      <input id="fundAmountInput" class="fund-amount-input" type="text" inputmode="decimal" autocomplete="off">
-
-      <p class="fund-amount-help">Minimum deposit: $25.00</p>
+      <p class="fund-amount-err" id="fundAmountError">Minimum deposit is $25.00</p>
     </div>
 
     <button class="fund-amount-continue" id="fundContinueBtn" disabled>Continue</button>
+
+    <p class="fund-amount-foot">You'll choose how to pay on the next screen.</p>
 
   </div>
 
