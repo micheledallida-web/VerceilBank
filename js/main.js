@@ -170,10 +170,14 @@ const headerDropdown = document.getElementById('headerDropdown');
 const headerDropdownTitle = document.getElementById('headerDropdownTitle');
 const headerDropdownList = document.getElementById('headerDropdownList');
 
+// Supabase persists the session under `sb-<project-ref>-auth-token`, which is
+// not a `verceil_` key — so clearing only our own keys left the session token
+// behind, and the auth guard waved the user straight back in after a sign-out
+// whose server call had failed.
 function clearCachedUserData() {
   try {
     Object.keys(localStorage)
-      .filter((key) => key.startsWith('verceil_'))
+      .filter((key) => key.startsWith('verceil_') || (key.startsWith('sb-') && key.includes('auth-token')))
       .forEach((key) => localStorage.removeItem(key));
   } catch (err) {}
   try { sessionStorage.clear(); } catch (err) {}
@@ -187,10 +191,25 @@ function goToSignIn() {
 
 async function handleSignOut() {
   try {
-    if (supabaseClient) await supabaseClient.auth.signOut();
+    if (!supabaseClient) throw new Error('Supabase client is unavailable — signing out locally only.');
+
+    // supabase-js v2 returns { error } rather than throwing, so the old
+    // unchecked `await` reported success even when the session was never
+    // revoked. Read it.
+    const { error } = await supabaseClient.auth.signOut();
+    if (error) {
+      // The default global revoke needs a still-valid refresh token; once
+      // that has expired it fails and the user would be stuck signed in.
+      // Dropping this device's session is the fallback that always works.
+      console.error('Supabase global sign out failed, falling back to local:', error);
+      const { error: localError } = await supabaseClient.auth.signOut({ scope: 'local' });
+      if (localError) throw localError;
+    }
   } catch (err) {
     console.error('Sign out error:', err);
   } finally {
+    // Runs whether or not the revoke succeeded: the token is gone from this
+    // browser either way, so the user is never left half signed-in.
     clearCachedUserData();
     goToSignIn();
   }
@@ -224,9 +243,55 @@ if (supabaseClient) {
   });
 }
 
+// ---------- Alerts badge ----------
+// The badge was a hardcoded 3, so a brand-new account greeted you with three
+// notifications it could not name. It now counts real recorded activity —
+// payments and transfers newer than the last time Alerts was opened — and
+// stays hidden entirely at zero.
+const ALERTS_SEEN_KEY = 'verceil_alerts_seen_at';
+const alertsBadge = document.getElementById('alertsBadge');
+
+function setAlertsCount(count) {
+  if (!alertsBadge) return;
+  alertsBadge.textContent = String(count);
+  alertsBadge.classList.toggle('hidden', count <= 0);
+  alertsBadge.classList.toggle('flex', count > 0);
+}
+
+function markAlertsSeen() {
+  try { localStorage.setItem(ALERTS_SEEN_KEY, new Date().toISOString()); } catch (err) {}
+  setAlertsCount(0);
+}
+
+async function refreshAlertsBadge() {
+  setAlertsCount(0);
+  if (!supabaseClient) return;
+  try {
+    const user = await getCurrentUser();
+    if (!user) return;
+
+    let seenAt = '';
+    try { seenAt = localStorage.getItem(ALERTS_SEEN_KEY) || ''; } catch (err) {}
+    // No marker yet means nothing has been opened, so everything on record
+    // counts — which for a fresh account is nothing.
+    const since = seenAt || new Date(0).toISOString();
+
+    const [{ data: payments }, { data: transfers }] = await Promise.all([
+      supabaseClient.from('payments').select('created_at').eq('user_id', user.id).gt('created_at', since),
+      supabaseClient.from('transfers').select('created_at').eq('user_id', user.id).gt('created_at', since),
+    ]);
+    setAlertsCount((payments ? payments.length : 0) + (transfers ? transfers.length : 0));
+  } catch (err) {
+    console.error('Alerts badge error:', err);
+  }
+}
+
 function openHeaderDropdown(key, anchorEl) {
   const menu = headerMenus[key];
   if (!menu) return;
+
+  // Opening Alerts is what marks them read.
+  if (key === 'alerts') markAlertsSeen();
   const isLight = !htmlElement.classList.contains('dark');
 
   headerDropdown.style.background = isLight ? '#FFFFFF' : '#0D1728';
@@ -315,7 +380,7 @@ const navMenus = {
   },
   navPayments: {
     title: 'Payments',
-    items: ['Transfer Between Accounts', 'Fund Account', 'Send Money (Zelle®)', 'Scheduled Payments', 'External Transfers', 'Wire Transfers'],
+    items: ['Fund Account', 'Transfer Between Accounts', 'Send Money (Zelle®)', 'Scheduled Payments', 'External Transfers', 'Wire Transfers'],
   },
   navInvest: {
     title: 'Invest',
@@ -573,6 +638,7 @@ async function initSupabaseData() {
 }
 
 initSupabaseData();
+refreshAlertsBadge();
 
 // Investments card sparkline. Runs on its own animation loop, and parks itself
 // when the tab is hidden or the card scrolls out of view.
