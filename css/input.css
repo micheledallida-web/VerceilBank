@@ -941,81 +941,37 @@ body:not(.dark) .action-tile svg {
   display: block;
 }
 
-/* ---- before you send ----
-   Solid card with a divided list, so the warnings read at full contrast
-   instead of 55%-alpha text on a 6%-alpha panel. Named `fund-warn-card`
-   rather than `fund-warn`: that bare class is the countdown's warning
-   state, and a card rule on it would repaint the timer. */
+/* ---- warnings ----
+   Named `fund-warn-card` rather than `fund-warn`: that bare class is the
+   countdown's warning state, and a card rule on it would repaint the timer. */
 .fund-warn-card {
-  background: #FFFFFF;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 1px 3px rgba(8, 20, 50, 0.08);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 16px 18px;
 }
 
-.fund-warn-hd {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  padding: 17px 20px 15px;
-  border-bottom: 1px solid #EDF0F5;
-}
-
-.fund-warn-badge {
-  width: 30px;
-  height: 30px;
-  border-radius: 9px;
-  background: #FFF4E5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.fund-warn-badge svg {
-  width: 16px;
-  height: 16px;
-  stroke: #D97706;
-  fill: none;
-  stroke-width: 2.2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.fund-warn-hd h4 {
-  margin: 0;
-  color: #0A1020;
-  font-size: 15px;
+.fund-warn-card h4 {
+  color: #F87171;
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: -0.01em;
+  margin: 0 0 10px;
 }
 
-.fund-warn-item {
-  display: flex;
-  gap: 12px;
-  padding: 15px 20px;
-  border-bottom: 1px solid #F2F4F8;
-}
-
-.fund-warn-item:last-child { border-bottom: none; }
-
-.fund-warn-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #C6CDDB;
-  flex-shrink: 0;
-  margin-top: 7px;
-}
-
-.fund-warn-item p {
+.fund-warn-card ul {
   margin: 0;
-  color: #3A4356;
-  font-size: 13.5px;
-  line-height: 1.55;
+  padding-left: 17px;
+  list-style: disc;
 }
 
-.fund-warn-item p b { color: #0A1020; font-weight: 700; }
+.fund-warn-card li {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 12.5px;
+  line-height: 1.75;
+}
+
+/* The bullet glyph only, so the item text keeps its own contrast. */
+.fund-warn-card li::marker { color: rgba(255, 255, 255, 0.45); }
 
 .fund-cancel {
   width: 100%;
@@ -1039,4 +995,95 @@ body:not(.dark) .action-tile svg {
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
+}
+
+/* ---- amount step ----
+   White card and blue primary button reuse the values already on this
+   screen: the card matches .fund-cs-card's surface, the button matches
+   .fund-restart, and every colour here already appears above. */
+.fund-amount-card {
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 18px;
+  box-shadow: 0 1px 3px rgba(8, 20, 50, 0.08);
+}
+
+.fund-amount-value {
+  color: #111827;
+  font-size: 40px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.fund-amount-presets {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.fund-amount-chip {
+  flex: 1;
+  height: 40px;
+  border: none;
+  border-radius: 14px;
+  background: #EEF1F7;
+  color: #5B6478;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.fund-amount-chip.fund-amount-chip-on {
+  background: #3B82F6;
+  color: #FFFFFF;
+}
+
+.fund-amount-label {
+  display: block;
+  margin: 18px 0 8px;
+  color: #9AA4B8;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.fund-amount-input {
+  width: 100%;
+  height: 46px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 14px;
+  background: #EEF1F7;
+  color: #111827;
+  font-size: 15px;
+  font-weight: 700;
+  outline: none;
+}
+
+.fund-amount-help {
+  margin: 10px 0 0;
+  color: #9AA4B8;
+  font-size: 12.5px;
+}
+
+.fund-amount-continue {
+  width: 100%;
+  margin-top: 20px;
+  height: 46px;
+  background: #3B82F6;
+  border: none;
+  border-radius: 14px;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Muted rather than faded — same reason the Coming Soon card dropped its
+   opacity: a translucent control over the blue page reads as broken. */
+.fund-amount-continue:disabled {
+  background: #EEF1F7;
+  color: #8B95AB;
+  cursor: not-allowed;
 }

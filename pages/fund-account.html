@@ -7,8 +7,31 @@
     <div class="text-[20px] font-bold text-white truncate">Fund Account</div>
   </div>
 
-  <!-- ================= SCREEN 1 · CHOOSE FUNDING METHOD ================= -->
-  <div id="fundMethodScreen" class="fund-screen fund-screen-active">
+  <!-- ================= SCREEN 1 · CHOOSE AMOUNT ================= -->
+  <div id="fundAmountScreen" class="fund-screen fund-screen-active">
+
+    <div class="fund-amount-card">
+      <div class="fund-amount-value" id="fundAmountValue">$0.00</div>
+
+      <div class="fund-amount-presets">
+        <button type="button" class="fund-amount-chip" data-amount="100">$100</button>
+        <button type="button" class="fund-amount-chip" data-amount="250">$250</button>
+        <button type="button" class="fund-amount-chip" data-amount="500">$500</button>
+        <button type="button" class="fund-amount-chip" data-amount="1000">$1,000</button>
+      </div>
+
+      <label class="fund-amount-label" for="fundAmountInput">Or enter an amount</label>
+      <input id="fundAmountInput" class="fund-amount-input" type="text" inputmode="decimal" autocomplete="off">
+
+      <p class="fund-amount-help">Minimum deposit: $25.00</p>
+    </div>
+
+    <button class="fund-amount-continue" id="fundContinueBtn" disabled>Continue</button>
+
+  </div>
+
+  <!-- ================= SCREEN 2 · CHOOSE FUNDING METHOD ================= -->
+  <div id="fundMethodScreen" class="fund-screen">
 
     <p class="fund-sec-label">Available Now</p>
     <div id="fundMethodBitcoin" class="fund-method fund-sel">
@@ -39,7 +62,7 @@
 
   </div>
 
-  <!-- ================= SCREEN 2 · BITCOIN DEPOSIT ================= -->
+  <!-- ================= SCREEN 3 · BITCOIN DEPOSIT ================= -->
   <div id="fundDepositScreen" class="fund-screen">
 
     <!-- 1 · Rate-lock countdown -->
@@ -132,29 +155,13 @@
 
     <!-- 6 · Warnings -->
     <div class="fund-warn-card">
-      <div class="fund-warn-hd">
-        <div class="fund-warn-badge">
-          <svg viewBox="0 0 24 24"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg>
-        </div>
-        <h4>Before you send</h4>
-      </div>
-
-      <div class="fund-warn-item">
-        <div class="fund-warn-dot"></div>
-        <p>Send only <b>Bitcoin (BTC)</b> to this address. Any other asset sent here will be permanently lost.</p>
-      </div>
-      <div class="fund-warn-item">
-        <div class="fund-warn-dot"></div>
-        <p>Send the <b>exact amount</b> shown above. Underpayments are not credited automatically.</p>
-      </div>
-      <div class="fund-warn-item">
-        <div class="fund-warn-dot"></div>
-        <p>This address was generated for <b>this deposit only</b>. Do not save or reuse it.</p>
-      </div>
-      <div class="fund-warn-item">
-        <div class="fund-warn-dot"></div>
-        <p>Once the timer expires, the <b>locked rate no longer applies</b>.</p>
-      </div>
+      <h4>Before you send</h4>
+      <ul>
+        <li>Send only <b>Bitcoin (BTC)</b> to this address. Any other asset sent here will be permanently lost.</li>
+        <li>Send the <b>exact amount</b> shown above. Underpayments are not credited automatically.</li>
+        <li>This address was generated for <b>this deposit only</b>. Do not save or reuse it.</li>
+        <li>Once the timer expires, the <b>locked rate no longer applies</b>.</li>
+      </ul>
     </div>
 
     <!-- 7 · Cancel / restart -->

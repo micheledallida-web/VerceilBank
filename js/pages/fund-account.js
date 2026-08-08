@@ -1,16 +1,19 @@
-// Fund Account — Payments > Fund Account. Two screens in one view: choose a
-// funding method (Screen 1), then the Bitcoin deposit details (Screen 2).
-// Screen 2 is reachable only from Screen 1; opening the page always lands on
-// Screen 1.
+// Fund Account — Payments > Fund Account. Three screens in one view: choose an
+// amount (Screen 1), choose a funding method (Screen 2), then the Bitcoin
+// deposit details (Screen 3). Opening the page always lands on Screen 1, and
+// each screen is reachable only from the one before it.
 
 // ---------------------------------------------------------------------------
 // PLACEHOLDER DEPOSIT DATA — AWAITING BACKEND WIRING.
 //
-// This repo has no deposit data source yet, so the address, amounts and locked
-// rate are declared here instead of being scattered through the markup. When a
-// backend exists, replace this object with the values it returns for the
-// current deposit request; nothing else in this file reads these values from
-// anywhere else.
+// This repo has no deposit data source yet, so the address and locked rate are
+// declared here instead of being scattered through the markup. When a backend
+// exists, replace this object with the values it returns for the current
+// deposit request; nothing else in this file reads these values from anywhere
+// else.
+//
+// The amounts are deliberately absent: the USD figure comes from what the user
+// picks on Screen 1, and the BTC figure is derived from it at `rate`.
 //
 // `lockMinutes` is how long a quote is held. The expiry itself is an absolute
 // timestamp persisted under `expiryKey`, so a reload shows the real remaining
@@ -22,13 +25,12 @@
 // ---------------------------------------------------------------------------
 const DEPOSIT = {
   address: 'bc1qh4kl29xf7ejm3wvp8dz6ncrt5aygu0svq2xlpe',
-  btcAmount: '0.00234814',
-  usdAmount: '$250.00',
-  rate: '$106,468.20',
+  rate: 106468.20,
   lockMinutes: 30,
   expiryKey: 'verceil_fund_deposit_expiry',
 };
 
+const MIN_USD = 25;
 const WARN_MS = 5 * 60 * 1000;
 const COPIED_MS = 1600;
 
@@ -40,6 +42,21 @@ let copyHandle = null;
 
 function lockDurationMs() {
   return DEPOSIT.lockMinutes * 60 * 1000;
+}
+
+function formatUsd(amount) {
+  return `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
+
+function parseUsd(value) {
+  const amount = Number(String(value).replace(/[^0-9.]/g, ''));
+  return isFinite(amount) ? amount : 0;
+}
+
+// Rounded up to the satoshi: the deposit screen warns that underpayments are
+// not credited, so rounding down would set that trap by a hair.
+function usdToBtc(amount) {
+  return (Math.ceil((amount / DEPOSIT.rate) * 1e8) / 1e8).toFixed(8);
 }
 
 // The countdown runs off an absolute timestamp so a reload can't hand someone
@@ -66,12 +83,18 @@ export function init(root, ctx) {
   const { close } = ctx;
 
   const backBtn = root.querySelector('[data-action="close"]');
-  // The header markup is shared by both screens, so the title is the back
+  // The header markup is shared by every screen, so the title is the back
   // button's sibling rather than a screen-specific element.
   const titleEl = backBtn.nextElementSibling;
 
+  const amountScreen = root.querySelector('#fundAmountScreen');
   const methodScreen = root.querySelector('#fundMethodScreen');
   const depositScreen = root.querySelector('#fundDepositScreen');
+
+  const amountValue = root.querySelector('#fundAmountValue');
+  const amountInput = root.querySelector('#fundAmountInput');
+  const amountChips = root.querySelectorAll('.fund-amount-chip');
+  const continueBtn = root.querySelector('#fundContinueBtn');
 
   const timerValue = root.querySelector('#fundTimerValue');
   const timerBar = root.querySelector('#fundTimerBar');
@@ -97,14 +120,46 @@ export function init(root, ctx) {
   const restartBtn = root.querySelector('#fundRestartBtn');
 
   let expiry = 0;
+  // What the user chose on Screen 1. Everything the deposit screen shows in
+  // dollars or bitcoin is derived from this.
+  let chosenUsd = 0;
+
+  // ---------- Amount ----------
+  function renderAmount() {
+    amountValue.textContent = formatUsd(chosenUsd);
+    continueBtn.disabled = chosenUsd < MIN_USD;
+    amountChips.forEach((chip) => {
+      const preset = Number(chip.getAttribute('data-amount'));
+      chip.classList.toggle('fund-amount-chip-on', preset === chosenUsd);
+    });
+  }
+
+  amountChips.forEach((chip) => {
+    on(chip, 'click', () => {
+      chosenUsd = Number(chip.getAttribute('data-amount'));
+      // Clear the custom field so it can't contradict the chip just tapped.
+      amountInput.value = '';
+      renderAmount();
+    });
+  });
+
+  on(amountInput, 'input', () => {
+    chosenUsd = parseUsd(amountInput.value);
+    renderAmount();
+  });
+
+  on(continueBtn, 'click', () => {
+    if (chosenUsd < MIN_USD) return;
+    showMethodScreen();
+  });
 
   // ---------- Deposit details ----------
-  // Everything on Screen 2 that carries a value comes from DEPOSIT, so the
-  // markup holds no deposit literals.
+  // Everything on the deposit screen that carries a value comes from the
+  // chosen amount and DEPOSIT, so the markup holds no deposit literals.
   function renderDeposit() {
-    btcAmountEl.textContent = `${DEPOSIT.btcAmount} BTC`;
-    usdAmountEl.textContent = `≈ ${DEPOSIT.usdAmount} USD`;
-    rateLineEl.textContent = `1 BTC = ${DEPOSIT.rate} · locked at this rate`;
+    btcAmountEl.textContent = `${usdToBtc(chosenUsd)} BTC`;
+    usdAmountEl.textContent = `≈ ${formatUsd(chosenUsd)} USD`;
+    rateLineEl.textContent = `1 BTC = ${formatUsd(DEPOSIT.rate)} · locked at this rate`;
     addressEl.textContent = DEPOSIT.address;
     renderQr();
   }
@@ -115,7 +170,7 @@ export function init(root, ctx) {
   function renderQr() {
     qrHolder.innerHTML = '';
     qrBox.classList.remove('fund-hidden');
-    const uri = `bitcoin:${DEPOSIT.address}?amount=${DEPOSIT.btcAmount}`;
+    const uri = `bitcoin:${DEPOSIT.address}?amount=${usdToBtc(chosenUsd)}`;
     try {
       if (typeof window.QRCode !== 'function') throw new Error('QR library unavailable');
       new window.QRCode(qrHolder, {
@@ -190,8 +245,18 @@ export function init(root, ctx) {
   }
 
   // ---------- Screens ----------
+  function showAmountScreen() {
+    stopTimer();
+    methodScreen.classList.remove('fund-screen-active');
+    depositScreen.classList.remove('fund-screen-active');
+    amountScreen.classList.add('fund-screen-active');
+    titleEl.textContent = 'Fund Account';
+    root.scrollTop = 0;
+  }
+
   function showMethodScreen() {
     stopTimer();
+    amountScreen.classList.remove('fund-screen-active');
     depositScreen.classList.remove('fund-screen-active');
     methodScreen.classList.add('fund-screen-active');
     titleEl.textContent = 'Fund Account';
@@ -199,6 +264,7 @@ export function init(root, ctx) {
   }
 
   function showDepositScreen() {
+    amountScreen.classList.remove('fund-screen-active');
     methodScreen.classList.remove('fund-screen-active');
     depositScreen.classList.add('fund-screen-active');
     titleEl.textContent = 'Deposit Bitcoin';
@@ -210,10 +276,11 @@ export function init(root, ctx) {
     startTimer();
   }
 
-  // On Screen 2 the back arrow steps back to the method chooser; on Screen 1
-  // it closes the page as it always has.
+  // The back arrow steps back one screen at a time, and only closes the page
+  // from the first one.
   on(backBtn, 'click', () => {
     if (depositScreen.classList.contains('fund-screen-active')) showMethodScreen();
+    else if (methodScreen.classList.contains('fund-screen-active')) showAmountScreen();
     else close();
   });
 
@@ -262,6 +329,8 @@ export function init(root, ctx) {
   on(buyHead, 'click', () => {
     buy.classList.toggle('fund-open');
   });
+
+  renderAmount();
 }
 
 export function cleanup() {
