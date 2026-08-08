@@ -1,154 +1,165 @@
 <div class="w-full max-w-[430px] mx-auto px-[16px] pt-[14px] pb-[40px]">
 
   <div class="flex items-center gap-3 mb-[10px]">
-    <button data-action="back" class="w-[40px] h-[40px] rounded-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] flex items-center justify-center text-[#111827] dark:text-white shadow-lg cursor-pointer flex-shrink-0" aria-label="Back">
+    <button data-action="close" class="w-[40px] h-[40px] rounded-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] flex items-center justify-center text-[#111827] dark:text-white shadow-lg cursor-pointer flex-shrink-0" aria-label="Back">
       <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg>
     </button>
-    <div id="faTitle" class="text-[20px] font-bold text-white truncate">Fund Account</div>
+    <div class="text-[20px] font-bold text-white truncate">Fund Account</div>
   </div>
-  <div id="faSubline" class="text-[13px] font-normal text-white/80 dark:text-[#8E9CBA] mb-[20px] ml-[52px]">Choose how you'd like to add funds to your Verceil Bank account</div>
 
-  <!-- ================= VIEW 1 · CHOOSE FUNDING METHOD ================= -->
-  <div id="faMethodView">
+  <!-- ================= SCREEN 1 · CHOOSE FUNDING METHOD ================= -->
+  <div id="fundMethodScreen" class="fund-screen fund-screen-active">
 
-    <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px] ml-[4px]">Available now</div>
-
-    <button id="faMethodBitcoin" class="w-full text-left bg-white dark:bg-[#0D1728] border border-[#2563EB] dark:border-[#2563EB] rounded-[22px] p-[16px] shadow-lg flex items-center gap-[14px] cursor-pointer mb-[10px]">
-      <div class="w-[46px] h-[46px] rounded-[14px] bg-[#F7931A] flex items-center justify-center flex-shrink-0">
-        <span class="text-[20px] font-bold text-white leading-none">&#8383;</span>
+    <p class="fund-sec-label">Available Now</p>
+    <div id="fundMethodBitcoin" class="fund-method fund-sel">
+      <div class="fund-m-icon fund-m-btc">₿</div>
+      <div class="fund-m-body">
+        <span class="fund-m-t">Bitcoin</span>
+        <span class="fund-m-s">Arrives in ~10–30 minutes</span>
       </div>
-      <div class="flex-1 min-w-0">
-        <div class="text-[15px] font-bold text-[#111827] dark:text-white">Bitcoin</div>
-        <div class="text-[13px] font-normal text-[#6B7280] dark:text-[#8E9CBA] mt-[2px]">Arrives in ~10–30 minutes</div>
-      </div>
-      <div class="w-[22px] h-[22px] rounded-full bg-[#2563EB] flex items-center justify-center flex-shrink-0">
-        <svg class="w-[12px] h-[12px] text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 13 9 17 19 7"></polyline></svg>
-      </div>
-    </button>
-
-    <!-- The deposit screen quotes a locked rate, so it needs an amount to
-         quote against. -->
-    <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[22px] p-[18px] shadow-lg mb-[10px]">
-      <label for="faAmount" class="text-[12px] font-semibold text-[#6B7280] dark:text-[#8E9CBA] mb-[6px] block">Amount to deposit</label>
-      <div class="relative">
-        <span class="absolute left-[14px] top-1/2 -translate-y-1/2 text-[16px] font-semibold text-[#6B7280] dark:text-[#8E9CBA]">$</span>
-        <input id="faAmount" type="text" inputmode="decimal" autocomplete="off" placeholder="250.00" value="250.00" class="w-full h-[52px] pl-[30px] pr-[14px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[18px] font-bold text-[#111827] dark:text-white placeholder-gray-400 dark:placeholder-[#52607D] outline-none focus:border-[#2563EB]">
-      </div>
-      <div id="faAmountError" class="hidden text-[12px] font-medium text-[#EF4444] mt-[6px]"></div>
-      <div class="flex gap-[8px] mt-[12px]">
-        <button class="fa-preset flex-1 h-[36px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[13px] font-semibold text-[#111827] dark:text-white cursor-pointer" data-amount="100">$100</button>
-        <button class="fa-preset flex-1 h-[36px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[13px] font-semibold text-[#111827] dark:text-white cursor-pointer" data-amount="250">$250</button>
-        <button class="fa-preset flex-1 h-[36px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[13px] font-semibold text-[#111827] dark:text-white cursor-pointer" data-amount="500">$500</button>
-        <button class="fa-preset flex-1 h-[36px] rounded-[12px] bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[13px] font-semibold text-[#111827] dark:text-white cursor-pointer" data-amount="1000">$1,000</button>
-      </div>
+      <div class="fund-m-check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div>
     </div>
 
-    <button id="faContinueBtn" class="w-full h-[50px] rounded-[16px] bg-[#2563EB] text-white text-[15px] font-semibold flex items-center justify-center gap-[6px] cursor-pointer hover:opacity-90 transition-all mb-[24px]">
-      <span>Continue with Bitcoin</span>
-      <svg class="w-[16px] h-[16px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
-    </button>
-
-    <div class="text-[11px] font-bold tracking-[1.2px] text-white/75 dark:text-[#8E9CBA] uppercase mb-[8px] ml-[4px]">Coming soon</div>
-
-    <div class="w-full bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[22px] p-[16px] shadow-lg flex items-center gap-[14px] opacity-50 cursor-not-allowed mb-[10px]" aria-disabled="true">
-      <div class="w-[46px] h-[46px] rounded-[14px] bg-gray-100 dark:bg-[#1C2438] flex items-center justify-center flex-shrink-0">
-        <svg class="w-[20px] h-[20px] text-[#6B7280] dark:text-[#8FA3C8]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"></rect><path d="M2 10h20"></path></svg>
+    <p class="fund-sec-label fund-sec-label-gap">Coming Soon</p>
+    <div class="fund-cs-card" aria-disabled="true">
+      <div class="fund-cs-ico">
+        <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 10h20"/></svg>
       </div>
-      <div class="flex-1 min-w-0">
-        <div class="text-[15px] font-bold text-[#111827] dark:text-white">Debit or Credit Card</div>
-        <div class="text-[13px] font-normal text-[#6B7280] dark:text-[#8E9CBA] mt-[2px]">Instant funding</div>
+      <div class="fund-cs-body">
+        <span class="fund-cs-t">Debit or Credit Card</span>
+        <span class="fund-cs-s">Instant funding</span>
       </div>
-      <span class="text-[11px] font-bold tracking-[0.02em] px-[10px] py-[5px] rounded-full bg-gray-100 dark:bg-white/[0.07] text-[#6B7280] dark:text-white/50 flex-shrink-0">SOON</span>
+      <span class="fund-cs-pill">SOON</span>
     </div>
 
-    <div class="bg-[#2563EB]/[0.07] dark:bg-[#3B82F6]/[0.07] border border-[#2563EB]/20 dark:border-[#3B82F6]/20 rounded-[16px] px-[16px] py-[14px] text-[13px] leading-[1.5] text-[#374151] dark:text-white/55">
-      Card funding is being finalized with our payments partner. Check back soon — in the meantime, Bitcoin deposits are fully available.
-    </div>
-
-    <div class="flex items-center gap-[8px] mt-[24px] px-[4px]">
-      <svg class="w-[16px] h-[16px] text-[#10B981] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3l7 3v6c0 4.5-3 7.8-7 9-4-1.2-7-4.5-7-9V6l7-3z"></path></svg>
-      <span class="text-[12px] font-normal text-white/70 dark:text-[#8E9CBA]">Your transactions are secure and encrypted.</span>
+    <div class="fund-cs-note">
+      Card funding is being finalized with our payments partner.
+      <b>Bitcoin deposits are fully available</b> in the meantime.
     </div>
 
   </div>
 
-  <!-- ================= VIEW 2 · BITCOIN DEPOSIT ================= -->
-  <div id="faDepositView" class="hidden">
+  <!-- ================= SCREEN 2 · BITCOIN DEPOSIT ================= -->
+  <div id="fundDepositScreen" class="fund-screen">
 
-    <!-- Rate lock countdown -->
-    <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[22px] px-[18px] py-[16px] shadow-lg mb-[14px]">
-      <div class="flex items-center justify-between mb-[12px]">
-        <span id="faTimerLabel" class="text-[13px] font-normal text-[#6B7280] dark:text-[#8E9CBA]">Rate locked · expires in</span>
-        <span id="faTimerValue" class="text-[19px] font-bold text-[#111827] dark:text-white tabular-nums">30:00</span>
+    <!-- 1 · Rate-lock countdown -->
+    <div class="fund-timer-wrap">
+      <div class="fund-timer-top">
+        <span class="fund-timer-lab">Rate locked · expires in</span>
+        <span class="fund-timer-val" id="fundTimerValue">30:00</span>
       </div>
-      <div class="h-[4px] rounded-[4px] bg-gray-100 dark:bg-white/[0.08] overflow-hidden">
-        <div id="faTimerBar" class="h-full w-full rounded-[4px] bg-[#2563EB] transition-[width] duration-1000 ease-linear"></div>
-      </div>
-      <button id="faRelockBtn" class="hidden w-full h-[42px] mt-[14px] rounded-[12px] bg-[#2563EB] text-white text-[13px] font-semibold cursor-pointer">Refresh rate</button>
+      <div class="fund-bar"><div class="fund-bar-f" id="fundTimerBar"></div></div>
     </div>
 
-    <!-- Amount to send -->
-    <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[22px] px-[18px] py-[22px] shadow-lg mb-[14px] text-center">
-      <div class="text-[13px] font-normal text-[#6B7280] dark:text-[#8E9CBA] mb-[8px]">Send exactly</div>
-      <div id="faBtcAmount" class="text-[32px] font-bold text-[#111827] dark:text-white tracking-tight tabular-nums leading-none">—</div>
-      <div id="faUsdAmount" class="text-[15px] font-normal text-[#6B7280] dark:text-[#8E9CBA] mt-[8px]">—</div>
-      <div id="faRateLine" class="text-[12px] font-normal text-[#6B7280] dark:text-white/[0.32] mt-[14px] pt-[14px] border-t border-gray-100 dark:border-white/[0.06]">Fetching the current rate…</div>
+    <!-- 2 · Amount -->
+    <div class="fund-amt" id="fundAmountCard">
+      <p class="fund-amt-lab">Send exactly</p>
+      <p class="fund-amt-btc" id="fundBtcAmount"></p>
+      <p class="fund-amt-usd" id="fundUsdAmount"></p>
+      <p class="fund-amt-rate" id="fundRateLine"></p>
     </div>
 
-    <!-- QR + address -->
-    <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[22px] px-[18px] py-[22px] shadow-lg mb-[14px]">
-      <div class="w-[180px] h-[180px] bg-white rounded-[14px] p-[10px] mx-auto mb-[16px] flex items-center justify-center">
-        <canvas id="faQr" class="w-full h-full block"></canvas>
+    <!-- 3 · QR + address -->
+    <div class="fund-qr-card" id="fundQrCard">
+      <div class="fund-qr-box" id="fundQrBox"><div id="fundQrHolder"></div></div>
+      <p class="fund-addr-lab">Bitcoin address · one-time use</p>
+      <div class="fund-addr-row">
+        <span class="fund-addr" id="fundAddress"></span>
+        <button class="fund-copy" id="fundCopyBtn">Copy</button>
       </div>
-      <div class="text-[12px] font-normal text-[#6B7280] dark:text-[#8E9CBA] mb-[8px]">Bitcoin address · one-time use</div>
-      <div class="flex items-center gap-[10px] bg-gray-50 dark:bg-[#080D18] border border-gray-200 dark:border-white/[0.06] rounded-[12px] px-[14px] py-[12px]">
-        <span id="faAddress" class="flex-1 text-[13px] font-mono break-all leading-[1.45] text-[#111827] dark:text-white"></span>
-        <button id="faCopyBtn" class="bg-[#2563EB] rounded-[9px] px-[14px] py-[9px] text-white text-[13px] font-bold cursor-pointer flex-shrink-0">Copy</button>
-      </div>
-      <div class="inline-flex items-center gap-[6px] mt-[14px] text-[12px] font-normal text-[#6B7280] dark:text-[#8E9CBA]">Network <b class="font-bold text-[#111827] dark:text-white/60">Bitcoin (BTC)</b></div>
+      <div class="fund-net">Network <b>Bitcoin (BTC)</b></div>
     </div>
 
-    <!-- Buy Bitcoin — provider dropdown -->
-    <div class="bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[22px] shadow-lg overflow-hidden mb-[14px]">
-      <button id="faBuyHead" class="w-full flex items-center gap-[13px] px-[18px] py-[17px] cursor-pointer text-left" aria-expanded="false" aria-controls="faBuyBody">
-        <div class="w-[34px] h-[34px] rounded-[10px] bg-[#F7931A]/[0.12] flex items-center justify-center flex-shrink-0">
-          <svg class="w-[17px] h-[17px] text-[#F7931A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M9 8h4.5a2.5 2.5 0 010 5H9m0 0h5a2.5 2.5 0 010 5H9m0-10v10m2-12v2m0 10v2"></path></svg>
+    <!-- 4 · Buy Bitcoin -->
+    <div class="fund-buy" id="fundBuy">
+      <div class="fund-buy-head" id="fundBuyHead">
+        <div class="fund-buy-ico">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 8h4.5a2.5 2.5 0 010 5H9m0 0h5a2.5 2.5 0 010 5H9m0-10v10m2-12v2m0 10v2"/></svg>
         </div>
-        <div class="flex-1 min-w-0">
-          <div class="text-[14.5px] font-bold text-[#111827] dark:text-white">Don't have Bitcoin yet?</div>
-          <div class="text-[12.5px] font-normal text-[#6B7280] dark:text-[#8E9CBA] mt-[2px]">Buy from a trusted provider</div>
+        <div class="fund-buy-txt">
+          <span class="fund-buy-t">Don't have Bitcoin yet?</span>
+          <span class="fund-buy-s">Buy from a trusted provider</span>
         </div>
-        <svg id="faBuyChevron" class="w-[18px] h-[18px] text-[#6B7280] dark:text-white/40 flex-shrink-0 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-      </button>
-      <div id="faBuyBody" class="hidden px-[14px] pb-[14px]">
-        <div id="faProviders" class="flex flex-col gap-[8px]"></div>
-        <p class="text-[11.5px] leading-[1.6] text-[#6B7280] dark:text-white/[0.32] mt-[12px] mx-[4px] mb-0">
-          Buy at least the amount shown above, then send it to the address on this page. Providers charge their own fees — these are independent services, not operated by Verceil Bank.
-        </p>
+        <svg class="fund-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+
+      <div class="fund-buy-body">
+        <div class="fund-buy-inner">
+          <a class="fund-prov" href="https://www.coinbase.com/price/bitcoin" target="_blank" rel="noopener">
+            <div class="fund-p-av fund-p-cb">C</div>
+            <div class="fund-p-txt">
+              <span class="fund-p-n">Coinbase</span>
+              <span class="fund-p-d">Bank transfer or card · widely available</span>
+            </div>
+            <svg class="fund-p-ext" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+          </a>
+
+          <a class="fund-prov" href="https://www.moonpay.com/buy/btc" target="_blank" rel="noopener">
+            <div class="fund-p-av fund-p-mp">M</div>
+            <div class="fund-p-txt">
+              <span class="fund-p-n">MoonPay</span>
+              <span class="fund-p-d">Instant card purchase · no account needed</span>
+            </div>
+            <svg class="fund-p-ext" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+          </a>
+
+          <a class="fund-prov" href="https://paybis.com/buy-bitcoin/" target="_blank" rel="noopener">
+            <div class="fund-p-av fund-p-pb">P</div>
+            <div class="fund-p-txt">
+              <span class="fund-p-n">Paybis</span>
+              <span class="fund-p-d">Card or bank · 190+ countries</span>
+            </div>
+            <svg class="fund-p-ext" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+          </a>
+
+          <p class="fund-buy-tip">
+            Buy at least the amount shown above, then send it to the address
+            on this page. Providers charge their own fees — these are
+            independent services, not operated by Verceil Bank.
+          </p>
+        </div>
       </div>
     </div>
 
-    <!-- Payment status -->
-    <div class="flex items-center gap-[11px] bg-white dark:bg-[#0D1728] border border-transparent dark:border-white/[0.06] rounded-[22px] px-[18px] py-[16px] shadow-lg mb-[14px]">
-      <span class="w-[9px] h-[9px] rounded-full bg-[#F59E0B] flex-shrink-0 fa-pulse"></span>
+    <!-- 5 · Payment status -->
+    <div class="fund-status">
+      <div class="fund-pulse"></div>
       <div>
-        <div class="text-[14px] font-bold text-[#111827] dark:text-white">Awaiting your payment</div>
-        <div class="text-[12.5px] font-normal text-[#6B7280] dark:text-[#8E9CBA] mt-[2px]">Funds credit after 2 network confirmations</div>
+        <span class="fund-status-t" id="fundStatusTitle">Awaiting your payment</span>
+        <span class="fund-status-s" id="fundStatusSub">Funds credit after 2 network confirmations</span>
       </div>
     </div>
 
-    <!-- Warnings -->
-    <div class="bg-[#EF4444]/[0.06] border border-[#EF4444]/20 rounded-[16px] px-[18px] py-[16px]">
-      <div class="text-[13px] font-bold text-[#EF4444] mb-[10px]">Before you send</div>
-      <ul class="m-0 pl-[17px] list-disc">
-        <li class="text-[12.5px] leading-[1.75] text-[#374151] dark:text-white/55">Send only Bitcoin (BTC) to this address. Other assets will be lost.</li>
-        <li class="text-[12.5px] leading-[1.75] text-[#374151] dark:text-white/55">Send the exact amount shown. Underpayments are not credited automatically.</li>
-        <li class="text-[12.5px] leading-[1.75] text-[#374151] dark:text-white/55">This address is generated for this deposit only. Do not reuse it.</li>
-        <li class="text-[12.5px] leading-[1.75] text-[#374151] dark:text-white/55">After the timer expires, the rate is no longer guaranteed.</li>
-      </ul>
+    <!-- 6 · Warnings -->
+    <div class="fund-warn-card">
+      <div class="fund-warn-hd">
+        <div class="fund-warn-badge">
+          <svg viewBox="0 0 24 24"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg>
+        </div>
+        <h4>Before you send</h4>
+      </div>
+
+      <div class="fund-warn-item">
+        <div class="fund-warn-dot"></div>
+        <p>Send only <b>Bitcoin (BTC)</b> to this address. Any other asset sent here will be permanently lost.</p>
+      </div>
+      <div class="fund-warn-item">
+        <div class="fund-warn-dot"></div>
+        <p>Send the <b>exact amount</b> shown above. Underpayments are not credited automatically.</p>
+      </div>
+      <div class="fund-warn-item">
+        <div class="fund-warn-dot"></div>
+        <p>This address was generated for <b>this deposit only</b>. Do not save or reuse it.</p>
+      </div>
+      <div class="fund-warn-item">
+        <div class="fund-warn-dot"></div>
+        <p>Once the timer expires, the <b>locked rate no longer applies</b>.</p>
+      </div>
     </div>
 
-    <button id="faCancelBtn" class="w-full bg-transparent border-none text-[14px] font-semibold text-white/70 dark:text-white/35 pt-[20px] pb-[4px] cursor-pointer">Cancel deposit</button>
+    <!-- 7 · Cancel / restart -->
+    <button class="fund-cancel" id="fundCancelBtn">Cancel deposit</button>
+    <button class="fund-restart fund-hidden" id="fundRestartBtn">Start a new deposit</button>
 
   </div>
 

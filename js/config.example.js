@@ -7,8 +7,3 @@
 
 window.SUPABASE_URL = 'https://your-project-ref.supabase.co';
 window.SUPABASE_ANON_KEY = 'your-supabase-anon-key';
-
-// The Bitcoin address the Fund Account screen shows for deposits. Set this to
-// an address you control — the built-in default is a placeholder that wallets
-// reject, so deposits can't be sent anywhere by accident.
-window.BTC_DEPOSIT_ADDRESS = 'your-bitcoin-deposit-address';
