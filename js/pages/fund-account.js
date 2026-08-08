@@ -32,6 +32,9 @@ const DEPOSIT = {
 
 const MIN_USD = 25;
 const MAX_USD = 100000;
+// Matches the field's transform transition, so the class comes off once the
+// pop has played and the next chip tap can replay it.
+const BUMP_MS = 160;
 const WARN_MS = 5 * 60 * 1000;
 const COPIED_MS = 1600;
 
@@ -40,6 +43,7 @@ function on(el, evt, fn) { if (!el) return; el.addEventListener(evt, fn); listen
 
 let tickHandle = null;
 let copyHandle = null;
+let bumpHandle = null;
 
 function lockDurationMs() {
   return DEPOSIT.lockMinutes * 60 * 1000;
@@ -87,10 +91,11 @@ export function init(root, ctx) {
   const methodScreen = root.querySelector('#fundMethodScreen');
   const depositScreen = root.querySelector('#fundDepositScreen');
 
-  const amountValue = root.querySelector('#fundAmountValue');
-  const amountRow = root.querySelector('#fundAmountRow');
+  const amountBox = root.querySelector('#fundAmountBox');
+  const amountField = root.querySelector('#fundAmountField');
+  const amountCur = root.querySelector('#fundAmountCur');
   const amountInput = root.querySelector('#fundAmountInput');
-  const amountError = root.querySelector('#fundAmountError');
+  const amountMeta = root.querySelector('#fundAmountMeta');
   const amountChips = root.querySelectorAll('.fund-amount-chip');
   const continueBtn = root.querySelector('#fundContinueBtn');
 
@@ -123,47 +128,87 @@ export function init(root, ctx) {
   let chosenUsd = 0;
 
   // ---------- Amount ----------
-  function clearChips() {
-    amountChips.forEach((chip) => chip.classList.remove('fund-amount-chip-on'));
+  function typedUsd() {
+    return parseFloat(amountInput.value.replace(/,/g, '')) || 0;
   }
 
+  // One status line carries the range hint, both bound complaints and the
+  // all-clear, so the card never grows or shrinks as the value changes.
   function renderAmount() {
-    amountValue.textContent = formatUsd(chosenUsd);
-    amountValue.classList.toggle('fund-amount-zero', chosenUsd === 0);
+    chosenUsd = typedUsd();
+    const entered = amountInput.value.trim() !== '';
+    amountCur.classList.toggle('fund-amount-dim', !entered);
 
-    // The minimum only becomes a complaint once something has been entered —
-    // an untouched $0.00 isn't a mistake yet. The maximum always is.
-    const belowMin = chosenUsd > 0 && chosenUsd < MIN_USD;
-    const aboveMax = chosenUsd > MAX_USD;
+    if (!entered) {
+      amountMeta.textContent = `Enter ${formatUsd(MIN_USD)} – ${formatUsd(MAX_USD)}`;
+      amountMeta.classList.remove('fund-amount-bad');
+      continueBtn.disabled = true;
+    } else if (chosenUsd < MIN_USD) {
+      amountMeta.textContent = `Minimum deposit is ${formatUsd(MIN_USD)}`;
+      amountMeta.classList.add('fund-amount-bad');
+      continueBtn.disabled = true;
+    } else if (chosenUsd > MAX_USD) {
+      amountMeta.textContent = `Maximum deposit is ${formatUsd(MAX_USD)}`;
+      amountMeta.classList.add('fund-amount-bad');
+      continueBtn.disabled = true;
+    } else {
+      amountMeta.textContent = 'Ready to continue';
+      amountMeta.classList.remove('fund-amount-bad');
+      continueBtn.disabled = false;
+    }
 
-    continueBtn.disabled = chosenUsd < MIN_USD || aboveMax;
+    // A chip lights up whenever the amount equals it, however it was reached —
+    // typing 250 and tapping $250 land in the same place.
+    amountChips.forEach((chip) => {
+      const preset = Number(chip.getAttribute('data-amount'));
+      chip.classList.toggle('fund-amount-chip-on', entered && chosenUsd === preset);
+    });
+  }
 
-    if (belowMin) amountError.textContent = `Minimum deposit is ${formatUsd(MIN_USD)}`;
-    else if (aboveMax) amountError.textContent = `Maximum deposit is ${formatUsd(MAX_USD)}`;
-    amountError.classList.toggle('fund-amount-err-on', belowMin || aboveMax);
+  function bumpField() {
+    amountField.classList.remove('fund-amount-bump');
+    // Force a reflow so re-adding the class restarts the transition rather
+    // than being coalesced into no change at all.
+    void amountField.offsetWidth;
+    amountField.classList.add('fund-amount-bump');
+    if (bumpHandle) clearTimeout(bumpHandle);
+    bumpHandle = setTimeout(() => {
+      amountField.classList.remove('fund-amount-bump');
+      bumpHandle = null;
+    }, BUMP_MS);
   }
 
   amountChips.forEach((chip) => {
     on(chip, 'click', () => {
-      clearChips();
-      chip.classList.add('fund-amount-chip-on');
-      chosenUsd = Number(chip.getAttribute('data-amount'));
-      // Clear the custom field so it can't contradict the chip just tapped.
-      amountInput.value = '';
+      amountInput.value = Number(chip.getAttribute('data-amount')).toFixed(2);
+      bumpField();
       renderAmount();
     });
   });
 
+  // Digits and a single dot, at most two decimals — written back into the
+  // field so what is typed and what is read are never different numbers.
   on(amountInput, 'input', () => {
-    const raw = amountInput.value.replace(/[^0-9.]/g, '');
+    let raw = amountInput.value.replace(/[^0-9.]/g, '');
+    const parts = raw.split('.');
+    if (parts.length > 2) raw = parts[0] + '.' + parts.slice(1).join('');
+    if (parts[1] && parts[1].length > 2) raw = parts[0] + '.' + parts[1].slice(0, 2);
     amountInput.value = raw;
-    chosenUsd = parseFloat(raw) || 0;
-    clearChips();
     renderAmount();
   });
 
-  on(amountInput, 'focus', () => amountRow.classList.add('fund-amount-in-focus'));
-  on(amountInput, 'blur', () => amountRow.classList.remove('fund-amount-in-focus'));
+  on(amountInput, 'focus', () => amountBox.classList.add('fund-amount-focus'));
+
+  on(amountInput, 'blur', () => {
+    amountBox.classList.remove('fund-amount-focus');
+    if (amountInput.value.trim() !== '') amountInput.value = typedUsd().toFixed(2);
+    renderAmount();
+  });
+
+  // The whole card is the tap target for the field.
+  on(amountBox, 'click', (event) => {
+    if (event.target !== amountInput) amountInput.focus();
+  });
 
   on(continueBtn, 'click', () => {
     if (chosenUsd < MIN_USD || chosenUsd > MAX_USD) return;
@@ -353,6 +398,7 @@ export function init(root, ctx) {
 export function cleanup() {
   if (tickHandle) { clearInterval(tickHandle); tickHandle = null; }
   if (copyHandle) { clearTimeout(copyHandle); copyHandle = null; }
+  if (bumpHandle) { clearTimeout(bumpHandle); bumpHandle = null; }
   listeners.forEach(off => off());
   listeners = [];
 }
