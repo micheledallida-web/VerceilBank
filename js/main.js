@@ -133,6 +133,13 @@ export async function loadPage(name, ...args) {
   activePageCleanup = closePage;
 }
 
+// Close any open screen and return to the dashboard, which is also the
+// account summary.
+export function showHome() {
+  if (activePageCleanup) { activePageCleanup(); activePageCleanup = null; }
+  window.scrollTo(0, 0);
+}
+
 // Expose for inline onclick handlers if any page markup still uses them
 window.loadPage = loadPage;
 window.showModal = showModal;
@@ -367,10 +374,13 @@ document.getElementById('cardInvestments').addEventListener('click', () => loadP
 document.getElementById('cardCredit').addEventListener('click', () => loadPage('account-detail', 'credit'));
 document.getElementById('cardInterestChecking').addEventListener('click', () => loadPage('account-detail', 'interest_checking'));
 document.getElementById('promoBanner').addEventListener('click', () => loadPage('interest-checking'));
-document.getElementById('getStartedBtn').addEventListener('click', (e) => {
-  e.stopPropagation();
-  loadPage('interest-checking');
-});
+document.getElementById('offerCredit').addEventListener('click', () => loadPage('account-detail', 'credit'));
+
+// ---------- Quick actions (from the old account summary) ----------
+document.getElementById('homeQuickTransfer').addEventListener('click', () => loadPage('transfer'));
+document.getElementById('homeQuickSendMoney').addEventListener('click', () => loadPage('send-money'));
+document.getElementById('homeQuickDeposit').addEventListener('click', () => loadPage('fund-account'));
+document.getElementById('homeQuickStatements').addEventListener('click', () => loadPage('docs-hub'));
 
 // ---------- Bottom nav dropdown menu sheet (Citi-style) ----------
 const navMenus = {
@@ -409,7 +419,9 @@ const navMenuCloseBtn = document.getElementById('navMenuCloseBtn');
 // Labels that map to a screen already ported to the split architecture.
 const navMenuRoutes = {
   // Accounts
-  'Account Summary': () => loadPage('account-summary'),
+  // The account summary is the dashboard now, so this closes whatever screen
+  // is open and returns to it rather than loading a page of its own.
+  'Account Summary': () => showHome(),
   'Checking': () => loadPage('account-detail', 'checking'),
   'Savings': () => loadPage('account-detail', 'savings'),
   'Interest Checking': () => loadPage('account-detail', 'interest_checking'),
@@ -555,41 +567,78 @@ async function initSupabaseData() {
 
   let userName = 'Mercy';
 
+  // Running totals behind the hero. Each account writes its own figure here
+  // so the header adds up to exactly what the cards below it show.
+  const totals = { checking: 0, savings: 0, interestChecking: 0, investments: 0, credit: 0 };
+
+  function renderTotals() {
+    const deposits = totals.checking + totals.savings + totals.interestChecking;
+    const setText = (id, value) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = formatCurrency(value);
+    };
+    setText('homeDeposits', deposits);
+    setText('homeInvestments', totals.investments);
+    setText('homeCardBalance', totals.credit);
+    // The card balance is money owed, not held, so it is not added in.
+    setText('homeTotalBalance', deposits + totals.investments);
+  }
+
   function applyAccountRow(acc) {
     const val = formatCurrency(acc.balance);
     if (acc.account_type === 'checking') {
       const el = document.getElementById('checkingBalance');
       if (el) el.textContent = val;
+      totals.checking = Number(acc.balance) || 0;
     } else if (acc.account_type === 'savings') {
       const el = document.getElementById('savingsBalance');
       if (el) el.textContent = val;
+      totals.savings = Number(acc.balance) || 0;
     } else if (acc.account_type === 'investments') {
       const el = document.getElementById('investmentsBalance');
       if (el) el.textContent = val;
+      totals.investments = Number(acc.balance) || 0;
     } else if (acc.account_type === 'interest_checking') {
       const el = document.getElementById('interestCheckingBalance');
       if (el) el.textContent = val;
+      totals.interestChecking = Number(acc.balance) || 0;
       const section = document.getElementById('sectionInterestChecking');
       const promo = document.getElementById('promoBanner');
+      // Once it is open it is an account, not an offer.
       if (section) section.classList.remove('hidden');
       if (promo) promo.classList.add('hidden');
     } else if (acc.account_type === 'credit') {
       if (acc.status === 'approved' || Number(acc.balance) > 0 || Number(acc.available_credit) > 0) {
-        const rightContainer = document.getElementById('creditCardRightContent');
-        if (rightContainer) {
-          const availVal = acc.available_credit !== undefined ? formatCurrency(acc.available_credit) : '$0.00';
-          rightContainer.innerHTML = `
-            <div class="text-[18px] font-bold text-[#111827] dark:text-[#FFFFFF] tracking-tight leading-none">${val}</div>
-            <div class="text-[12px] font-normal text-[#6B7280] dark:text-[#8E9CBA] mt-[6px]">Current Balance</div>
-            <div class="text-[10px] font-normal text-[#6B7280] dark:text-[#8E9CBA] mt-[2px]">Available Credit ${availVal}</div>
-          `;
+        totals.credit = Number(acc.balance) || 0;
+        const section = document.getElementById('sectionCredit');
+        const offer = document.getElementById('offerCredit');
+        if (section) section.classList.remove('hidden');
+        if (offer) offer.classList.add('hidden');
+
+        const balanceEl = document.getElementById('creditBalance');
+        if (balanceEl) balanceEl.textContent = val;
+        const sublabel = document.getElementById('creditSublabel');
+        if (sublabel && acc.available_credit !== undefined) {
+          sublabel.textContent = `${formatCurrency(acc.available_credit)} available`;
         }
-        const titleDiv = document.querySelector('#cardCredit .card-title');
-        if (titleDiv && acc.account_number) {
-          titleDiv.innerHTML = `Verceil Signature Card<div class="text-[13px] font-normal text-[#6B7280] dark:text-[#8E9CBA] mt-1"><span class="inline-block w-1.5 h-1.5 rounded-full bg-[#6B7280] dark:bg-[#8E9CBA] mr-0.5 align-middle"></span>${acc.account_number.slice(-4)}</div>`;
+        const numberEl = document.getElementById('creditNumber');
+        if (numberEl && acc.account_number) {
+          numberEl.textContent = `•${acc.account_number.slice(-4)}`;
         }
       }
     }
+    renderTotals();
+    refreshOffersLabel();
+  }
+
+  // "Available to You" only makes sense while something is still on offer.
+  function refreshOffersLabel() {
+    const label = document.getElementById('homeOffersLabel');
+    const offers = document.getElementById('homeOffers');
+    if (!label || !offers) return;
+    const anyVisible = Array.from(offers.children).some(el => !el.classList.contains('hidden'));
+    label.classList.toggle('hidden', !anyVisible);
+    offers.classList.toggle('hidden', !anyVisible);
   }
 
   // Demo-mode fallback: if the Interest Checking account was opened while
@@ -633,11 +682,68 @@ async function initSupabaseData() {
     }
   }
 
+  renderTotals();
+  refreshOffersLabel();
+
   greetingLine1.textContent = `${timeOfDay},`;
   greetingLine2.textContent = userName;
 }
 
+// ---------- Recent activity (from the old account summary) ----------
+// Payments and transfers, newest first. The empty state in the markup stays
+// put until there is something real to replace it with.
+async function initRecentActivity() {
+  const container = document.getElementById('homeActivity');
+  if (!container || !supabaseClient) return;
+
+  try {
+    const user = await getCurrentUser();
+    if (!user) return;
+
+    const [{ data: payments }, { data: transfers }] = await Promise.all([
+      supabaseClient.from('payments').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(10),
+      supabaseClient.from('transfers').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(10),
+    ]);
+
+    const entries = [
+      ...(payments || []).map(payment => ({
+        label: payment.recipient_name || 'Payment',
+        amount: -Math.abs(Number(payment.amount || 0)),
+        date: payment.created_at,
+      })),
+      ...(transfers || []).map(transfer => ({
+        label: `Transfer: ${transfer.from_account} → ${transfer.to_account}`,
+        amount: 0,
+        date: transfer.created_at,
+      })),
+    ].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 10);
+
+    if (!entries.length) return;
+
+    container.innerHTML = entries.map(entry => `
+      <div class="home-activity-row">
+        <div class="min-w-0">
+          <div class="home-activity-label truncate"></div>
+          <div class="home-activity-date"></div>
+        </div>
+        ${entry.amount !== 0
+          ? `<span class="home-activity-amt${entry.amount > 0 ? ' home-activity-in' : ''}">${entry.amount < 0 ? '-' : '+'}${formatCurrency(Math.abs(entry.amount))}</span>`
+          : ''}
+      </div>
+    `).join('');
+
+    // textContent for the label: recipient names are user-entered.
+    container.querySelectorAll('.home-activity-row').forEach((row, index) => {
+      row.querySelector('.home-activity-label').textContent = entries[index].label;
+      row.querySelector('.home-activity-date').textContent = new Date(entries[index].date).toLocaleDateString();
+    });
+  } catch (err) {
+    console.error('Recent activity error:', err);
+  }
+}
+
 initSupabaseData();
+initRecentActivity();
 refreshAlertsBadge();
 
 // Investments card sparkline. Runs on its own animation loop, and parks itself
