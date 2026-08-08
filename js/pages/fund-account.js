@@ -48,11 +48,6 @@ function formatUsd(amount) {
   return `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
-function parseUsd(value) {
-  const amount = Number(String(value).replace(/[^0-9.]/g, ''));
-  return isFinite(amount) ? amount : 0;
-}
-
 // Rounded up to the satoshi: the deposit screen warns that underpayments are
 // not credited, so rounding down would set that trap by a hair.
 function usdToBtc(amount) {
@@ -92,7 +87,9 @@ export function init(root, ctx) {
   const depositScreen = root.querySelector('#fundDepositScreen');
 
   const amountValue = root.querySelector('#fundAmountValue');
+  const amountRow = root.querySelector('#fundAmountRow');
   const amountInput = root.querySelector('#fundAmountInput');
+  const amountError = root.querySelector('#fundAmountError');
   const amountChips = root.querySelectorAll('.fund-amount-chip');
   const continueBtn = root.querySelector('#fundContinueBtn');
 
@@ -125,17 +122,23 @@ export function init(root, ctx) {
   let chosenUsd = 0;
 
   // ---------- Amount ----------
+  function clearChips() {
+    amountChips.forEach((chip) => chip.classList.remove('fund-amount-chip-on'));
+  }
+
   function renderAmount() {
     amountValue.textContent = formatUsd(chosenUsd);
+    amountValue.classList.toggle('fund-amount-zero', chosenUsd === 0);
     continueBtn.disabled = chosenUsd < MIN_USD;
-    amountChips.forEach((chip) => {
-      const preset = Number(chip.getAttribute('data-amount'));
-      chip.classList.toggle('fund-amount-chip-on', preset === chosenUsd);
-    });
+    // The minimum only becomes a complaint once something has been entered —
+    // an untouched $0.00 isn't a mistake yet.
+    amountError.classList.toggle('fund-amount-err-on', chosenUsd > 0 && chosenUsd < MIN_USD);
   }
 
   amountChips.forEach((chip) => {
     on(chip, 'click', () => {
+      clearChips();
+      chip.classList.add('fund-amount-chip-on');
       chosenUsd = Number(chip.getAttribute('data-amount'));
       // Clear the custom field so it can't contradict the chip just tapped.
       amountInput.value = '';
@@ -144,9 +147,15 @@ export function init(root, ctx) {
   });
 
   on(amountInput, 'input', () => {
-    chosenUsd = parseUsd(amountInput.value);
+    const raw = amountInput.value.replace(/[^0-9.]/g, '');
+    amountInput.value = raw;
+    chosenUsd = parseFloat(raw) || 0;
+    clearChips();
     renderAmount();
   });
+
+  on(amountInput, 'focus', () => amountRow.classList.add('fund-amount-in-focus'));
+  on(amountInput, 'blur', () => amountRow.classList.remove('fund-amount-in-focus'));
 
   on(continueBtn, 'click', () => {
     if (chosenUsd < MIN_USD) return;

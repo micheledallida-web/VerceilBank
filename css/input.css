@@ -998,92 +998,170 @@ body:not(.dark) .action-tile svg {
 }
 
 /* ---- amount step ----
-   White card and blue primary button reuse the values already on this
-   screen: the card matches .fund-cs-card's surface, the button matches
-   .fund-restart, and every colour here already appears above. */
+   Layout follows the supplied reference; every colour is one already used
+   on this screen, so the reference's #1652D9 maps to the screen's accent
+   #3B82F6, #0A1020 to #111827, #C6CDDB to #9AA4B8, #EDF0F5 to #EEF1F7 and
+   #DC2626 to the app's #EF4444. */
+.fund-amount-sub {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 14.5px;
+  line-height: 1.5;
+  margin: 0 0 24px 52px;
+}
+
 .fund-amount-card {
   background: #FFFFFF;
-  border-radius: 20px;
-  padding: 18px;
+  border-radius: 22px;
+  padding: 30px 22px 26px;
+  text-align: center;
   box-shadow: 0 1px 3px rgba(8, 20, 50, 0.08);
+  margin-bottom: 14px;
+}
+
+.fund-amount-lab {
+  color: #8B95AB;
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0 0 10px;
+  letter-spacing: 0.01em;
 }
 
 .fund-amount-value {
   color: #111827;
-  font-size: 40px;
+  font-size: 46px;
   font-weight: 700;
-  text-align: center;
-  letter-spacing: -0.02em;
+  margin: 0;
+  letter-spacing: -0.035em;
   font-variant-numeric: tabular-nums;
+  transition: color 0.15s ease;
 }
 
-.fund-amount-presets {
-  display: flex;
-  gap: 8px;
-  margin-top: 18px;
+.fund-amount-value.fund-amount-zero { color: #9AA4B8; }
+
+.fund-amount-min {
+  color: #8B95AB;
+  font-size: 12.5px;
+  margin: 14px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid #EEF1F7;
+}
+
+.fund-amount-chips {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 9px;
+  margin-bottom: 14px;
 }
 
 .fund-amount-chip {
-  flex: 1;
-  height: 40px;
-  border: none;
+  background: rgba(255, 255, 255, 0.13);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 14px;
-  background: #EEF1F7;
-  color: #5B6478;
-  font-size: 13px;
+  padding: 14px 4px;
+  color: #FFFFFF;
+  font-size: 14.5px;
   font-weight: 700;
   cursor: pointer;
+  text-align: center;
+  transition: background 0.14s ease, border-color 0.14s ease;
 }
+
+.fund-amount-chip:active { background: rgba(255, 255, 255, 0.2); }
 
 .fund-amount-chip.fund-amount-chip-on {
-  background: #3B82F6;
-  color: #FFFFFF;
+  background: #FFFFFF;
+  border-color: #FFFFFF;
+  color: #3B82F6;
 }
 
-.fund-amount-label {
-  display: block;
-  margin: 18px 0 8px;
-  color: #9AA4B8;
-  font-size: 13px;
+.fund-amount-in-card {
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 18px 20px;
+  box-shadow: 0 1px 3px rgba(8, 20, 50, 0.08);
+  margin-bottom: 20px;
+}
+
+.fund-amount-in-lab {
+  color: #8B95AB;
+  font-size: 12px;
   font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0 0 11px;
 }
 
-.fund-amount-input {
-  width: 100%;
-  height: 46px;
-  padding: 0 14px;
-  border: none;
-  border-radius: 14px;
-  background: #EEF1F7;
+.fund-amount-in-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 2px solid #EEF1F7;
+  padding-bottom: 10px;
+  transition: border-color 0.15s ease;
+}
+
+.fund-amount-in-row.fund-amount-in-focus { border-color: #3B82F6; }
+
+.fund-amount-cur {
   color: #111827;
-  font-size: 15px;
+  font-size: 26px;
   font-weight: 700;
-  outline: none;
 }
 
-.fund-amount-help {
-  margin: 10px 0 0;
-  color: #9AA4B8;
-  font-size: 12.5px;
+.fund-amount-in-row input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #111827;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-family: inherit;
+  min-width: 0;
+  font-variant-numeric: tabular-nums;
 }
+
+.fund-amount-in-row input::placeholder {
+  color: #9AA4B8;
+  font-weight: 700;
+}
+
+.fund-amount-err {
+  color: #EF4444;
+  font-size: 12.5px;
+  margin: 10px 0 0;
+  display: none;
+}
+
+.fund-amount-err.fund-amount-err-on { display: block; }
 
 .fund-amount-continue {
   width: 100%;
-  margin-top: 20px;
-  height: 46px;
-  background: #3B82F6;
   border: none;
-  border-radius: 14px;
-  color: #FFFFFF;
-  font-size: 14px;
+  border-radius: 16px;
+  padding: 19px;
+  font-size: 16.5px;
   font-weight: 700;
+  font-family: inherit;
   cursor: pointer;
+  background: #FFFFFF;
+  color: #3B82F6;
+  box-shadow: 0 2px 8px rgba(8, 20, 50, 0.08);
+  transition: opacity 0.15s ease;
 }
 
-/* Muted rather than faded — same reason the Coming Soon card dropped its
-   opacity: a translucent control over the blue page reads as broken. */
 .fund-amount-continue:disabled {
-  background: #EEF1F7;
-  color: #8B95AB;
+  background: rgba(255, 255, 255, 0.13);
+  color: rgba(255, 255, 255, 0.45);
+  box-shadow: none;
   cursor: not-allowed;
+}
+
+.fund-amount-foot {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 12px;
+  text-align: center;
+  margin: 16px 8px 0;
+  line-height: 1.55;
 }
