@@ -1114,14 +1114,19 @@ body.dark {
 /* ---- quick actions ---- */
 .home-acts {
   background: #FFFFFF;
+  border: 1px solid transparent;
   border-radius: 20px;
   padding: 16px 6px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  box-shadow: 0 1px 3px rgba(8, 20, 50, 0.1);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.08);
 }
 
-.dark .home-acts { background: #0D1728; border: 1px solid rgba(255, 255, 255, 0.06); }
+.dark .home-acts {
+  background: #0D1728;
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+}
 
 .home-act {
   display: flex;
@@ -1173,15 +1178,20 @@ body.dark {
 /* ---- account cards ---- */
 .home-acct {
   background: #FFFFFF;
+  border: 1px solid transparent;
   border-radius: 20px;
   padding: 16px 18px;
   margin-bottom: 10px;
-  box-shadow: 0 1px 3px rgba(8, 20, 50, 0.1);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.08);
   cursor: pointer;
   transition: transform 0.12s ease;
 }
 
-.dark .home-acct { background: #0D1728; border: 1px solid rgba(255, 255, 255, 0.06); }
+.dark .home-acct {
+  background: #0D1728;
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+}
 
 .home-acct:active { transform: scale(0.985); }
 
@@ -1200,6 +1210,8 @@ body.dark {
   align-items: center;
   justify-content: center;
 }
+
+.home-ic { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); }
 
 .home-ic svg {
   width: 23px;
@@ -1320,52 +1332,79 @@ body.dark {
 
 .dark .home-rg.home-rg-on { background: #1D61F2; color: #FFFFFF; }
 
-/* ---- offers ---- */
+/* ---- offers ----
+   Same elevated white card as the accounts above them: an offer is a row you
+   tap, so it should not read as a different kind of object from the account
+   it becomes once opened. */
 .home-offer {
-  background: rgba(255, 255, 255, 0.13);
-  border: 1px dashed rgba(255, 255, 255, 0.42);
+  background: #FFFFFF;
+  border: 1px solid transparent;
   border-radius: 20px;
-  padding: 17px 18px;
+  padding: 16px 18px;
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
   gap: 13px;
   cursor: pointer;
   width: 100%;
   text-align: left;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.08);
+  transition: transform 0.12s ease;
 }
 
+.dark .home-offer {
+  background: #0D1728;
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+}
+
+.home-offer:active { transform: scale(0.985); }
+
 .home-offer-t {
-  color: #FFFFFF;
-  font-size: 15.5px;
+  color: #111827;
+  font-size: 16px;
   font-weight: 700;
+  letter-spacing: -0.01em;
   display: block;
 }
 
+.dark .home-offer-t { color: #FFFFFF; }
+
 .home-offer-s {
-  color: rgba(255, 255, 255, 0.62);
-  font-size: 12.5px;
+  color: #6B7280;
+  font-size: 13px;
   margin-top: 3px;
   display: block;
 }
 
+.dark .home-offer-s { color: #8E9CBA; }
+
 .home-offer-go {
-  color: #FFFFFF;
-  font-size: 14px;
+  color: #111827;
+  font-size: 17px;
   font-weight: 700;
   white-space: nowrap;
   flex-shrink: 0;
+  letter-spacing: -0.02em;
 }
+
+.dark .home-offer-go { color: #FFFFFF; }
 
 /* ---- activity ---- */
 .home-empty {
   background: #FFFFFF;
+  border: 1px solid transparent;
   border-radius: 20px;
   padding: 28px 20px;
   text-align: center;
-  box-shadow: 0 1px 3px rgba(8, 20, 50, 0.1);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.08);
 }
 
-.dark .home-empty { background: #0D1728; border: 1px solid rgba(255, 255, 255, 0.06); }
+.dark .home-empty {
+  background: #0D1728;
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+}
 
 .home-empty-ic {
   width: 46px;
@@ -1411,16 +1450,21 @@ body.dark {
 
 .home-activity-row {
   background: #FFFFFF;
+  border: 1px solid transparent;
   border-radius: 16px;
   padding: 14px 16px;
-  box-shadow: 0 1px 3px rgba(8, 20, 50, 0.1);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.08);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
 }
 
-.dark .home-activity-row { background: #0D1728; border: 1px solid rgba(255, 255, 255, 0.06); }
+.dark .home-activity-row {
+  background: #0D1728;
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+}
 
 .home-activity-label {
   color: #111827;
