@@ -39,228 +39,6 @@ body.dark {
   30% { transform: translateY(-4px); opacity: 1; }
 }
 
-/* Verceil Signature Card - responds to the dark/light theme toggle, matching the Checking card's color scheme */
-.credit-card-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  min-height: 90px;
-  padding: 16px 18px;
-  border-radius: 20px;
-  background: #ffffff;
-  border: 1px solid transparent;
-  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.08);
-  box-sizing: border-box;
-  transition: background-color 250ms ease-in-out, border-color 250ms ease-in-out, box-shadow 250ms ease-in-out;
-}
-
-.dark .credit-card-item {
-  background: #0D1728;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3), 0 4px 6px -4px rgba(0,0,0,0.3);
-}
-
-.credit-card-item .card-left {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  flex: 1;
-  min-width: 0;
-}
-
-.credit-card-item .card-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #ff5a5a 0%, #ff4747 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.credit-card-item .card-title {
-  font-size: 16px;
-  font-weight: 700;
-  color: #111827;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
-  white-space: nowrap;
-}
-
-.dark .credit-card-item .card-title {
-  color: #ffffff;
-}
-
-.credit-card-item .card-right {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  text-align: right;
-  position: relative;
-}
-
-.credit-card-item .apply-row {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
-}
-
-.credit-card-item .apply-text {
-  font-size: 17px;
-  font-weight: 700;
-  color: #111827;
-  line-height: 1;
-}
-
-.dark .credit-card-item .apply-text {
-  color: #ffffff;
-}
-
-.credit-card-item .apply-arrow {
-  width: 16px;
-  height: 16px;
-  color: #6B7280;
-}
-
-.dark .credit-card-item .apply-arrow {
-  color: #52607D;
-}
-
-.credit-card-item .approval-note {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  margin-top: 6px;
-  font-size: 10px;
-  font-weight: 500;
-  color: #6B7280;
-  line-height: 1.4;
-  text-align: right;
-  white-space: nowrap;
-}
-
-.dark .credit-card-item .approval-note {
-  color: #8E9CBA;
-}
-
-/* ===================== ACTION TILES =====================
-   The single shared style for every icon+label action tile.
-   Tiles are <button class="action-tile"> inside a
-   <div class="action-tile-grid">. Do not add per-screen tile
-   styles — extend these instead. */
-.action-tile-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  /* Top-align every column so the icons stay on one line even when a
-     longer label ("Send Money") wraps to two lines on narrow screens. */
-  align-items: start;
-}
-
-.action-tile {
-  background: none;
-  border: 0;
-  padding: 6px 2px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 8px;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  transition: opacity 0.15s ease;
-}
-
-.action-tile:active { opacity: 0.55; }
-
-.action-tile svg {
-  width: 22px;
-  height: 22px;
-  stroke: #3B82F6;
-  fill: none;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  flex-shrink: 0;
-}
-
-/* Light mode paints the app blue (#0B4CC2); with the card gone a blue
-   icon would sit blue-on-blue, so it goes white there. */
-body:not(.dark) .action-tile svg {
-  stroke: #FFFFFF;
-}
-
-.action-tile span {
-  color: #F5F7FA;
-  font-size: 12px;
-  font-weight: 600;
-  text-align: center;
-  line-height: 1.25;
-  letter-spacing: -0.01em;
-}
-
-/* ===================== ACCOUNT CARD TEXT GRID =====================
-   The account name/balance and number/sublabel used to live in two
-   separate flex columns of differing height, so no two lines shared a
-   baseline. One two-column, two-row grid with align-items: baseline
-   fixes that. Grid child order is name, balance, number, sublabel. */
-.account-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.account-grid {
-  flex: 1;
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  column-gap: 8px;
-  row-gap: 6px;
-  align-items: baseline;
-  min-width: 0;
-}
-
-.account-grid .account-name,
-.account-grid .account-number { text-align: left; }
-
-.account-grid .account-balance,
-.account-grid .account-sublabel { text-align: right; }
-
-/* The chevron is the grid's third column, pinned to row 1, so it centers
-   on the amount line instead of floating between the two text rows. */
-.account-chevron {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-  grid-column: 3;
-  grid-row: 1;
-  align-self: center;
-  /* The chevron's polyline spans only 6 of its 24 viewBox units, so the
-     drawn arrow sits 6px inside each edge of its 16px box. Pull the box
-     in by that much so the visible arrow — not its empty box — is what
-     lands 8px from the amount and flush with the card's padding edge. */
-  margin-left: -6px;
-  margin-right: -6px;
-}
-
-/* The Signature Card has no balance, so its grid holds three children
-   rather than four. Placing the approval note explicitly puts it in the
-   right-hand column of row 2 without a collapsing spacer element. */
-.account-grid .card-approval {
-  grid-column: 1 / 3;
-  grid-row: 2;
-  text-align: right;
-  white-space: nowrap;
-  /* This note is 10px against the other cards' 12px sublabels, so its
-     shorter line box would otherwise sit ~2px tighter under row 1.
-     Nudge it down to match their spacing. */
-  margin-top: 5px;
-}
-
 /* ===================== KYC UPLOAD SLOTS =====================
    Used only by the identity verification view (pages/verify.html).
    Every other element on that screen reuses the input, card and button
@@ -1220,3 +998,505 @@ body:not(.dark) .action-tile svg {
 }
 
 .dark .kyc-slot-hint.kyc-slot-hint-done { color: #10B981; }
+
+/* ===================== HOME (dashboard + account summary) =====================
+   The account summary used to be its own screen; its totals, quick actions and
+   recent activity now live on the dashboard, so this block covers the merged
+   layout. Colours are the app's existing pairs — #111827/#FFFFFF ink,
+   #6B7280/#8E9CBA muted, #2563EB accent — so the light/dark toggle keeps
+   working on a design that was drawn light-only. */
+
+.home-greet {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 15px;
+  margin: 0 0 1px;
+  line-height: 1.2;
+}
+
+.home-name {
+  color: #FFFFFF;
+  font-size: clamp(28px, 8vw, 34px);
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.home-dots {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #111827;
+  border: none;
+  flex-shrink: 0;
+  transition: transform 0.12s ease;
+}
+
+.dark .home-dots { background: #0D1728; color: #FFFFFF; }
+
+.home-pill {
+  background: #FFFFFF;
+  border-radius: 26px;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.dark .home-pill { background: #0D1728; }
+
+.home-pill-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #111827;
+}
+
+.dark .home-pill-btn { color: #FFFFFF; }
+
+.home-pill-btn svg { width: 20px; height: 20px; }
+
+.home-dots:active, .home-pill-btn:active { transform: scale(0.94); }
+
+/* ---- hero total ---- */
+.home-hero {
+  padding: 0 4px 18px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.home-hero-lab {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 12.5px;
+  margin: 0 0 4px;
+}
+
+.home-hero-amt {
+  color: #FFFFFF;
+  font-size: clamp(32px, 9.5vw, 40px);
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.035em;
+  line-height: 1.04;
+  font-variant-numeric: tabular-nums;
+}
+
+.home-hero-row {
+  display: flex;
+  gap: clamp(14px, 5vw, 26px);
+  margin-top: 13px;
+}
+
+.home-hero-k {
+  display: block;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 11px;
+  margin-bottom: 2px;
+}
+
+.home-hero-v {
+  display: block;
+  color: #FFFFFF;
+  font-size: 13.5px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- quick actions ---- */
+.home-acts {
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 16px 6px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  box-shadow: 0 1px 3px rgba(8, 20, 50, 0.1);
+}
+
+.dark .home-acts { background: #0D1728; border: 1px solid rgba(255, 255, 255, 0.06); }
+
+.home-act {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  transition: transform 0.12s ease;
+}
+
+.home-act:active { transform: scale(0.93); }
+
+.home-act svg {
+  width: 23px;
+  height: 23px;
+  stroke: #2563EB;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.dark .home-act svg { stroke: #3B82F6; }
+
+.home-act span {
+  color: #111827;
+  font-size: clamp(11px, 3.2vw, 12.5px);
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.15;
+}
+
+.dark .home-act span { color: #FFFFFF; }
+
+/* ---- section label ---- */
+.home-lab {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  margin: 24px 0 10px 4px;
+}
+
+/* ---- account cards ---- */
+.home-acct {
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(8, 20, 50, 0.1);
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+
+.dark .home-acct { background: #0D1728; border: 1px solid rgba(255, 255, 255, 0.06); }
+
+.home-acct:active { transform: scale(0.985); }
+
+.home-arow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.home-ic {
+  width: 50px;
+  height: 50px;
+  border-radius: 15px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-ic svg {
+  width: 23px;
+  height: 23px;
+  fill: none;
+  stroke: #FFFFFF;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.home-ic-b { background: #1D61F2; }
+.home-ic-g { background: #10B981; }
+.home-ic-p { background: #8B5CF6; }
+.home-ic-r { background: #F4523B; }
+
+.home-grid {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 10px;
+  row-gap: 3px;
+  align-items: baseline;
+}
+
+.home-n {
+  color: #111827;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-align: left;
+}
+
+.dark .home-n { color: #FFFFFF; }
+
+.home-b {
+  color: #111827;
+  font-size: 17px;
+  font-weight: 700;
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.dark .home-b { color: #FFFFFF; }
+
+.home-num {
+  color: #6B7280;
+  font-size: 13px;
+  text-align: left;
+}
+
+.home-sl {
+  color: #6B7280;
+  font-size: 13px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.dark .home-num, .dark .home-sl { color: #8E9CBA; }
+
+.home-chev {
+  width: 15px;
+  height: 15px;
+  stroke: #C6CDDB;
+  fill: none;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+.dark .home-chev { stroke: #52607D; }
+
+/* ---- investment extras ---- */
+.home-delta {
+  text-align: right;
+  color: #10B981;
+  font-size: 13.5px;
+  font-weight: 700;
+  margin: 9px 0 0;
+}
+
+.home-delta span { color: #6B7280; font-weight: 400; }
+
+.dark .home-delta span { color: #8E9CBA; }
+
+.home-spark { margin-top: 12px; height: 62px; }
+
+.home-spark svg { width: 100%; height: 100%; display: block; }
+
+.home-ranges {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 3px;
+  margin-top: 12px;
+}
+
+.home-rg {
+  text-align: center;
+  padding: 7px 2px;
+  border-radius: 16px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #6B7280;
+  cursor: pointer;
+}
+
+.dark .home-rg { color: #8E9CBA; }
+
+.home-rg.home-rg-on {
+  background: #EFF6FF;
+  color: #1D61F2;
+  font-weight: 700;
+}
+
+.dark .home-rg.home-rg-on { background: #1D61F2; color: #FFFFFF; }
+
+/* ---- offers ---- */
+.home-offer {
+  background: rgba(255, 255, 255, 0.13);
+  border: 1px dashed rgba(255, 255, 255, 0.42);
+  border-radius: 20px;
+  padding: 17px 18px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+.home-offer-t {
+  color: #FFFFFF;
+  font-size: 15.5px;
+  font-weight: 700;
+  display: block;
+}
+
+.home-offer-s {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 12.5px;
+  margin-top: 3px;
+  display: block;
+}
+
+.home-offer-go {
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ---- activity ---- */
+.home-empty {
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 28px 20px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(8, 20, 50, 0.1);
+}
+
+.dark .home-empty { background: #0D1728; border: 1px solid rgba(255, 255, 255, 0.06); }
+
+.home-empty-ic {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: #F1F4FA;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+}
+
+.dark .home-empty-ic { background: rgba(255, 255, 255, 0.06); }
+
+.home-empty-ic svg {
+  width: 21px;
+  height: 21px;
+  stroke: #9AA4B8;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.home-empty p {
+  margin: 0;
+  color: #111827;
+  font-size: 14.5px;
+  font-weight: 700;
+}
+
+.dark .home-empty p { color: #FFFFFF; }
+
+.home-empty small {
+  display: block;
+  color: #6B7280;
+  font-size: 12.5px;
+  margin-top: 5px;
+  line-height: 1.5;
+}
+
+.dark .home-empty small { color: #8E9CBA; }
+
+.home-activity-row {
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 14px 16px;
+  box-shadow: 0 1px 3px rgba(8, 20, 50, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.dark .home-activity-row { background: #0D1728; border: 1px solid rgba(255, 255, 255, 0.06); }
+
+.home-activity-label {
+  color: #111827;
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.dark .home-activity-label { color: #FFFFFF; }
+
+.home-activity-date {
+  color: #6B7280;
+  font-size: 11.5px;
+  margin-top: 2px;
+}
+
+.dark .home-activity-date { color: #8E9CBA; }
+
+.home-activity-amt {
+  color: #111827;
+  font-size: 13.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.dark .home-activity-amt { color: #FFFFFF; }
+
+.home-activity-amt.home-activity-in { color: #16A34A; }
+
+/* ---- bottom nav ---- */
+.home-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: #FFFFFF;
+  padding: 12px 0 24px;
+  box-shadow: 0 -1px 4px rgba(8, 20, 50, 0.08);
+}
+
+.dark .home-nav { background: #060B14; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+
+.home-nv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+}
+
+.home-nv svg {
+  width: 22px;
+  height: 22px;
+  stroke: #6B7280;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.home-nv span {
+  font-size: 11.5px;
+  color: #6B7280;
+  font-weight: 600;
+}
+
+.dark .home-nv svg { stroke: #8E9CBA; }
+.dark .home-nv span { color: #8E9CBA; }
+
+.home-nv.home-nv-on svg { stroke: #1D61F2; }
+.home-nv.home-nv-on span { color: #1D61F2; }
+
+.dark .home-nv.home-nv-on svg { stroke: #3B82F6; }
+.dark .home-nv.home-nv-on span { color: #3B82F6; }
