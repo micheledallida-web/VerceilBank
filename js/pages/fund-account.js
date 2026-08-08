@@ -31,6 +31,7 @@ const DEPOSIT = {
 };
 
 const MIN_USD = 25;
+const MAX_USD = 100000;
 const WARN_MS = 5 * 60 * 1000;
 const COPIED_MS = 1600;
 
@@ -129,10 +130,17 @@ export function init(root, ctx) {
   function renderAmount() {
     amountValue.textContent = formatUsd(chosenUsd);
     amountValue.classList.toggle('fund-amount-zero', chosenUsd === 0);
-    continueBtn.disabled = chosenUsd < MIN_USD;
+
     // The minimum only becomes a complaint once something has been entered —
-    // an untouched $0.00 isn't a mistake yet.
-    amountError.classList.toggle('fund-amount-err-on', chosenUsd > 0 && chosenUsd < MIN_USD);
+    // an untouched $0.00 isn't a mistake yet. The maximum always is.
+    const belowMin = chosenUsd > 0 && chosenUsd < MIN_USD;
+    const aboveMax = chosenUsd > MAX_USD;
+
+    continueBtn.disabled = chosenUsd < MIN_USD || aboveMax;
+
+    if (belowMin) amountError.textContent = `Minimum deposit is ${formatUsd(MIN_USD)}`;
+    else if (aboveMax) amountError.textContent = `Maximum deposit is ${formatUsd(MAX_USD)}`;
+    amountError.classList.toggle('fund-amount-err-on', belowMin || aboveMax);
   }
 
   amountChips.forEach((chip) => {
@@ -158,7 +166,7 @@ export function init(root, ctx) {
   on(amountInput, 'blur', () => amountRow.classList.remove('fund-amount-in-focus'));
 
   on(continueBtn, 'click', () => {
-    if (chosenUsd < MIN_USD) return;
+    if (chosenUsd < MIN_USD || chosenUsd > MAX_USD) return;
     showMethodScreen();
   });
 
