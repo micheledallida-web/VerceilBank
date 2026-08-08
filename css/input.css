@@ -1165,3 +1165,65 @@ body:not(.dark) .action-tile svg {
   margin: 16px 8px 0;
   line-height: 1.55;
 }
+
+/* ===================== KYC ID TYPE + UPLOAD STATE =====================
+   The ID type cards are the existing .kyc-slot card with a radio indicator
+   added, so nothing here re-declares the card's surface, radius or padding.
+   Every value below is one already used by the upload cards: 16px and 2px
+   come from .kyc-spinner, the borders from .kyc-slot, and the uploaded
+   state's #E9F9F1 / #10B981 are the pair the task specifies. */
+.kyc-idtype {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+.kyc-idtype.kyc-idtype-on { border-color: #111827; }
+
+.dark .kyc-idtype.kyc-idtype-on { border-color: #FFFFFF; }
+
+.kyc-idtype-radio {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #E5E7EB;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.dark .kyc-idtype-radio { border-color: rgba(255, 255, 255, 0.1); }
+
+/* Dark ring, white gap, dark centre — a filled radio built from the two
+   colours already on the card. */
+.kyc-idtype.kyc-idtype-on .kyc-idtype-radio {
+  border-color: #111827;
+  background: #111827;
+  box-shadow: inset 0 0 0 2px #ffffff;
+}
+
+.dark .kyc-idtype.kyc-idtype-on .kyc-idtype-radio {
+  border-color: #FFFFFF;
+  background: #FFFFFF;
+  box-shadow: inset 0 0 0 2px #0D1728;
+}
+
+/* Uploaded state: the card keeps its layout and turns green, so it stays a
+   tap target for replacing the image. */
+.kyc-slot-icon.kyc-slot-icon-done {
+  background: #E9F9F1;
+  color: #10B981;
+}
+
+.dark .kyc-slot-icon.kyc-slot-icon-done {
+  background: #E9F9F1;
+  color: #10B981;
+}
+
+.kyc-slot-hint.kyc-slot-hint-done {
+  color: #10B981;
+  font-weight: 600;
+}
+
+.dark .kyc-slot-hint.kyc-slot-hint-done { color: #10B981; }

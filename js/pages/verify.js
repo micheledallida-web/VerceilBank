@@ -20,6 +20,43 @@ const SLOTS = [
   { key: 'selfie', inputId: 'vfSelfie', fileStem: 'selfie', column: 'selfie_path' },
 ];
 
+// What each ID type asks for. `needsBack` is the single source of truth for
+// whether the reverse-side card exists at all — it drives the card's
+// visibility, the submit gate, the upload loop and the id_back_path value, so
+// those four can never disagree with each other.
+const ID_TYPES = {
+  drivers_license: {
+    frontTitle: "Driver's License — Front",
+    frontHint: 'Tap to upload a photo',
+    backTitle: "Driver's License — Back",
+    needsBack: true,
+  },
+  state_id: {
+    frontTitle: 'State ID — Front',
+    frontHint: 'Tap to upload a photo',
+    backTitle: 'State ID — Back',
+    needsBack: true,
+  },
+  passport: {
+    frontTitle: 'Passport — Photo Page',
+    frontHint: 'The page with your photo and details',
+    backTitle: '',
+    needsBack: false,
+  },
+  resident_card: {
+    frontTitle: 'Resident Card — Front',
+    frontHint: 'Tap to upload a photo',
+    backTitle: 'Resident Card — Back',
+    needsBack: true,
+  },
+};
+
+const DEFAULT_HINT = 'Tap to upload a photo';
+
+// The chosen ID type, or null before anything is picked. Reset on every init
+// so reopening the view never inherits a previous session's answer.
+let selectedIdType = null;
+
 let listeners = [];
 function on(el, evt, fn) { if (!el) return; el.addEventListener(evt, fn); listeners.push(() => el.removeEventListener(evt, fn)); }
 
@@ -70,6 +107,9 @@ export function init(root, ctx) {
   const postalInput = root.querySelector('#vfPostalCode');
   const postalError = root.querySelector('#vfPostalCodeError');
 
+  const idTypeCards = root.querySelectorAll('.kyc-idtype');
+  const idTypeEmpty = root.querySelector('#vfIdTypeEmpty');
+
   // Required text fields, by id. Apt/Unit is deliberately absent.
   const REQUIRED_TEXT_IDS = ['vfFirstName', 'vfLastName', 'vfDob', 'vfAddress1', 'vfCity', 'vfState'];
 
@@ -80,7 +120,23 @@ export function init(root, ctx) {
   const chosen = {};
   let submitting = false;
 
+  selectedIdType = null;
+
   on(root.querySelector('[data-action="close"]'), 'click', close);
+
+  function slotContainer(key) {
+    return root.querySelector(`.kyc-slot[data-slot="${key}"]`);
+  }
+
+  function backIsRequired() {
+    return !!selectedIdType && ID_TYPES[selectedIdType].needsBack;
+  }
+
+  // The slots this submission actually needs — idBack drops out for a
+  // passport, which has no reverse side to photograph.
+  function activeSlots() {
+    return SLOTS.filter(slot => slot.key !== 'idBack' || backIsRequired());
+  }
 
   // ---------- Form gating ----------
   function requiredTextFilled() {
@@ -91,13 +147,14 @@ export function init(root, ctx) {
   }
 
   function allDocumentsChosen() {
-    return SLOTS.every(slot => !!chosen[slot.key]);
+    return activeSlots().every(slot => !!chosen[slot.key]);
   }
 
   function formIsComplete() {
     return requiredTextFilled()
       && ssnRaw.length === 9
       && digitsOnly(postalInput.value).length === 5
+      && !!selectedIdType
       && allDocumentsChosen();
   }
 
@@ -106,6 +163,83 @@ export function init(root, ctx) {
     submitBtn.disabled = !formIsComplete();
     submitBtn.classList.toggle('opacity-60', submitBtn.disabled);
   }
+
+  // ---------- ID type ----------
+  // Wipes a document card back to its empty state: no staged file, no green
+  // treatment, no stale error.
+  function clearSlot(key) {
+    const slot = SLOTS.find(item => item.key === key);
+    const container = slotContainer(key);
+    const input = root.querySelector('#' + slot.inputId);
+    if (input) input.value = '';
+    delete chosen[key];
+    if (!container) return;
+    container.querySelector('.kyc-slot-icon').classList.remove('kyc-slot-icon-done');
+    const hint = container.querySelector('.kyc-slot-hint');
+    hint.classList.remove('kyc-slot-hint-done');
+    // applyIdType() overwrites this for whichever cards the new type shows;
+    // resetting here is what stops a hidden card holding "Uploaded".
+    hint.textContent = DEFAULT_HINT;
+    container.querySelector('.kyc-slot-error').classList.add('hidden');
+  }
+
+  function setSlotText(key, title, hint) {
+    const container = slotContainer(key);
+    if (!container) return;
+    container.querySelector('.kyc-slot-title').textContent = title;
+    container.querySelector('.kyc-slot-hint').textContent = hint;
+  }
+
+  // Paints the document section for the current selection: the prompt panel
+  // while nothing is picked, otherwise the cards this ID type calls for.
+  function applyIdType() {
+    const front = slotContainer('idFront');
+    const back = slotContainer('idBack');
+    const selfie = slotContainer('selfie');
+    const spec = selectedIdType ? ID_TYPES[selectedIdType] : null;
+
+    idTypeCards.forEach(card => {
+      card.classList.toggle('kyc-idtype-on', card.getAttribute('data-idtype') === selectedIdType);
+    });
+
+    if (!spec) {
+      idTypeEmpty.classList.remove('hidden');
+      front.classList.add('hidden');
+      back.classList.add('hidden');
+      selfie.classList.add('hidden');
+      return;
+    }
+
+    idTypeEmpty.classList.add('hidden');
+    front.classList.remove('hidden');
+    selfie.classList.remove('hidden');
+
+    setSlotText('idFront', spec.frontTitle, spec.frontHint);
+    if (spec.needsBack) {
+      back.classList.remove('hidden');
+      setSlotText('idBack', spec.backTitle, DEFAULT_HINT);
+    } else {
+      back.classList.add('hidden');
+    }
+  }
+
+  idTypeCards.forEach(card => {
+    on(card, 'click', () => {
+      const value = card.getAttribute('data-idtype');
+      if (value === selectedIdType) return;
+      selectedIdType = value;
+
+      // A licence front left staged under a passport label is a mismatched
+      // submission that only surfaces at manual review, so both document
+      // cards start over. The selfie is the same photo either way, so it
+      // survives the switch.
+      clearSlot('idFront');
+      clearSlot('idBack');
+
+      applyIdType();
+      refreshSubmitState();
+    });
+  });
 
   // ---------- SSN masking ----------
   // The field shows bullets for digits already entered, so the digits cannot be
@@ -161,16 +295,28 @@ export function init(root, ctx) {
     const container = root.querySelector(`.kyc-slot[data-slot="${slot.key}"]`);
     if (!input || !container) return;
 
-    const label = container.querySelector('.kyc-slot-label');
-    const preview = container.querySelector('.kyc-slot-preview');
-    const thumb = container.querySelector('.kyc-slot-thumb');
-    const filename = container.querySelector('.kyc-slot-filename');
     const replaceBtn = container.querySelector('.kyc-slot-replace');
     const slotError = container.querySelector('.kyc-slot-error');
+    const icon = container.querySelector('.kyc-slot-icon');
+    const hint = container.querySelector('.kyc-slot-hint');
 
     function showSlotError(message) {
       slotError.textContent = message;
       slotError.classList.remove('hidden');
+    }
+
+    // A rejected pick is dropped rather than left staged — otherwise the slot
+    // would read as filled while submit stayed blocked.
+    function rejectFile(message) {
+      input.value = '';
+      delete chosen[slot.key];
+      icon.classList.remove('kyc-slot-icon-done');
+      hint.classList.remove('kyc-slot-hint-done');
+      hint.textContent = slot.key === 'idFront' && selectedIdType
+        ? ID_TYPES[selectedIdType].frontHint
+        : DEFAULT_HINT;
+      showSlotError(message);
+      refreshSubmitState();
     }
 
     on(input, 'change', () => {
@@ -178,25 +324,22 @@ export function init(root, ctx) {
       slotError.classList.add('hidden');
       if (!file) return;
 
+      if (!String(file.type || '').startsWith('image/')) {
+        rejectFile('Please upload a JPG or PNG.');
+        return;
+      }
+
       if (file.size > MAX_FILE_BYTES) {
-        // Drop the oversized pick entirely rather than leaving it staged —
-        // otherwise the slot would read as filled while submit stayed blocked.
-        input.value = '';
-        delete chosen[slot.key];
-        label.classList.remove('hidden');
-        preview.classList.add('hidden');
-        showSlotError('File must be under 10MB.');
-        refreshSubmitState();
+        rejectFile('File must be under 10MB.');
         return;
       }
 
       chosen[slot.key] = file;
-      const url = URL.createObjectURL(file);
-      objectUrls.push(url);
-      thumb.src = url;
-      filename.textContent = file.name || 'Selected photo';
-      label.classList.add('hidden');
-      preview.classList.remove('hidden');
+      // The card keeps its layout and turns green, so it stays a tap target
+      // for replacing the image.
+      icon.classList.add('kyc-slot-icon-done');
+      hint.textContent = 'Uploaded';
+      hint.classList.add('kyc-slot-hint-done');
       refreshSubmitState();
     });
 
@@ -237,6 +380,7 @@ export function init(root, ctx) {
     statusView.innerHTML = '';
     formView.classList.remove('hidden');
     if (subline) subline.classList.remove('hidden');
+    applyIdType();
     refreshSubmitState();
   }
 
@@ -308,10 +452,11 @@ export function init(root, ctx) {
       const user = await getCurrentUser();
       if (!user) throw new Error('Your session has expired. Please sign in again.');
 
-      // 1. Documents first. Nothing is written to the database until all three
-      //    are in the bucket, so a half-uploaded set never becomes a request.
+      // 1. Documents first. Nothing is written to the database until every
+      //    required file is in the bucket, so a half-uploaded set never
+      //    becomes a request.
       const paths = {};
-      for (const slot of SLOTS) {
+      for (const slot of activeSlots()) {
         const file = chosen[slot.key];
         const path = `${user.id}/${slot.fileStem}.${fileExtension(file)}`;
         const { error: uploadError } = await supabaseClient
@@ -322,7 +467,9 @@ export function init(root, ctx) {
         paths[slot.column] = path;
       }
 
-      // 2. The request row.
+      // 2. The request row. id_back_path is explicitly null for a passport
+      //    rather than absent, so the column says "no reverse side" instead of
+      //    "not answered".
       const { error: insertError } = await supabaseClient
         .from('verification_requests')
         .insert({
@@ -336,8 +483,9 @@ export function init(root, ctx) {
           city: root.querySelector('#vfCity').value.trim(),
           state: root.querySelector('#vfState').value.trim(),
           postal_code: digitsOnly(postalInput.value),
+          id_type: selectedIdType,
           id_front_path: paths.id_front_path,
-          id_back_path: paths.id_back_path,
+          id_back_path: paths.id_back_path || null,
           selfie_path: paths.selfie_path,
           status: 'pending',
         });
@@ -405,6 +553,8 @@ export function init(root, ctx) {
 
     return { status, reason: profile ? profile.rejection_reason : '', submittedAt };
   }
+
+  applyIdType();
 
   (async () => {
     let state = { status: null, reason: '', submittedAt: null };
