@@ -21,20 +21,20 @@
     </div>
 
     <p class="fund-sec-label fund-sec-label-gap">Coming Soon</p>
-    <div class="fund-method fund-dis" aria-disabled="true">
-      <div class="fund-m-icon fund-m-card">
-        <svg viewBox="0 0 24 24" class="fund-m-card-svg"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+    <div class="fund-cs-card" aria-disabled="true">
+      <div class="fund-cs-ico">
+        <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 10h20"/></svg>
       </div>
-      <div class="fund-m-body">
-        <span class="fund-m-t">Debit or Credit Card</span>
-        <span class="fund-m-s">Instant funding</span>
+      <div class="fund-cs-body">
+        <span class="fund-cs-t">Debit or Credit Card</span>
+        <span class="fund-cs-s">Instant funding</span>
       </div>
-      <span class="fund-m-badge">SOON</span>
+      <span class="fund-cs-pill">SOON</span>
     </div>
 
-    <div class="fund-stripe-note">
-      Card funding is being finalized with our payments partner. Check back
-      soon — in the meantime, Bitcoin deposits are fully available.
+    <div class="fund-cs-note">
+      Card funding is being finalized with our payments partner.
+      <b>Bitcoin deposits are fully available</b> in the meantime.
     </div>
 
   </div>
@@ -132,13 +132,29 @@
 
     <!-- 6 · Warnings -->
     <div class="fund-warn-card">
-      <h4>Before you send</h4>
-      <ul>
-        <li>Send only Bitcoin (BTC) to this address. Other assets will be lost.</li>
-        <li>Send the exact amount shown. Underpayments are not credited automatically.</li>
-        <li>This address is generated for this deposit only. Do not reuse it.</li>
-        <li>After the timer expires, the rate is no longer guaranteed.</li>
-      </ul>
+      <div class="fund-warn-hd">
+        <div class="fund-warn-badge">
+          <svg viewBox="0 0 24 24"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg>
+        </div>
+        <h4>Before you send</h4>
+      </div>
+
+      <div class="fund-warn-item">
+        <div class="fund-warn-dot"></div>
+        <p>Send only <b>Bitcoin (BTC)</b> to this address. Any other asset sent here will be permanently lost.</p>
+      </div>
+      <div class="fund-warn-item">
+        <div class="fund-warn-dot"></div>
+        <p>Send the <b>exact amount</b> shown above. Underpayments are not credited automatically.</p>
+      </div>
+      <div class="fund-warn-item">
+        <div class="fund-warn-dot"></div>
+        <p>This address was generated for <b>this deposit only</b>. Do not save or reuse it.</p>
+      </div>
+      <div class="fund-warn-item">
+        <div class="fund-warn-dot"></div>
+        <p>Once the timer expires, the <b>locked rate no longer applies</b>.</p>
+      </div>
     </div>
 
     <!-- 7 · Cancel / restart -->

@@ -430,15 +430,15 @@ body:not(.dark) .action-tile svg {
 .fund-dim { opacity: 0.5; }
 
 .fund-sec-label {
-  color: rgba(255, 255, 255, 0.38);
+  color: rgba(255, 255, 255, 0.72);
   font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-weight: 800;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  margin: 0 0 10px 4px;
+  margin: 0 0 11px 4px;
 }
 
-.fund-sec-label-gap { margin-top: 24px; }
+.fund-sec-label-gap { margin-top: 34px; }
 
 /* ---- method rows ---- */
 .fund-method {
@@ -458,13 +458,6 @@ body:not(.dark) .action-tile svg {
   background: #101a2e;
 }
 
-/* Genuinely inert, not just dimmed — no taps, no hover, no navigation. */
-.fund-method.fund-dis {
-  opacity: 0.45;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
 .fund-m-icon {
   width: 42px;
   height: 42px;
@@ -478,17 +471,6 @@ body:not(.dark) .action-tile svg {
 }
 
 .fund-m-btc { background: #F7931A; color: #fff; }
-.fund-m-card { background: #1c2438; color: #8fa3c8; }
-
-.fund-m-card-svg {
-  width: 20px;
-  height: 20px;
-  stroke: #8fa3c8;
-  fill: none;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
 
 .fund-m-body { flex: 1; min-width: 0; }
 
@@ -504,17 +486,6 @@ body:not(.dark) .action-tile svg {
   font-size: 13px;
   margin-top: 2px;
   display: block;
-}
-
-.fund-m-badge {
-  font-size: 11px;
-  font-weight: 700;
-  padding: 5px 10px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.07);
-  color: rgba(255, 255, 255, 0.5);
-  white-space: nowrap;
-  letter-spacing: 0.02em;
 }
 
 .fund-m-check {
@@ -538,16 +509,84 @@ body:not(.dark) .action-tile svg {
   stroke-linejoin: round;
 }
 
-.fund-stripe-note {
-  background: rgba(59, 130, 246, 0.07);
-  border: 1px solid rgba(59, 130, 246, 0.2);
-  border-radius: 14px;
-  padding: 14px 16px;
-  color: rgba(255, 255, 255, 0.55);
-  font-size: 13px;
-  line-height: 1.5;
-  margin-top: 2px;
+/* ---- coming soon ----
+   Unavailability is carried by muted ink on a solid card, not by dropping
+   opacity on the whole row. A blanket 45% opacity is what made this block
+   look hazy and washed out against the app's blue background. */
+.fund-cs-card {
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 1px 3px rgba(8, 20, 50, 0.08);
+  cursor: not-allowed;
+  pointer-events: none;
 }
+
+.fund-cs-ico {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: #EEF1F7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.fund-cs-ico svg {
+  width: 21px;
+  height: 21px;
+  stroke: #9AA4B8;
+  fill: none;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.fund-cs-body { flex: 1; min-width: 0; }
+
+.fund-cs-t {
+  color: #5B6478;
+  font-size: 15.5px;
+  font-weight: 700;
+  display: block;
+  letter-spacing: -0.01em;
+}
+
+.fund-cs-s {
+  color: #9AA4B8;
+  font-size: 13px;
+  margin-top: 3px;
+  display: block;
+}
+
+.fund-cs-pill {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  padding: 6px 11px;
+  border-radius: 20px;
+  background: #EEF1F7;
+  color: #8B95AB;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.fund-cs-note {
+  margin-top: 12px;
+  padding: 15px 17px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.13);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+
+.fund-cs-note b { font-weight: 700; }
 
 /* ---- timer ---- */
 .fund-timer-wrap {
@@ -902,32 +941,81 @@ body:not(.dark) .action-tile svg {
   display: block;
 }
 
-/* ---- warnings ---- */
+/* ---- before you send ----
+   Solid card with a divided list, so the warnings read at full contrast
+   instead of 55%-alpha text on a 6%-alpha panel. Named `fund-warn-card`
+   rather than `fund-warn`: that bare class is the countdown's warning
+   state, and a card rule on it would repaint the timer. */
 .fund-warn-card {
-  background: rgba(248, 113, 113, 0.06);
-  border: 1px solid rgba(248, 113, 113, 0.18);
-  border-radius: 16px;
-  padding: 16px 18px;
+  background: #FFFFFF;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(8, 20, 50, 0.08);
 }
 
-.fund-warn-card h4 {
-  color: #F87171;
-  font-size: 13px;
-  font-weight: 700;
-  margin: 0 0 10px;
+.fund-warn-hd {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 17px 20px 15px;
+  border-bottom: 1px solid #EDF0F5;
 }
 
-.fund-warn-card ul {
+.fund-warn-badge {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: #FFF4E5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.fund-warn-badge svg {
+  width: 16px;
+  height: 16px;
+  stroke: #D97706;
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.fund-warn-hd h4 {
   margin: 0;
-  padding-left: 17px;
-  list-style: disc;
+  color: #0A1020;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
-.fund-warn-card li {
-  color: rgba(255, 255, 255, 0.55);
-  font-size: 12.5px;
-  line-height: 1.75;
+.fund-warn-item {
+  display: flex;
+  gap: 12px;
+  padding: 15px 20px;
+  border-bottom: 1px solid #F2F4F8;
 }
+
+.fund-warn-item:last-child { border-bottom: none; }
+
+.fund-warn-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #C6CDDB;
+  flex-shrink: 0;
+  margin-top: 7px;
+}
+
+.fund-warn-item p {
+  margin: 0;
+  color: #3A4356;
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+
+.fund-warn-item p b { color: #0A1020; font-weight: 700; }
 
 .fund-cancel {
   width: 100%;
