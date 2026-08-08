@@ -416,3 +416,13 @@ body:not(.dark) .action-tile svg {
 @keyframes kycSpin {
   to { transform: rotate(360deg); }
 }
+
+/* Fund Account — "awaiting your payment" indicator on the Bitcoin deposit screen */
+.fa-pulse {
+  animation: faPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes faPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.8); }
+}
